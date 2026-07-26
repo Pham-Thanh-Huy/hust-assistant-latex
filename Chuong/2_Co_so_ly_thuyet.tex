@@ -1,0 +1,67 @@
+%!TEX root = ../doan.tex
+
+\documentclass[../DoAn.tex]{subfiles}
+\begin{document}
+\section{Tổng quan về chatbot}
+\subsection{Khái niệm}
+Chatbot là một phần mềm được thiết kế để tương tác với người dùng thông qua những ngôn ngữ tự nhiên dưới dạng văn bản hoặc giọng nói. Mục tiêu của chatbot là tiếp nhận yêu cầu, phân tích nội dung rồi tiếp đến đưa ra phản hồi phù hợp giúp hỗ trợ người dùng trong các tác vụ như cung cấp thông tin hoặc tư vấn hoặc hướng dẫn một số nghiệp vụ cụ thể.
+
+Những chatbot đầu tiên chủ yếu hoạt động dựa trên các luật được xây dựng, trainning sẵn, chỉ có khả năng trả lời những câu hỏi đã được định nghĩa trước. Cùng với sự phát triển của lĩnh vực xử lý tự nhiên (Natural Language Processing - NLP) và trí tuệ nhân tạo (Ảtificial Intelligence-AI), chatbot ngày càng có khả năng hiểu ngữ cảnh, phân tích ý định của người dùng và tạo ra các phản hồi tự nhiên hơn.
+
+Hiện nay, chatbot được ứng dụng trong nhiều lĩnh vực như thương mại điện tử, tài chính, chăm sóc khách hàng, y tế và giáo dục. Trong môi trường giáo dục, chatbot được sử dụng để hỗ trợ giải đáp thông tin tuyển sinh, tư vấn học tập, hướng dẫn sử dụng hệ thống và cung cấp thông tin về chương trình đào tạo.
+
+\subsection{Quá trình hình thành}
+Chatbot bắt đầu xuất hiện vào những năm 1960 khi các nhà nghiên cứu bắt đầu suy nghĩ về cách xây dựng các hệ thống có thể giao tiếp với con người bằng ngôn ngữ tự nhiên. Một trong những chatbot đầu tiên là ELIZA được phát triển bởi Joseph Weizenbaum tại MIT vào năm 1966. ELIZA mô phỏng một cuộc trò chuyện giữa người dùng và một nhà tâm lý học.
+
+Sau ELIZA, nhiều hệ thống chatbot đã được phát triển (ví dụ như PARRY (1972) mô phỏng hành vi của một bệnh nhân mắc chứng hoang tưởng, hoặc ALICE (Artificial Linguistic Internet Computer Entity) vào năm 1995, sử dụng AIML (Artificial Intelligence Markup Language) để xây dựng các quy tắc hội thoại). Trong thời gian này, các chatbot chủ yếu dựa vào các bộ quy tắc và mẫu câu được định trước, điều này hạn chế khả năng xử lý của chúng và không thể đối phó với các tình huống không có kịch bản.
+
+Khi các công nghệ Machine Learning và Xử lý Ngôn ngữ Tự nhiên (NLP) xuất hiện vào những năm 2010, các chatbot đã chuyển sang các phương pháp tiếp cận dựa trên dữ liệu. Các mô hình Deep Learning đã giúp các chatbot nhận diện ý định của người dùng tốt hơn, nhận thức ngữ cảnh và linh hoạt hơn trong phản hồi so với các hệ thống dựa trên quy tắc.
+
+Gần đây, các mô hình ngôn ngữ lớn (LLM) đã rất phát triển và được đầu tư rất nhiều. Các mô hình ngôn ngữ lớn được đào tạo trên lượng lớn dữ liệu văn bản và các chatbot có thể nhận diện ngữ nghĩa của câu hỏi, tham gia vào các cuộc hội thoại nhiều lượt và tạo ra các phản hồi rất tự nhiên. Chatbots đã phát triển từ việc chỉ là công cụ phản hồi dựa trên kịch bản thành các trợ lý ảo để xử lý nhiều nhiệm vụ khác nhau.
+
+\begin{figure}[H]
+    \centering
+\includegraphics[width=0.8\textwidth,height=0.45\textheight,keepaspectratio]{Hinhve/chuong_2/lich-su-hinh-thanh-cua-chat-bot.png}
+    \caption{Lịch sử hình thành của chatbot}
+    \vspace{2mm}
+    \footnotesize\textit{Nguồn: Google Search}
+    \label{fig:history-bot}
+\end{figure}
+
+Các chatbot vẫn đang được xây dựng bằng cách kết hợp các mô hình ngôn ngữ lớn với các nguồn dữ liệu chuyên biệt thông qua các kỹ thuật như Retrieval-Augmented Generation (RAG). Điều này cho phép các chatbot tận dụng khả năng xử lý ngôn ngữ của LLMs và sử dụng dữ liệu từ các nguồn kiến thức bên ngoài để phát triển câu trả lời cho các lĩnh vực ứng dụng cụ thể.
+
+\newpage
+\subsection{Phân loại chatbot}
+Chatbot có thể được chia thành hai nhóm chính: chatbot truyền thống và chatbot sử dụng trí tuệ nhân tạo, trong đó:
+
+\textbf{Chatbot Truyền Thống:} hoạt động dựa trên các quy tắc hoặc kịch bản hội thoại được xây dựng sẵn. Mỗi câu hỏi được đối chiếu với một tập hợp các từ khóa hoặc mẫu câu đã được định trước để chọn câu trả lời. Loại chatbot này được xây dựng trên cơ sở mô hình cây quyết định hoặc hệ thống quy tắc IF-THEN. Chatbot chỉ có thể xử lý các câu hỏi nằm trong tập hợp quy tắc đã thiết kế.
+\begin{figure}[H]
+    \centering
+\includegraphics[width=0.8\textwidth,height=0.45\textheight,keepaspectratio]{Hinhve/chuong_2/rule-based-chatbot.png}
+    \caption{WorkFlow của rule based chatbot}
+    \vspace{2mm}
+    \label{fig:hust-dashboard}
+\end{figure}
+\textbf{Ưu điểm:}
+Dễ xây dựng và triển khai. Thời gian phản hồi nhanh. Kết quả ổn định cho các câu hỏi đã định trước. Không yêu cầu tài nguyên tính toán lớn. 
+
+\textbf{Hạn chế:}
+Không thể hiểu ngữ nghĩa của câu hỏi. Phụ thuộc vào từ khóa hoặc mẫu câu cố định. Khó mở rộng khi số lượng kịch bản tăng lên. Không xử lý tốt các câu hỏi có nhiều cách diễn đạt. Chatbot truyền thống thường chỉ phù hợp với các vấn đề nhỏ và ít thay đổi.
+
+\textbf{Chatbot AI:} Chatbot AI là các chatbot sử dụng trí tuệ nhân tạo để trả lời và hiểu câu hỏi. Thay vì tuân theo những gì đã được định sẵn, chatbot AI có khả năng phân tích ngữ nghĩa của câu hỏi và hiểu ý định của người dùng, từ đó phản hồi câu hỏi dựa trên ngữ cảnh của cuộc hội thoại.
+
+Các mô hình ngôn ngữ lớn (LLM) đã có những tiến bộ lớn trong lĩnh vực chatbot. Các mô hình này được huấn luyện trên một lượng lớn dữ liệu văn bản và có thể hiểu và tạo ra ngôn ngữ tự nhiên với chất lượng cao. Do đó, chatbot AI có thể trả lời các câu hỏi mở, duy trì các cuộc hội thoại nhiều lượt và hỗ trợ các cách diễn đạt khác nhau mà không cần phải xây dựng trước các kịch bản cụ thể.
+
+\begin{figure}[H]
+    \centering
+\includegraphics[width=0.8\textwidth,height=0.45\textheight,keepaspectratio]{Hinhve/chuong_2/rule-ai-chatbot.png}
+    \caption{WorkFlow của AI chatbot}
+    \vspace{2mm}
+    \label{fig:hust-dashboard}
+\end{figure}
+
+Mặc dù có lợi ích trong xử lý ngôn ngữ, chatbot AI cũng có một số hạn chế. Nếu chỉ sử dụng kiến thức hiện có của mô hình, chatbot sẽ tạo ra thông tin không chính xác hoặc không phản ánh dữ liệu mới nhất. Do đó, trong các hệ thống yêu cầu độ tin cậy cao, chatbot AI thường được sử dụng với các cơ chế truy xuất dữ liệu từ các nguồn kiến thức bên ngoài trước khi tạo phản hồi.
+
+
+
+\end{document}

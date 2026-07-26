@@ -1,0 +1,122 @@
+\documentclass[../DoAn.tex]{subfiles}
+\begin{document}
+
+\section{Đặt vấn đề}
+\subsection{Thực trạng tra cứu thông tin học phần hiện nay}
+Hiện nay trong quá trình học tập, sinh viên của trường luôn phải tìm kiếm các thông tin về học phần (ví dụ: Tên học phần, mã học phần, số tín chỉ vv....). Các thông tin về học phần này thường được tìm kiếm trên website của trường. Tuy nhiên với số lượng học phần ngày càng gia tăng sẽ khiến việc tìm kiếm theo đúng học phần của mình ngày càng trở nên khó khăn, bên cạnh đó một số sinh viên khi mới vào trường cũng sẽ gặp rất nhiều bất cập trong việc xác định nguồn thông tin cần thiết
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{Hinhve/chuong_1/trang-chu-hust.png}
+    \caption{Trang chủ của website tra cứu học phần của trường}
+    \label{fig:hust-dashboard}
+\end{figure}
+Ngoài ra, việc tìm kiếm thông tin khóa học bằng các phương pháp truyền thống vẫn còn một số hạn chế. Sinh viên buộc phải làm nhiều việc (ví dụ: truy cập vào các trang web, tìm kiếm qua các danh mục khác nhau, xem thông tin từ các nguồn khác nhau) để thu thập tất cả thông tin cần thiết. Điều này không chỉ tốn thời gian mà còn không thuận tiện cho việc lập kế hoạch học tập của họ; sinh viên buộc phải chọn các khóa học tự chọn hoặc lập kế hoạch học tập cho các học kỳ sắp tới.
+
+Kết quả là, dữ liệu hiển thị trong hệ thống hiện tại chỉ đóng vai trò là dữ liệu, và không có nhiều hỗ trợ cho sự tương tác và gợi ý cho người dùng. Sinh viên vẫn phải xác định các tiêu chí tìm kiếm: tên khóa học, mã khóa học, hoặc số tín chỉ, và trong nhiều trường hợp họ không biết nên tìm kiếm thông tin gì. Do đó, việc phát triển một hệ thống tìm kiếm khóa học có thể thực hiện các tìm kiếm nhanh chóng, chính xác và thân thiện với người dùng hơn là rất quan trọng.
+
+\subsection{Những khó khăn khi tìm kiếm các thông tin của website trường}
+Nhà trường có rất nhiều website phục vụ mục đích khác nhau, nên lượng thông tin là rất lớn, bên cạnh đó việc tìm kiếm học phần trên trang của trường còn có nhiều hạn chế như chỉ tìm theo mã học phần hoặc tên học phần, không hỏi được các câu hỏi tự nhiên và để tìm kiếm được thì người dùng phải trải qua rất nhiều bước như: Tìm đúng trang web có nơi để tra cứu học phần, chọn đúng mục, tìm kiếm thủ công.... 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{Hinhve/chuong_1/trang-tra-cuu-hoc-phan-hust.png}
+    \caption{Trang cung cấp thông tin học phần của trường}
+    \label{fig:hust-course-search}
+\end{figure}
+Có thể lấy ví dụ như: nếu sinh viên muốn biết "Môn trí tuệ nhân tạo có bao nhiêu tín chỉ và cần học trước các môn nào", sinh viên sẽ phải tự mở ra tìm chương trình đào tạo thủ công và tìm từng thông tin. Việc này sẽ tốn khá nhiều thời gian khi cần tìm rất nhiều học phần.
+
+\subsection{Hạn chế của chatbot thông thường}
+Hiện tại đã có rất nhiều chatbot xuất hiện trên các nền tảng, như chatGPT, Gemini hay Claude ... Tuy nhiên những LLM này sẽ không được huấn luyện bởi dữ liệu của trường, và không thể biết được các thông tin về đào tạo của trường dẫn đến việc trả lời, tạo các thông tin không chính xác (hallucination), bên cạnh đó khi nhà trường có thay đổi cập nhật, LLM sẽ không thể biết được để cập nhật theo
+
+\section{Lý do chọn đề tài}
+\subsection{Xu hướng phát triển của AI và LLM}
+Trong những năm gần đây, AI (Artificial Intelligence) phát triển mạnh mẽ và được ứng dụng rộng rãi trong nhiều lĩnh vực như giáo dục, y tế, tài chính, thương mai điện tử... Đặc biệt sự ra đời của mô hình ngôn ngữ lớn (LLM) đã giúp cho các hệ thống có thể tương tác với người dùng một cách thông minh hơn với ngôn ngữ tự nhiên, tạo sự thân thiện với người dùng.
+
+Trong lĩnh vực giáo dục, AI và LLm đang được ứng dụng để xây các hệ thống hỗ trợ học tập như tư vấn tuyển sinh, đánh giá k ết quả học tập , cung cấp thông tin cho sinh viên, hoặc sâu hơn có thể là hỗ trợ học tập chuyên biệt cho một môn nhất định. Đây có thể nói là một trong những xu hướng quan trọng trong quá trình chuyển đổi số của các cơ sở giáo dục.
+
+\subsection{Khả năng ứng dụng RAG trong hệ thống hỏi đáp}
+Như đã đề cập ở trên, LLM có khả năng xử lý ngôn ngữ nhưng còn rất nhiều hạn chế như việc cập nhật dữ liệu chính xác theo thời gian thực dẫn đến việc hỏi đáp các thông tin có thể không chính xác hoặc không tồn tại. Điều này đặc biệt phải lưu ý với nhưng hệ thống yêu cầu độ chính xác cao như tra cứu thông tin học phần trong môi trường đại học
+
+Để khắc phục được những hạn chế đó, kỹ thuật RAG (Retrieval-Augmented Generation) đã được ra đời, phát triển và ngày càng được ứng dụng rộng rãi trong các hệ thống hỏi đáp thông minh. RAG truy xuất dữ liệu kết hợp với khả năng giao tiếp tự nhiên, hiểu ngữ cảnh của LLM sẽ tăng độ chính xác và dễ dàng bám sát vào thực tế. Khi người dùng hỏi, hệ thống sẽ tìm kiếm các tài liệu liên quan từ nguồn dữ liệu nội bộ, sau đó cung cấp dữ liệu cho mô hình ngôn ngữ lớn giúp giải đáp câu hỏi của người dùng một cách chuẩn xác.
+
+\subsection{Ý nghĩa đối với sinh viên và nhà trường}
+Việc xây dựng hệ thống trợ lý ảo hỏi đáp về thông tin học phần của nhà trường không chỉ mang ý nghĩa về mặt nghiên cứu, sản phẩm còn có thể phần nào đó đóng góp giá trị thực tiễn đối với cả sinh viên và nhà trường.
+
+Đối với sinh viên, hệ thống hỏi đáp về học phần này có thể rút ngắn thời gian tìm kiếm thông tin, cung cấp câu trả lời nhanh chóng và chính xác qua các câu hỏi của sinh viên. Người học có thể tìm được tổng hợp các thông tin về các học phần cần biết, số tín chỉ, nội dung môn học hoặc các thông tin liên quan mà không cần tìm kiếm thủ công trên nhiều trang web hoặc các tài liệu khác nhau. Điều này góp phần nâng cao hiệu quả học tập và cải thiện trải nghiệm sử dụng của các dịch vụ số trong nhà trường.
+\section{Mục tiêu của đồ án}
+\subsection{Mục tiêu tổng quát}
+Đồ án này hướng tới việc xây dựng một hệ thống hỏi đáp phục vụ cho việc tra cứu thông tin về học phần dựa trên dữ liệu học phần đã được cung cấp ở ảnh 1.2, giúp người dùng có thể tìm kiếm được thông tin học phần cần thiết bằng ngôn ngữ tự nhiên.
+
+\subsection{Mục tiêu cụ thể}
+\textbf{Xây dựng hệ thống thu thập dữ liệu:} Xây dựng chương trình thu thập dữ liệu. Dữ liệu sau khi thu thập được chuẩn hóa và lưu trữ theo chung một định dạng, đảm bảo thuận lợi cho các bước tiếp theo
+
+\textbf{Xây dựng cơ sở chi thức:} Tổ chức dữ liệu thông tin học phần có cấu trúc, phân đoạn dữ liệu và biểu diễn dữ liệu dưới dạng vector. Cơ sở tri thức đóng vai trò là nguồn thông tin để hệ thống khai thác trong quá trình trả lời câu hỏi.
+
+\textbf{Hỗ trợ truy vấn bằng tiếng việt:} Xây dựng cơ chế xử lý câu hỏi bằng tiếng việt trong toàn bộ quy trình của hệ thống. Các truy vấn của người dùng được chuyển đổi thành vector embedding để thực hiện tìm kiếm theo ngữ nghĩa trên cơ sở tri thức. Những tài liệu liên quan sau khi được truy xuất sẽ đực cung cấp cho môi trường OpenAI nhằm tạo ra câu trả lời phù hợp với ngữ cảnh và bám sát dữ liệu học phần. Cách tiếp cận này giúp hệ thống xử lý được nhiều cách diễn đạt khác nhau của một nội dung mà không cần phục thuộc vào từ khóa chính xác.
+
+
+\section{Phạm vi nghiên cứu}
+\subsection{Nội dung nghiên cứu}
+Hệ thống tập trung khai thác các thông tin liên quan đến học phần, bao gồm:
+\begin{itemize}
+    \item \textbf{Thông tin học phần:} Mã học phầ, tên học phần và các thông tin cơ bản liên quan
+    \item  \textbf{Mô tả môn học:} Bao gồm nội dung giới thiệu, phạm vi kiến thức và các thông tin mô tả về học phần
+    \item \textbf{Số tín chỉ:} cung cấp thông tin về khối lượng đào tạo của từng học phần
+    \item \textbf{Điều kiện tiên quyết:} Cung cấp, tra cứu các yêu cầu về học phần điều kiện cho một môn học cụ thể
+\end{itemize}
+\subsection{Đối tượng nghiên cứu}
+Đồ án nghiên cứu cấu trúc và nội dung thông tin được cung cấp trên website học phần Đại Học Bách Khoa Hà Nội. Đây là nguồn dữ liệu đầu vào cho quá trình thu tập và xây dựng hệ thống tri thức.\\ 
+\textbf{Nội dung nghiên cứu tập trung vào:}
+\begin{itemize}
+    \item Cách tổ chức thông tin học phần.
+    \item Cấu trúc các trang dữ liệu
+    \item Cách khai thác dữ liệu phục vụ quá trình xử lý tự động
+\end{itemize}
+
+\subsection{Nội dung không thuộc phạm vi nghiên cứu}
+Đồ án không triển khai các chức năng đến thông tin cá nhân và một số các nghiệp vụ đào tạo có yêu cầu xác thực người dùng như:
+\begin{itemize}
+    \item \textbf{Đăng ký học:} Hệ thống không thực hiện thao tác đăng ký, hủy đăng ký hoặc thay đổi danh sách học phần của sinh viên.
+    \item  \textbf{Thông tin cá nhân:} Hệ thống Không thu thập, lưu trữ hoặc truy vấn các dữ liệu cá nhân như mã số sinh viên, hồ sơ cá nhân...
+\end{itemize}
+
+
+\section{Phương pháp nghiên cứu}
+\subsection{Khảo sát hệ thống}
+Tiến hành khảo sát nguồn dữ liệu học phần do nhà trường cung cấp để xác định được các thông tin:
+\begin{itemize}
+    \item Cấu trúc thông tin trên website
+    \item Các trường dữ liệu cần thu thập
+    \item Định dạng dữ liệu đầu vào
+\end{itemize}
+
+\subsection{Thiết kế}
+Dựa trên kết quả khảo sát, tiến hành thiết kế:
+\begin{itemize}
+    \item Kiến trúc tổng thể của hệ thống 
+    \item Luồng xử lý dữ liệu
+    \item Quy trình truy vấn và sinh câu trả lời
+    \item Cấu trúc lưu trữ dữ liệu phục vụ tìm kiếm
+\end{itemize}
+
+\subsection{Xây dựng}
+Triển khai các thành phần chính của hệ thống như module thu thập và xử lý dữ liệu, cơ sở tri thức từ dữ liệu học phần, thành phần tìm kiếm thông tin vv....
+\subsection{Thực nghiệm}
+Tiến hành kiểm thử hệ thống thông qua các câu hỏi khác nhau liên quan tới các học phần của nhà trường. Hệ thống sẽ kiểm thử các chứng năng bao gồm:
+\begin{itemize}
+    \item Khả năng truy xuất đúng thông tin
+    \item khả năng diễn đạt các câu trả lời với các câu hỏi khác nhau
+    \item Khả năng phản hồi dựa trên dữ liệu cung cấp
+\end{itemize}
+\subsection{Đánh giá}
+Đánh giá kết quả hoạt động của hệ thống dựa trên
+\begin{itemize}
+    \item Độ chính xác của các câu trả lời
+    \item Mức độ phù hợp giữa câu hỏi và kết quả trả về
+    \item Các hạn chế còn tồn tại và hướng thực hiện
+\end{itemize}
+
+
+
+
+
+\end{document}
