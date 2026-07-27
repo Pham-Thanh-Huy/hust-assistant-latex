@@ -1,5 +1,3 @@
-%!TEX root = ../doan.tex
-
 \documentclass[../DoAn.tex]{subfiles}
 \begin{document}
 \section{Tổng quan về chatbot}
@@ -11,6 +9,7 @@ Những chatbot đầu tiên chủ yếu hoạt động dựa trên các luật 
 Hiện nay, chatbot được ứng dụng trong nhiều lĩnh vực như thương mại điện tử, tài chính, chăm sóc khách hàng, y tế và giáo dục. Trong môi trường giáo dục, chatbot được sử dụng để hỗ trợ giải đáp thông tin tuyển sinh, tư vấn học tập, hướng dẫn sử dụng hệ thống và cung cấp thông tin về chương trình đào tạo.
 
 \subsection{Quá trình hình thành}
+Chatbot bắt đầu xuất hiện vào những năm 1960 khi các nhà nghiên cứu bắt đầu suy nghĩ về cách xây dựng các hệ thống có thể giao tiếp với con người bằng ngôn ngữ tự nhiên. Một trong những chatbot đầu tiên là ELIZA được phát triển bởi Joseph Weizenbaum tại MIT vào năm 1966. ELIZA mô phỏng một cuộc trò chuyện giữa người dùng và một nhà tâm lý học.
 
 Sau ELIZA, nhiều hệ thống chatbot đã được phát triển (ví dụ như PARRY (1972) mô phỏng hành vi của một bệnh nhân mắc chứng hoang tưởng, hoặc ALICE (Artificial Linguistic Internet Computer Entity) vào năm 1995, sử dụng AIML (Artificial Intelligence Markup Language) để xây dựng các quy tắc hội thoại). Trong thời gian này, các chatbot chủ yếu dựa vào các bộ quy tắc và mẫu câu được định trước, điều này hạn chế khả năng xử lý của chúng và không thể đối phó với các tình huống không có kịch bản.
 
@@ -61,11 +60,54 @@ Các mô hình ngôn ngữ lớn (LLM) đã có những tiến bộ lớn trong 
 
 Mặc dù có lợi ích trong xử lý ngôn ngữ, chatbot AI cũng có một số hạn chế. Nếu chỉ sử dụng kiến thức hiện có của mô hình, chatbot sẽ tạo ra thông tin không chính xác hoặc không phản ánh dữ liệu mới nhất. Do đó, trong các hệ thống yêu cầu độ tin cậy cao, chatbot AI thường được sử dụng với các cơ chế truy xuất dữ liệu từ các nguồn kiến thức bên ngoài trước khi tạo phản hồi.
 
+\section{Xử lý ngôn ngữ tự nhiên - Natural Language Processing (NLP)}
+\subsection{Khái niệm}
+Natural Language Processing - NLP là một lĩnh vực thuộc trí tuệ nhân tạo, kết hợp giữa khoa học máy tính và ngôn ngữ học nhằm giúp máy tính có khả năng hiểu, phân tích, xử lý và tạo ra ngôn ngữ của con người. Mục tiêu của NLP là thu hẹp khoảng cách giao tiếp giữa con người và máy tính, cho phép người dùng tương tác thông qua ngôn ngữ tự nhiên thay vì các câu lệnh được định nghĩa sẵn.
 
-\section{Xử lý ngôn ngữ tự nhiên (NLP):}
-\subsection{Tổng quan}
+Trong những năm gần đây, cùng với sự phát triển mạnh mẽ của học sâu (Deep Learning) và các mô hình ngôn ngữ lớn, NLP đã đạt được nhiều bước tiến vượt bậc. Các hệ thống hiện đại có khả năng hiểu được ngữ cảnh, suy luận và tạo ra câu trả lời tự nhiên hơn so với các phương pháp truyền thống.
 
+Trong hệ thống chatbot hỏi đáp học phần được xây dựng trong đồ án này, NLP đóng vai trò là cầu nối giữa người dùng và hệ thống. Khi người dùng đặt câu hỏi bằng tiếng Việt, hệ thống cần phân tích nội dung câu hỏi, xác định ý định của người dùng, biểu diễn câu hỏi dưới dạng số để tìm kiếm thông tin phù hợp, sau đó tạo ra câu trả lời chính xác và dễ hiểu.
 
+Quy trình xử lý ngôn ngữ tự nhiên trong một hệ thống chatbot hiện đại thường gồm các bước như ảnh sau:
 
+\begin{figure}[H]
+    \centering
+\includegraphics[width=0.8\textwidth,height=0.45\textheight,keepaspectratio]{Hinhve/chuong_2/nlp-work-flow.png}
+    \caption{WorkFlow của NLP}
+    \vspace{2mm}
+    \label{fig:hust-dashboard}
+\end{figure}
+
+Trong phạm vi đồ án này, NLP đóng vai trò là nền tảng của hệ thống chatbot hỗ trợ tra cứu thông tin học phần. Khi người dùng đặt câu hỏi bằng tiếng Việt, hệ thống cần phân tích nội dung truy vấn, xác định ý nghĩa của câu hỏi và chuyển đổi văn bản sang dạng biểu diễn số để phục vụ quá trình tìm kiếm dữ liệu liên quan. Kết quả truy xuất sau đó được sử dụng làm ngữ cảnh cho mô hình ngôn ngữ lớn nhằm sinh ra câu trả lời chính xác và phù hợp với nhu cầu của người dùng.
+
+\subsection{Tokenization}
+Tokenization là quá trình phân chia văn bản thành các đơn vị nhỏ hơn, gọi là token, để phục vụ cho quá trình xử lý của mô hình học máy. Tùy theo từng mô hình ngôn ngữ, một token có thể tương ứng với một từ, một phần của từ hoặc một ký tự. Đây là bước tiền xử lý cơ bản và có ảnh hưởng trực tiếp đến chất lượng biểu diễn dữ liệu trong các hệ thống NLP.
+
+Đối với các mô hình ngôn ngữ lớn hiện nay, dữ liệu đầu vào không được xử lý trực tiếp dưới dạng chuỗi ký tự mà phải được chuyển thành chuỗi token. Mỗi token sau đó được ánh xạ thành một token ID để mô hình có thể thực hiện các phép tính. Việc đó giúp chuẩn hóa dữ liệu đầu vào, giảm độ phức tạp của từ vựng và tạo điều kiện để mô hình học được mối quan hệ giữa các đơn vị ngôn ngữ.
+
+Đối với tiếng Việt, tokenization có nhiều điểm khác biệt so với tiếng Anh do một từ có thể bao gồm nhiều âm tiết được phân tách bằng dấu cách. Nếu chỉ tách văn bản dựa trên khoảng trắng, nhiều cụm từ mang ý nghĩa hoàn chỉnh sẽ bị chia thành các đơn vị riêng biệt, làm ảnh hưởng đến khả năng hiểu ngữ nghĩa của mô hình. Vì vậy, các hệ thống NLP tiếng Việt thường sử dụng các bộ tách từ chuyên biệt hoặc  để đảm bảo việc phân chia token phản ánh đúng ý nghĩa của văn bản.
+
+\subsection{Named Entity Recognition - NER}
+Nhận dạng thực thể (Named Entity Recognition – NER) là một kỹ thuật trong xử lý ngôn ngữ tự nhiên nhằm xác định và phân loại các thực thể xuất hiện trong văn bản vào những nhóm đã được định nghĩa trước như tên người, tổ chức, địa điểm, thời gian hoặc các đối tượng thuộc miền dữ liệu cụ thể. Trong các hệ thống thông tin chuyên ngành, các loại thực thể còn có thể bao gồm mã học phần, tên môn học, chương trình đào tạo hoặc khoa quản lý.
+
+Việc nhận dạng chính xác các thực thể giúp hệ thống hiểu rõ đối tượng mà người dùng đang đề cập, từ đó nâng cao hiệu quả của quá trình tìm kiếm và suy luận. Chẳng hạn, trong bài toán tra cứu thông tin học phần, việc xác định đúng tên hoặc mã môn học sẽ giúp thu hẹp phạm vi tìm kiếm và giảm thiểu các kết quả không liên quan.
+
+\begin{figure}[H]
+    \centering
+\includegraphics[width=0.8\textwidth,height=0.45\textheight,keepaspectratio]{Hinhve/chuong_2/workflow-ner.png}
+    \caption{Workflow của Ner Entity}
+    \label{fig:hust-ner-workflow}
+\end{figure}
+
+Đối với các chatbot truyền thống, NER thường là một thành phần độc lập trong quy trình xử lý ngôn ngữ nhằm trích xuất các thông tin quan trọng trước khi thực hiện truy vấn dữ liệu. Tuy nhiên, trong các hệ thống hiện đại sử dụng mô hình ngôn ngữ lớn, khả năng nhận biết thực thể đã được tích hợp trong quá trình suy luận của mô hình. Nhờ đó, nhiều hệ thống không còn cần xây dựng riêng một mô hình NER mà vẫn có thể xác định chính xác các đối tượng xuất hiện trong câu hỏi.
+
+Trong phạm vi đồ án, mặc dù hệ thống không triển khai một mô hình NER độc lập, khái niệm này vẫn có ý nghĩa quan trọng trong việc giải thích khả năng hiểu ngữ cảnh của chatbot. Việc nhận diện đúng các thực thể liên quan đến học phần là cơ sở để hệ thống truy xuất đúng tài liệu và có câu trả lời phù hợp.
+
+\subsection{Semantic Search}
+Senmantic search là tìm kiếm theo ngữ nghĩa, phương pháp này tìm kiếm dựa trên ý nghĩa của nội dung thay vì chỉ dựa trên sự trùng khớp của từ khóa. 
+
+Trong các hệ thống hiện đại, quá trình tìm kiếm ngữ nghĩa thường bao gồm hai giai đoạn. Trước hết, câu truy vấn và toàn bộ tài liệu trong cơ sở tri thức được chuyển đổi thành các vector thông qua mô hình embedding. Tiếp theo, hệ thống sẽ tìm kiếm thông qua các vector embedding để tìm ra được nội dung gần đúng nhất với câu hỏi. Các tài liệu này sẽ được cung cấp làm ngữ cảnh cho mô hình ngôn ngữ lớn trả lời.
+
+Đối với đồ án này, Semantic Search là thành phần cốt lõi của kiến trúc Retrieval-Augmented Generation (RAG). Toàn bộ dữ liệu học phần sau khi được thu thập sẽ được chuyển đổi thành các vector embedding và lưu trữ trong cơ sở dữ liệu vector. Khi người dùng gửi câu hỏi, hệ thống sẽ tìm kiếm các đoạn văn bản có mức độ tương đồng cao nhất để làm cơ sở cho mô hình ngôn ngữ sinh câu trả lời. Cách tiếp cận này giúp chatbot khai thác chính xác thông tin từ nguồn dữ liệu của nhà trường, đồng thời hạn chế hiện tượng mô hình tạo ra các câu trả lời không có căn cứ, từ đó nâng cao độ chính xác và độ tin cậy của hệ thống.
 
 \end{document}
