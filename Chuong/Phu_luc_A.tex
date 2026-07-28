@@ -19,8 +19,8 @@ Khi thực sự cần liệt kê, sinh viên nên liệt kê theo phong cách kh
 Trong một số trường hợp nhất thiết phải dùng các bullet để liệt kê, sinh viên cần thống nhất Style cho toàn bộ các bullet các cấp mà mình sử dụng đến trong báo cáo. Nếu dùng bullet cấp 1 là hình tròn đen, toàn bộ báo cáo cần thống nhất cách dùng như vậy; ví dụ như sau:
 
 \begin{itemize}
-\item Đây là mục 1 – Thực sự không còn cách nào khác tôi mới dùng đến việc bullet trong báo cáo.
-\item Đây là mục 2 – Nghĩ lại thì tôi có thể không cần dùng bullet cũng được. Nên tôi sẽ xóa bullet và tổ chức lại hai mục này trong báo cáo của mình cho khoa học hơn. Tôi muốn thầy cô và người đọc cảm nhận được tâm huyết của tôi trong từng trang báo cáo ĐATN.
+    \item Đây là mục 1 – Thực sự không còn cách nào khác tôi mới dùng đến việc bullet trong báo cáo.
+    \item Đây là mục 2 – Nghĩ lại thì tôi có thể không cần dùng bullet cũng được. Nên tôi sẽ xóa bullet và tổ chức lại hai mục này trong báo cáo của mình cho khoa học hơn. Tôi muốn thầy cô và người đọc cảm nhận được tâm huyết của tôi trong từng trang báo cáo ĐATN.
 \end{itemize}
 
 
@@ -32,23 +32,23 @@ Một số ví dụ sinh viên có thể tham khảo dưới đây, trong trư�
 
 \begin{itemize}
 
-\item Đối với kỹ sư chính quy:
-    \begin{itemize}
-        \item Từ K61 trở về trước: Ngành Kỹ thuật phần mềm
-        \item Từ K62 trở về sau: Ngành Khoa học máy tính
-    \end{itemize}
+    \item Đối với kỹ sư chính quy:
+          \begin{itemize}
+              \item Từ K61 trở về trước: Ngành Kỹ thuật phần mềm
+              \item Từ K62 trở về sau: Ngành Khoa học máy tính
+          \end{itemize}
 
-\item Đối với cử nhân:
-    \begin{itemize}
-        \item Ngành Công nghệ thông tin
-    \end{itemize}
+    \item Đối với cử nhân:
+          \begin{itemize}
+              \item Ngành Công nghệ thông tin
+          \end{itemize}
 
-\item Đối với chương trình EliteTech:
-    \begin{itemize}
-        \item Chương trình Việt Nhật/KSTN: Ngành Công nghệ thông tin
-        \item Chương trình ICT Global: Ngành Information Technology
-        \item Chương trình DS\&AI: Ngành Khoa học dữ liệu
-    \end{itemize}
+    \item Đối với chương trình EliteTech:
+          \begin{itemize}
+              \item Chương trình Việt Nhật/KSTN: Ngành Công nghệ thông tin
+              \item Chương trình ICT Global: Ngành Information Technology
+              \item Chương trình DS\&AI: Ngành Khoa học dữ liệu
+          \end{itemize}
 
 \end{itemize}
 
@@ -59,21 +59,21 @@ Việc sử dụng danh sách trong LaTeX khá đơn giản và không yêu cầ
 
 \begin{itemize}
 
-\item Đánh dấu (bullet) là kiểu liệt kê không có thứ tự. Để sử dụng kiểu liệt kê đánh dấu, chúng ta khai báo như sau\\
+    \item Đánh dấu (bullet) là kiểu liệt kê không có thứ tự. Để sử dụng kiểu liệt kê đánh dấu, chúng ta khai báo như sau\\
 
-\verb|\begin{itemize}|\\
-\verb|\item| Nội dung thứ nhất được viết ở đây.\\
-\verb|\item| Nội dung thứ hai được viết ở đây.\\
-\verb|\item| ...\\
-\verb|\end{itemize}|
+          \verb|\begin{itemize}|\\
+          \verb|\item| Nội dung thứ nhất được viết ở đây.\\
+          \verb|\item| Nội dung thứ hai được viết ở đây.\\
+          \verb|\item| ...\\
+          \verb|\end{itemize}|
 
-\item Đánh số (numbering) là kiểu liệt kê có thứ tự. Để sử dụng kiểu liệt kê đánh số, chúng ta khai báo như sau\\
+    \item Đánh số (numbering) là kiểu liệt kê có thứ tự. Để sử dụng kiểu liệt kê đánh số, chúng ta khai báo như sau\\
 
-\verb|\begin{enumerate}|\\
-\verb|\item| Nội dung thứ nhất được viết ở đây.\\
-\verb|\item| Nội dung thứ hai được viết ở đây.\\
-\verb|\item| ...\\
-\verb|\end{enumerate}|
+          \verb|\begin{enumerate}|\\
+          \verb|\item| Nội dung thứ nhất được viết ở đây.\\
+          \verb|\item| Nội dung thứ hai được viết ở đây.\\
+          \verb|\item| ...\\
+          \verb|\end{enumerate}|
 
 \end{itemize}
 
@@ -83,20 +83,20 @@ Chú ý các nội dung trình bày trong cả hai môi trường liệt kê the
 \section{Cách thêm bảng}
 
 \begin{table}[h!]
-\centering
-\begin{tabular}{||c c c c||}
-\hline
-Col1 & Col2 & Col2 & Col3 \\ [0.5ex]
-\hline\hline
-1 & 6 & 87837 & 787 \\
-2 & 7 & 78 & 5415 \\
-3 & 545 & 778 & 7507 \\
-4 & 545 & 18744 & 7560 \\
-5 & 88 & 788 & 6344 \\ [1ex]
-\hline
-\end{tabular}
-\caption{Table to test captions and labels.}
-\label{table:1}
+    \centering
+    \begin{tabular}{||c c c c||}
+        \hline
+        Col1 & Col2 & Col2  & Col3 \\ [0.5ex]
+        \hline\hline
+        1    & 6    & 87837 & 787  \\
+        2    & 7    & 78    & 5415 \\
+        3    & 545  & 778   & 7507 \\
+        4    & 545  & 18744 & 7560 \\
+        5    & 88   & 788   & 6344 \\ [1ex]
+        \hline
+    \end{tabular}
+    \caption{Table to test captions and labels.}
+    \label{table:1}
 \end{table}
 
 Bảng \ref{table:1} là ví dụ về cách tạo bảng. Tất cả các bảng biểu phải được đề cập đến trong phần nội dung và phải được phân tích và bình luận.

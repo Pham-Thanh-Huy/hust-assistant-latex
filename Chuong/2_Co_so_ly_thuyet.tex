@@ -19,7 +19,7 @@ Gần đây, các mô hình ngôn ngữ lớn (LLM) đã rất phát triển và
 
 \begin{figure}[H]
     \centering
-\includegraphics[width=0.8\textwidth,height=0.45\textheight,keepaspectratio]{Hinhve/chuong_2/lich-su-hinh-thanh-cua-chat-bot.png}
+    \includegraphics[width=0.8\textwidth,height=0.45\textheight,keepaspectratio]{Hinhve/chuong_2/lich-su-hinh-thanh-cua-chat-bot.png}
     \caption{Lịch sử hình thành của chatbot}
     \vspace{2mm}
     \footnotesize\textit{Nguồn: Google Search}
@@ -35,13 +35,13 @@ Chatbot có thể được chia thành hai nhóm chính: chatbot truyền thốn
 \textbf{Chatbot Truyền Thống:} hoạt động dựa trên các quy tắc hoặc kịch bản hội thoại được xây dựng sẵn. Mỗi câu hỏi được đối chiếu với một tập hợp các từ khóa hoặc mẫu câu đã được định trước để chọn câu trả lời. Loại chatbot này được xây dựng trên cơ sở mô hình cây quyết định hoặc hệ thống quy tắc IF-THEN. Chatbot chỉ có thể xử lý các câu hỏi nằm trong tập hợp quy tắc đã thiết kế.
 \begin{figure}[H]
     \centering
-\includegraphics[width=0.8\textwidth,height=0.45\textheight,keepaspectratio]{Hinhve/chuong_2/rule-based-chatbot.png}
+    \includegraphics[width=0.8\textwidth,height=0.45\textheight,keepaspectratio]{Hinhve/chuong_2/rule-based-chatbot.png}
     \caption{WorkFlow của rule based chatbot}
     \vspace{2mm}
     \label{fig:hust-dashboard}
 \end{figure}
 \textbf{Ưu điểm:}
-Dễ xây dựng và triển khai. Thời gian phản hồi nhanh. Kết quả ổn định cho các câu hỏi đã định trước. Không yêu cầu tài nguyên tính toán lớn. 
+Dễ xây dựng và triển khai. Thời gian phản hồi nhanh. Kết quả ổn định cho các câu hỏi đã định trước. Không yêu cầu tài nguyên tính toán lớn.
 
 \textbf{Hạn chế:}
 Không thể hiểu ngữ nghĩa của câu hỏi. Phụ thuộc vào từ khóa hoặc mẫu câu cố định. Khó mở rộng khi số lượng kịch bản tăng lên. Không xử lý tốt các câu hỏi có nhiều cách diễn đạt. Chatbot truyền thống thường chỉ phù hợp với các vấn đề nhỏ và ít thay đổi.
@@ -52,7 +52,7 @@ Các mô hình ngôn ngữ lớn (LLM) đã có những tiến bộ lớn trong 
 
 \begin{figure}[H]
     \centering
-\includegraphics[width=0.8\textwidth,height=0.45\textheight,keepaspectratio]{Hinhve/chuong_2/rule-ai-chatbot.png}
+    \includegraphics[width=0.8\textwidth,height=0.45\textheight,keepaspectratio]{Hinhve/chuong_2/rule-ai-chatbot.png}
     \caption{WorkFlow của AI chatbot}
     \vspace{2mm}
     \label{fig:hust-dashboard}
@@ -72,7 +72,7 @@ Quy trình xử lý ngôn ngữ tự nhiên trong một hệ thống chatbot hi�
 
 \begin{figure}[H]
     \centering
-\includegraphics[width=0.8\textwidth,height=0.45\textheight,keepaspectratio]{Hinhve/chuong_2/nlp-work-flow.png}
+    \includegraphics[width=0.8\textwidth,height=0.45\textheight,keepaspectratio]{Hinhve/chuong_2/nlp-work-flow.png}
     \caption{WorkFlow của NLP}
     \vspace{2mm}
     \label{fig:hust-dashboard}
@@ -94,7 +94,7 @@ Việc nhận dạng chính xác các thực thể giúp hệ thống hiểu rõ
 
 \begin{figure}[H]
     \centering
-\includegraphics[width=0.8\textwidth,height=0.45\textheight,keepaspectratio]{Hinhve/chuong_2/workflow-ner.png}
+    \includegraphics[width=0.8\textwidth,height=0.45\textheight,keepaspectratio]{Hinhve/chuong_2/workflow-ner.png}
     \caption{Workflow của Ner Entity}
     \label{fig:hust-ner-workflow}
 \end{figure}
@@ -104,10 +104,135 @@ Việc nhận dạng chính xác các thực thể giúp hệ thống hiểu rõ
 Trong phạm vi đồ án, mặc dù hệ thống không triển khai một mô hình NER độc lập, khái niệm này vẫn có ý nghĩa quan trọng trong việc giải thích khả năng hiểu ngữ cảnh của chatbot. Việc nhận diện đúng các thực thể liên quan đến học phần là cơ sở để hệ thống truy xuất đúng tài liệu và có câu trả lời phù hợp.
 
 \subsection{Semantic Search}
-Senmantic search là tìm kiếm theo ngữ nghĩa, phương pháp này tìm kiếm dựa trên ý nghĩa của nội dung thay vì chỉ dựa trên sự trùng khớp của từ khóa. 
+Senmantic search là tìm kiếm theo ngữ nghĩa, phương pháp này tìm kiếm dựa trên ý nghĩa của nội dung thay vì chỉ dựa trên sự trùng khớp của từ khóa.
 
 Trong các hệ thống hiện đại, quá trình tìm kiếm ngữ nghĩa thường bao gồm hai giai đoạn. Trước hết, câu truy vấn và toàn bộ tài liệu trong cơ sở tri thức được chuyển đổi thành các vector thông qua mô hình embedding. Tiếp theo, hệ thống sẽ tìm kiếm thông qua các vector embedding để tìm ra được nội dung gần đúng nhất với câu hỏi. Các tài liệu này sẽ được cung cấp làm ngữ cảnh cho mô hình ngôn ngữ lớn trả lời.
 
 Đối với đồ án này, Semantic Search là thành phần cốt lõi của kiến trúc Retrieval-Augmented Generation (RAG). Toàn bộ dữ liệu học phần sau khi được thu thập sẽ được chuyển đổi thành các vector embedding và lưu trữ trong cơ sở dữ liệu vector. Khi người dùng gửi câu hỏi, hệ thống sẽ tìm kiếm các đoạn văn bản có mức độ tương đồng cao nhất để làm cơ sở cho mô hình ngôn ngữ sinh câu trả lời. Cách tiếp cận này giúp chatbot khai thác chính xác thông tin từ nguồn dữ liệu của nhà trường, đồng thời hạn chế hiện tượng mô hình tạo ra các câu trả lời không có căn cứ, từ đó nâng cao độ chính xác và độ tin cậy của hệ thống.
+
+\section{Large Language Model - LLM}
+\subsection{Khái niệm}
+LLM là các mô hình AI được trainning trên một tập hợp lớn các văn bản, dữ liệu dể học các quy tắc của ngôn ngữ tự nhiên. Thông qua quá trình huấn luyện, mô hình có thể dự đoán được từ dựa trên ngữ cảnh trước đó, và do vậy mô hình sẽ thực hiện nhiều nhiệm vụ xử lý ngôn ngữ như trả lời câu hỏi, tóm tắt văn bản, dịch máy, tạo nội dung, lập trình và hội thoại.
+
+Khác với các mô hình NLP được thiết kế đặc biệt cho một nhiệm vụ cụ thể, LLM là một mô hình rất mạnh mẽ. Người dùng có thể sử dụng một mô hình LLM để giải quyết nhiều vấn đề khác nhau mà không cần phải xây dựng lại hệ thống từ đầu.
+
+Hiện nay, LLM được sử dụng rộng rãi ở nhiều lĩnh vực như: "Trợ lý ảo thông minh, hệ thống hỏi đáp, tìm kiếm theo ngữ nghĩa, tạo mã nguồn, phân tích tài liệu, hỗ trợ giáo dục...
+
+Trong dự án này, LLM thực hiện công việc đưa ra câu trả lời dựa trên dữ liệu thu thập từ hệ thống RAG. Thay vì chỉ trả lời dựa trên những gì mô hình đã học trong quá trình huấn luyện, mô hình sẽ sử dụng tài liệu khóa học từ Đại học Bách khoa Hà Nội để tạo ra các câu trả lời chính xác.
+
+\subsection{Một số mô hình LLM nổi tiếng hiện nay}
+\begin{itemize}[label=-, leftmargin=*]
+    \item \textbf{GPT:} Là mô hình phát triển bởi OpenAI. Mô hình được huấn luyện trên dữ liệu khổng lồ như: website, sách, wikipedia, báo chí, mã nguồn.... Sau khi huấn luyện, mô hình tiếp tục được tinh chỉnh cho các nhiệm vụ cụ thể như: chatbot, hỏi đáp, tóm tắt, dịch thuật, lập trình.... Mô hình này có một số ưu điểm như hiểu ngôn ngữ tự nhiên tốt, hỗ trợ nhiều ngôn ngữ, khả năng lập trình mạnh. Bên cạnh đó mô hình cũng có một số nhược điểm như có thể cung cấp thông tin chưa hoàn toàn chính xác, không được cập nhật dữ liệu theo thời gian thực, phụ thuộc nhiều vào dữ liệu đã được huấn luyện nếu không có RAG.
+    \item \textbf{Gemini:} Mô hình ngôn ngữ lớn của Google. Gemini được thiết kế theo đa phương thức ngay từ đầu.Gemini có thể xử lý đồng thời:
+          \begin{itemize}[label=+]
+              \item Văn bản
+              \item Hình ảnh
+              \item Video
+              \item Mã nguồn
+          \end{itemize}
+          Gemini có những ưu điểm như: khả năng suy luận khá mạnh, hỗ trợ đa phương thức như đã đề cập ở trên, bên cạnh đó gemini còn được tích hợp với hệ sinh thái của Google nên việc sử dụng rất tiện lợi, và mô hình này có khả năng cập nhật được dữ liệu trực tiếp nhờ Google Search.
+
+    \item \textbf{Claude:} Mô hình này được phát triển bởi Anthropic. Công ty này nghiên cứu về trí tuệ nhân tạo. Giúp phát triển các hệ thống AI an toàn, tin cậy cho xử lý ngôn ngữ tự nhiên ở quy mô lớn.\\
+          \textbf{Ưu điểm của claude:}
+          \begin{itemize}
+              \item Khả năng hiểu ngữ cảnh cực tốt
+              \item Phân tích yêu cầu nghiệp vụ
+              \item Viết báo cáo
+              \item Hỗ trợ lập trình
+          \end{itemize}
+          \textbf{Một số hạn chế của Claude:}
+          \begin{itemize}
+              \item Không phải là một mô hình mã nguồn mở
+              \item Chi phí sử dụng cao
+              \item Chủ yếu được cung cấp thông qua API
+          \end{itemize}
+\end{itemize}
+\begin{table}[H]
+    \centering
+    \renewcommand{\arraystretch}{1.8} % tăng chiều cao ô
+    \label{tab:llm_comparison}
+    \begin{tabular}{|>{\centering\arraybackslash}m{3.5cm}|>{\centering\arraybackslash}m{4.5cm}|>{\centering\arraybackslash}m{3cm}|>{\centering\arraybackslash}m{3cm}|}        \hline
+        \textbf{Tiêu chí}          & \textbf{GPT} & \textbf{Gemini} & \textbf{Claude}       \\
+        \hline
+        Đơn vị phát triển          & OpenAI       & Google DeepMind & Anthropic             \\
+        \hline
+        Mã nguồn mở                & Không        & Không           & Không                 \\
+        \hline
+        Đa phương thức             & Có           & Có              & Có (một số phiên bản) \\
+        \hline
+        Hỗ trợ tiếng Việt          & Tốt          & Tốt             & Tốt                   \\
+        \hline
+        Triển khai cục bộ          & Hạn chế      & Hạn chế         & Hạn chế               \\
+        \hline
+        Khả năng xử lý văn bản dài & Tốt          & Tốt             & Rất tốt               \\
+        \hline
+        Phù hợp RAG                & Rất tốt      & Rất tốt         & Rất tốt               \\
+        \hline
+    \end{tabular}
+    \caption{So sánh một số mô hình LLM phổ biến}
+\end{table}
+
+Trong đồ án lần này, em chọn mô hình ChatGPT làm mô hình LLM trong việc hỏi đáp về thông tin các học phần của trường bởi vì mô hình này có khả năng xử lý tốt các ngôn ngữ tự nhiên, chí phí tương đối hợp lý ,có độ chính xác cao trong việc hiểu ngữ cảnh, có khả năng tích hợp tốt RAG.
+
+\section{Vector Database}
+\subsection{Khái niệm}
+Trong các hệ thống trí tuệ nhân tạo hiện đại, đặc biệt là các hệ thống hỏi đáp dựa trên kiến trúc RAG, việc lưu trữ và truy xuất dữ liệu theo ngữ nghĩa đóng vai trò quan trọng trong việc nâng cao độ chính xác của câu trả lời. Khác với các cơ sở dữ liệu truyền thống sử dụng phương pháp tìm kiếm dựa trên từ khóa, Cơ sở Dữ liệu Vector được thiết kế để lưu trữ và tìm kiếm dữ liệu dưới dạng vector.
+
+Cơ sở Dữ liệu Vector là một hệ thống quản lý cơ sở dữ liệu có thể lưu trữ các vector đại diện cho dữ liệu như văn bản, hình ảnh, âm thanh hoặc các dạng khác. Các vector này được tạo ra bằng cách sử dụng các mô hình Embedding, trong đó mỗi đoạn dữ liệu được chuyển đổi thành một vector có kích thước cố định để mô tả ý nghĩa ngữ nghĩa của dữ liệu.
+
+Dữ liệu được thu thập từ các nguồn tài liệu. Chia tài liệu thành các đoạn văn bản. Sử dụng mô hình Embedding để chuyển đổi văn bản thành các vector. Lưu trữ các vector cùng với dữ liệu trong Cơ sở Dữ liệu Vector. Nếu có truy vấn, chuyển câu hỏi thành một vector. Tìm kiếm các vector có độ tương đồng cao nhất. Cung cấp kết quả truy xuất cho LLM để tạo ra câu trả lời.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.1\textwidth,height=0.8\textheight,keepaspectratio]{Hinhve/chuong_2/workflow-vector-database.png}
+    \caption{Workflow của Vector database khi ứng dụng vào chatbot}
+    \label{fig:hust-ner-workflow}
+\end{figure}
+
+Ví dụ: Trong 1 hệ thống chatbot về học phần, sẽ có các dữ liệu như: Tên khóa học, Mô tả môn học, vv... Các thông tin này sẽ được chia thành các văn bản nhỏ hơn (chunking) và được chuyển thành các vector embedding trước khi được lưu vào các cơ sở dữ liệu vector. Khi một sinh viên đặt câu hỏi, câu hỏi đó cũng được chuyển thành vector nhờ quá trình ebedding câu hỏi người dùng. Cơ sở dữ liệu vector sẽ tìm kiếm các vector tương ứng đã lưu trong cơ sở dữ liệu giúp tìm ra được các thông tin bám sát với ngữ nghĩa của câu hỏi, có được lượng dữ liệu cần thiết
+
+\subsection{Một số cơ sở dữ liệu vector phổ biến}
+\begin{itemize}[label=-, leftmargin=*]
+    \item \textbf{Chroma:} là một vector database mã nguồn mở được thiết kế cho các ứng dụng chatbot đặc biệt là các hệ thống sử dụng RAG. Cơ sở dữ liệu này tập trung vào sự đơn giản và tích hợp nhanh với các framework như LangChain. Cơ sở dữ liệu này lưu trữ:
+          \begin{itemize} [label=+]
+              \item Vector embedding
+              \item Nội dung văn bản
+              \item Các metadata liên quan
+          \end{itemize}
+          Chroma có nhiều ưu điểm khi không cần hạ tầng phức tạp, cài đặt đơn giản nhưng cũng có những nhược điểm như không thể mở rộng khi dữ liệu tăng rất lớn, không phù hợp cho những hệ thống lên tới hàng triệu vector
+
+    \item  \textbf{FAISS:} Tên đầy đủ là Facebook AI Similarity Search. Là một thư viện tìm kiếm theo vector được phát triển bởi Meta AI. Không giống như các cơ sở dữ liệu vector hoàn chỉnh, FAISS chủ yếu tối ưu hóa thuật toán cho tìm kiếm tương đồng giữa các vector.\\
+          \hspace*{2em}CSDL vector này cung cấp nhiều thuật toán lập chỉ mục để tăng tốc quá trình tìm kiếm trong các tập dữ liệu vector lớn. FAISS có thể tìm kiếm hàng triệu đến hàng tỷ vector với tốc độ cao, và có thể sử dụng GPU để tăng tốc hiệu suất xử lý. Từ đó có thể thấy rằng FAISS với những ưu điểm như có hiệu suất tìm kiếm rất cao, tốt cho các hệ thống cần nghiên cứu cần tối ưu hóa về tốc độ. Bên cạnh đó FAISS cũng còn nhiều hạn chế như không cung cấp đầy đủ các chức năng quản lý dữ liệu như một cơ sở dữ liệu. Cần triển khai các thành phần khác để quản lý metadata. Việc triển khai một hệ thống hoàn chỉnh phức tạp hơn.
+
+    \item \textbf{Milvus:} Milvus là một cơ sở dữ liệu vector mã nguồn mở được thiết kế dành cho các ứng dụng trí tuệ nhân tạo (AI) và học máy (Machine Learning) ở quy mô lớn. Hệ thống này được xây dựng với mục tiêu lưu trữ, quản lý và truy vấn từ hàng triệu đến hàng tỷ vector embedding một cách hiệu quả. Nhờ kiến trúc phân tán, Milvus có khả năng mở rộng linh hoạt, đáp ứng nhu cầu xử lý dữ liệu lớn của các hệ thống AI hiện đại.\\
+          \hspace*{2em}Milvus hỗ trợ nhiều loại vector embedding và tích hợp nhiều thuật toán lập chỉ mục nhằm tối ưu hóa tốc độ tìm kiếm theo ngữ nghĩa. Ngoài ra, hệ thống còn hỗ trợ lưu trữ metadata, khả năng mở rộng theo cụm (cluster) và tích hợp với nhiều mô hình embedding cũng như các framework AI phổ biến. Với những ưu điểm trên, Milvus rất phù hợp cho các doanh nghiệp hoặc các hệ thống AI có quy mô lớn, yêu cầu hiệu suất truy vấn cao và khả năng mở rộng linh hoạt. Tuy nhiên, việc triển khai và cấu hình Milvus tương đối phức tạp, đòi hỏi nhiều tài nguyên phần cứng cũng như kinh nghiệm quản trị hệ thống. So với các cơ sở dữ liệu vector nhẹ như Chroma hoặc FAISS, Milvus có chi phí vận hành cao hơn và phù hợp hơn với các dự án có quy mô trung bình đến lớn.
+\end{itemize}
+
+\begin{table}[H]
+    \centering
+    \renewcommand{\arraystretch}{1.8} % tăng chiều cao ô
+    \label{tab:llm_comparison}
+    \begin{tabular}{|>{\centering\arraybackslash}m{3.5cm}|>{\centering\arraybackslash}m{4cm}|>{\centering\arraybackslash}m{3cm}|>{\centering\arraybackslash}m{3cm}|}        \hline
+        \textbf{Tiêu chí}  & \textbf{Chroma} & \textbf{FAISS} & \textbf{Milvus} \\
+        \hline
+        Mã nguồn mở        & Có              & Có             & Có              \\
+        \hline
+        Khả năng mở rộng   & Trung bình      & Cao            & Rất cao         \\
+        \hline
+        Triển khai         & Dễ              & Trung bình     & Phức tạp        \\
+        \hline
+        Hỗ trợ RAG         & Tốt             & Tốt            & Rất tốt         \\
+        \hline
+        Phù hợp nghiên cứu & Rất tốt         & Rất tốt        & tốt             \\
+        \hline
+        Yêu cầu tài nguyên & Thấp            & Trung bình     & Cao             \\
+        \hline
+    \end{tabular}
+    \caption{So sánh một số vector database}
+\end{table}
+
+Việc lựa chọn Chroma làm cơ sở dữ liệu vector trong đồ án này vì có rất nhiều lợi ích khi đồ án này thuộc về nghiên cứu. Hiện tại dữ liệu học phần do nhà trường cung cấp có khoảng hơn 8200 học phần là một số lượng tương đối đủ với chroma, bên cạnh đó việc triển khai rất dễ và yêu cầu tài nguyên nhỏ giúp em có thể dễ dàng triển khai hơn, có khả năng tích hợp RAG mạnh phù hợp với môi trường nghiên cứu.
+
+
 
 \end{document}
