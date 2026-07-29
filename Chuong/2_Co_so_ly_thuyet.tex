@@ -442,7 +442,23 @@ Với đồ án lần này, web crawling được sử dụng để:
 \vspace{2mm}
 
 Dưới đây là một số các thu viện hỗ trợ cho việc webcrawling:\\
-\textbf{BeautifulSoup}
+\textbf{BeautifulSoup:}
+Đây là một mã nguồn mở của python được sử dụng để phân tích HTML và XML. Thu viện này chuyển đồi HTML thành cấu trúc cây DOM, cho phép dễ dàng truy cập tìm kiếm và trích xuất các phần tử theo tiêu chí khác nhau.
+
+BeautifulSoup là một thư viện tuyệt vời cho cú pháp đơn giản, xử lý nhanh và khả năng chạy trên các trang web tĩnh. Thư viện này hỗ trợ nhiều phương pháp tìm kiếm như tên thẻ, thuộc tính id, lớp, CSS Selector hoặc XPath và do đó việc trích xuất dữ liệu trở nên đơn giản và chính xác.
+
+Nhưng BeautifulSoup chỉ xử lý nội dung HTML đã được tải xuống và không thực thi mã JavaScript. Đối với các trang web sử dụng JavaScript để tạo nội dung động sau khi trang được tải, BeautifulSoup sẽ không thể thu thập đầy đủ dữ liệu nếu được sử dụng độc lập.
+
+\textbf{Selenium:}
+Ngoài các trang web với nội dung tĩnh, nhiều hệ thống ngày nay sử dụng JavaScript để tải dữ liệu động nhằm nâng cao trải nghiệm người dùng. Trong trường hợp này, nội dung HTML ban đầu không chứa tất cả dữ liệu cần thiết và chỉ được tạo ra sau khi trình duyệt thực thi mã JavaScript.
+
+Selenium là một thư viện hỗ trợ tự động hóa trình duyệt có thể tham gia vào việc mô phỏng các hành động của người dùng như mở trang web, nhấp chuột vào nút, nhập dữ liệu, cuộn trang hoặc chờ nội dung tải đầy đủ. Khi việc thực thi JavaScript đã hoàn tất, Selenium có thể lấy toàn bộ mã HTML cuối cùng để sử dụng cho phân tích dữ liệu.
+
+So với BeautifulSoup, Selenium có khả năng xử lý các trang web động nhưng yêu cầu nhiều tài nguyên hệ thống hơn và có tốc độ xử lý chậm hơn vì cần khởi tạo trình duyệt.
+
+Sau khi khảo sát website cung cấp học phần của nhà trường. em nhận thấy rằng nội dung trên trang được tải động hoặc chỉ hiển thị đầy đủ sau khi trình duyệt thực thi mã JavaScript. Do đó, nếu chỉ sử dụng các thư viện gửi HTTP Request và phân tích HTML như requests kết hợp với BeautifulSoup, dữ liệu thu được có thể không đầy đủ hoặc không phản ánh đúng nội dung hiển thị trên trình duyệt.
+
+Vì lý do đó, đồ án lần này em  lựa chọn Selenium làm công cụ chính để thu thập dữ liệu. Selenium cho phép mô phỏng hoạt động của một trình duyệt thực, thực thi các đoạn mã JavaScript và chờ trang web tải hoàn chỉnh trước khi lấy nội dung HTML cuối cùng. Điều này giúp hệ thống có thể thu thập đầy đủ các thông tin học phần như mã học phần, tên học phần, số tín chỉ, điều kiện tiên quyết, mô tả học phần và chuẩn đầu ra.
 
 
 
