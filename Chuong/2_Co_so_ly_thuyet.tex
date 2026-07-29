@@ -233,6 +233,217 @@ Ví dụ: Trong 1 hệ thống chatbot về học phần, sẽ có các dữ li�
 
 Việc lựa chọn Chroma làm cơ sở dữ liệu vector trong đồ án này vì có rất nhiều lợi ích khi đồ án này thuộc về nghiên cứu. Hiện tại dữ liệu học phần do nhà trường cung cấp có khoảng hơn 8200 học phần là một số lượng tương đối đủ với chroma, bên cạnh đó việc triển khai rất dễ và yêu cầu tài nguyên nhỏ giúp em có thể dễ dàng triển khai hơn, có khả năng tích hợp RAG mạnh phù hợp với môi trường nghiên cứu.
 
+\section{Similarity Search}
+\subsection{Khái niệm}
+Trong các hệ thống hỏi đáp với các mô hình ngôn ngữ lớnkết hợp với  RAG, việc tìm kiếm thông tin liên quan từ cơ sở dữ liệu rất quan trọng để cung cấp ngữ cảnh chính xác cho các mô hình tạo văn bản. Vì dữ liệu trong Cơ sở Dữ liệu được lưu trữ dưới dạng các vector biểu diễn ngữ nghĩa (embedding), quá trình tìm kiếm không dựa trên việc khớp từ khóa mà dựa trên sự tương đồng giữa các vector. Điều này được gọi là Tìm kiếm Tương đồng.
+
+Similarity Search là phương pháp xác định các đối tượng có mức độ tương đồng cao nhất với một đối tượng truy vấn dựa trên khoảng cách hoặc độ tương đồng trong không gian vector. Trong hệ thống chatbot hỏi đáp học phần, khi sinh viên đặt một câu hỏi bằng tiếng Việt, câu hỏi này sẽ được chuyển đổi thành vector thông qua mô hình embedding. Vector truy vấn sau đó được so sánh với các vector dữ liệu học phần trong Vector Database để tìm ra các tài liệu hoặc đoạn thông tin có nội dung gần nhất.
+
+Ví dụ, hai câu hỏi: Môn học Trí tuệ nhân tạo có bao nhiêu tín chỉ?" hoặc "Số tín chỉ của học phần AI là bao nhiêu?". mặc dù sử dụng các từ ngữ khác nhau nhưng có ý nghĩa tương đương. Nhờ sử dụng Similarity Search trên không gian vector, hệ thống có thể nhận biết được sự tương đồng về mặt ngữ nghĩa và trả về cùng một nhóm thông tin liên quan.
+
+\subsection{Vai trò của Similarity Search}
+Similarity Search là thành phần trung gian giữa cơ sở dữ liệu tri thức và mô hình ngôn ngữ lớn. Quy trình hoạt động cơ bản gồm các bước:
+\begin{enumerate}[label=\textbf{Bước \arabic*.}, leftmargin=*]
+    \item Người dùng nhập câu hỏi.
+    \item Câu hỏi được chuyển đổi thành vector embedding.
+    \item Hệ thống thực hiện Similarity Search để tìm các vector gần nhất trong cơ sở dữ liệu vector.
+    \item Lấy được các dữ liệu tương đồng để lấy ra làm ngữ cảnh.
+    \item Đưa vào LLM để sinh ra câu trả lời.
+\end{enumerate}
+\hspace*{1em}Similarity Search giúp hệ thống có khả năng hiểu được ý nghĩa câu hỏi của sinh viên thay vì chỉ tìm kiếm dựa trên từ khóa. Điều này giúp nâng cao khả năng truy xuất thông tin chính xác, đặc biệt trong các trường hợp người dùng sử dụng nhiều cách diễn đạt khác nhau.
+
+\section{Retrieval-Augmented Generation}
+\subsection{Khái niệm}
+Sự phát triển của các mô hình LLM đã mở ra rất nhiều sự phát triển và ứng dụng trong lĩnh vực xử lý ngôn ngữ tự nhiên như chatbot, trợ lý ảo và hệ thống hỏi đáp. Tuy nhiên, các mô hình này vẫn tồn tại một số hạn chế như chỉ sử dụng kiến thức đã được huấn luyện trước, không thể cập nhật dữ liệu theo thời gian thực và đôi khi sinh ra các thông tin không chính xác (hallucination). Để khắc phục những hạn chế này, kỹ thuật Tạo sinh Tăng cường Truy xuất (RAG) đã được ra đời.
+
+RAG là phương pháp kết hợp giữa khả năng truy xuất thông tin (Retrieval) và sinh văn bản (Generation). Thay vì yêu cầu LLM trả lời hoàn toàn dựa trên kiến thức đã học, hệ thống sẽ truy xuất các tài liệu liên quan từ một cơ sở tri thức bên ngoài, sau đó cung cấp các tài liệu này làm ngữ cảnh cho LLM trước khi trả lời.
+
+\subsection{Nguyên lý hoạt động}
+\hspace*{-0.5cm}Nguyên lý hoạt động của RAG gồm hai giai đoạn chính:
+\begin{itemize}
+    \item \textbf{Retrieval:} tìm kiếm các tài liệu hoặc đoạn văn có nội dung liên quan nhất đến câu hỏi của người dùng.
+    \item \textbf{Generation:} sử dụng LLM để tổng hợp thông tin từ các tài liệu đã truy xuất và tạo thành câu trả lời hoàn chỉnh.
+\end{itemize}
+Quy trình hoạt động của RAG gồm các bước sau:
+\begin{enumerate}[label=\textbf{Bước \arabic*.}, leftmargin=*]
+    \item Người dùng nhập câu hỏi.
+    \item Câu hỏi được chuyển thành vector embedding.
+    \item Vector truy vấn được so sánh với các vector trong Vector Database.
+    \item Hệ thống lấy ra các tài liệu có mức độ tương đồng cao nhất.
+    \item Các tài liệu được ghép cùng câu hỏi thành Prompt.
+    \item Prompt được gửi tới LLM.
+    \item LLM sinh câu trả lời dựa trên câu hỏi và ngữ cảnh được truy xuất.
+\end{enumerate}
+
+\subsection{Pipeline của RAG}
+Pipeline của RAG là chuỗi các bước xử lý từ lúc người dùng gửi câu hỏi đến khi hệ thống trả về kết quả.
+
+Pipeline trên có thể chia thành ba giai đoạn:
+\begin{itemize}
+    \item Chuẩn bị dữ liệu (Data Preparation)
+    \item Truy xuất thông tin (Retrieval)
+    \item Sinh câu trả lời (Generation)
+\end{itemize}
+Trong giai đoạn chuẩn bị dữ liệu, toàn bộ dữ liệu học phần được thu thập, chia thành các đoạn văn (chunk), chuyển thành embedding và lưu vào Vector Database. Khi người dùng đặt câu hỏi, hệ thống chỉ thực hiện truy xuất trên cơ sở dữ liệu vector thay vì toàn bộ dữ liệu gốc, giúp tăng tốc độ xử lý.Một pipeline điển hình gồm các thành phần được miêu tả bởi sơ đồ sau:
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.1\textwidth,height=0.68\textheight,keepaspectratio]{Hinhve/chuong_2/pipeline-rag.png}
+    \caption{Sơ đồ biểu diễn pipeline của RAG}
+    \vspace{2mm}
+    \label{fig:hust-pipeline-rag}
+\end{figure}
+
+\subsection{Retriever}
+Đây là thành phần chịu trách nhiệm tìm kiếm các tài liệu liên quan đến câu hỏi của người dùng.
+Quá trình hoạt động của Retriever gồm các bước sau:
+\begin{enumerate}[label=\textbf{Bước \arabic*.}, leftmargin=*]
+    \item Nhận câu hỏi của người dùng.
+    \item Chuyển câu hỏi thành vector embedding.
+    \item So sánh vector truy vấn với các vector trong cơ sở dữ liệu.
+    \item Tính độ tương đồng bằng Similarity.
+    \item Trả về Top-k tài liệu có độ tương đồng cao nhất.
+\end{enumerate}
+Ví dụ khi người dùng hỏi: "Môn Machine Learning có bao nhiêu tín chỉ?". Lúc này Retriever có thể tìm được ba đoạn dữ liệu gần nhất như mô tả học phần Machine Learning, thông tin số tín chỉ, điều kiện tiên quyết. Các tài liệu này sẽ được chuyển sang Generator để tạo câu trả lời. Chất lượng của Retriever ảnh hưởng trực tiếp đến chất lượng của toàn bộ hệ thống RAG. Nếu Retriever không tìm đúng tài liệu, mô hình LLM sẽ không có đủ dữ liệu, ngữ cảnh để trả lời chính xác.
+
+\subsection{Generator}
+Đây là thành phần sử dụng LLM để tạo câu trả lời cuối cùng. Khác với Retriever chỉ có nhiệm vụ tìm kiếm tài liệu, Generator sẽ đọc toàn bộ ngữ cảnh được cung cấp và tổng hợp thành câu trả lời tự nhiên.
+Dữ liệu đầu vào của Generator bao gồm:
+\begin{itemize}
+    \item Câu hỏi người dùng
+    \item Các dữ liệu retriever được tìm thấy
+    \item Prompt hướng dẫn LLM
+\end{itemize}
+Ví dụ:
+
+\begin{quote}
+    \textbf{Context:}
+
+    Tên học phần: Machine Learning
+
+    Số tín chỉ: 3
+
+    Điều kiện tiên quyết: Xác suất thống kê
+
+    \vspace{0.5em}
+
+    \textbf{Question:}
+    Machine Learning có bao nhiêu tín chỉ?
+
+    \vspace{0.5em}
+
+    \textbf{LLM Response:}
+    "Học phần Machine Learning có 3 tín chỉ."
+\end{quote}
+
+\subsection{Prompt}
+Prompt là tập hợp các hướng dẫn và dữ liệu được gửi tới mô hình ngôn ngữ lớn (Large Language Model - LLM) nhằm định hướng cách thức sinh câu trả lời. Chất lượng của Prompt ảnh hưởng trực tiếp đến độ chính xác và kết quả đầu ra.
+
+Trong hệ thống Retrieval-Augmented Generation (RAG), Prompt thường bao gồm ba thành phần chính:
+
+\begin{itemize}
+    \item \textbf{Instruction}: Hướng dẫn mô hình về vai trò và nguyên tắc trả lời.
+    \item \textbf{Context}: Thông tin được Retriever truy xuất từ cơ sở dữ liệu tri thức.
+    \item \textbf{Question}: Câu hỏi của người dùng.
+\end{itemize}
+
+\vspace{1cm}
+Ví dụ về Prompt:
+
+\begin{quote}
+    \textbf{Instruction}
+
+    Bạn là chatbot hỗ trợ tra cứu học phần của Đại học Bách khoa Hà Nội.
+
+    Chỉ sử dụng thông tin trong \textbf{Context} để trả lời.
+
+    Nếu \textbf{Context} không chứa thông tin cần thiết, hãy trả lời rằng không tìm thấy dữ liệu.
+
+    \medskip
+
+    \textbf{Context}
+
+    ...
+
+    \medskip
+
+    \textbf{Question}
+
+    Môn AI có bao nhiêu tín chỉ?
+\end{quote}
+
+Một Prompt được thiết kế tốt mang lại nhiều lợi ích cho hệ thống, bao gồm:
+
+\begin{itemize}
+    \item Giảm hiện tượng mô hình tự suy diễn (Hallucination).
+    \item Nâng cao độ chính xác của câu trả lời.
+    \item Đảm bảo câu trả lời bám sát dữ liệu.
+    \item Duy trì định dạng và cách phản hồi thống nhất.
+\end{itemize}
+
+Prompt Engineering là kỹ thuật thiết kế và tối ưu Prompt nhằm khai thác hiệu quả khả năng của LLM. Đây là một thành phần quan trọng trong quá trình phát triển các ứng dụng sử dụng LLM, đặc biệt là các hệ thống RAG.
+
+\subsection{Context}
+
+Context là tập hợp các thông tin được Retriever truy xuất từ cơ sở tri thức và cung cấp cho mô hình ngôn ngữ lớn (Large Language Model - LLM) trước khi thực hiện trả lời. Context đóng vai trò bổ sung kiến thức cho LLM, giúp mô hình tạo ra câu trả lời dựa trên dữ liệu thực tế thay vì chỉ dựa vào kiến thức đã được huấn luyện.
+
+Trong hệ thống chatbot tra cứu học phần của Đại học Bách khoa Hà Nội, Context có thể bao gồm các thông tin sau:
+
+\begin{itemize}
+    \item Tên học phần.
+    \item Mã học phần.
+    \item Số tín chỉ.
+    \item Điều kiện tiên quyết.
+    \item Khoa phụ trách.
+\end{itemize}
+
+Ví dụ, một Context được Retriever truy xuất:
+
+\begin{quote}
+    \textbf{Tên học phần:} Lập trình hướng đối tượng
+
+    \textbf{Mã học phần:} IT3100
+
+    \textbf{Số tín chỉ:} 3
+
+    \textbf{Điều kiện tiên quyết:} IT1110
+\end{quote}
+
+Khi người dùng đặt câu hỏi:
+
+\begin{quote}
+    \textbf{Question:} Lập trình hướng đối tượng có điều kiện tiên quyết không?
+\end{quote}
+
+Context trên sẽ được đưa vào Prompt cùng với câu hỏi của người dùng để LLM sinh ra câu trả lời:
+
+\begin{quote}
+    Có. Học phần Lập trình hướng đối tượng yêu cầu hoàn thành học phần IT1110 trước khi đăng ký.
+\end{quote}
+
+Việc lựa chọn Context phù hợp là yếu tố quan trọng ảnh hưởng trực tiếp đến chất lượng của hệ thống RAG. Nếu Context chứa quá ít thông tin, LLM có thể không đủ dữ liệu để đưa ra câu trả lời chính xác. Ngược lại, nếu Context quá dài hoặc chứa nhiều thông tin không liên quan, mô hình có thể bị giảm hiệu quả xử lý.
+
+Do đó, trong các hệ thống RAG thực tế, Retriever thường chỉ lựa chọn một số lượng tài liệu giới hạn có độ tương đồng cao nhất với câu hỏi truy vấn (Top-$k$). Giá trị $k$ thường được lựa chọn trong khoảng từ 3 đến 5 nhằm cân bằng giữa độ chính xác của thông tin truy xuất và chi phí xử lý của mô hình.
+
+\section{Web Crawling}
+\subsection{Khái niệm}
+Trong quá trình xây dựng các hệ thống hỏi đáp dựa trên kiến trúc RAG. Dữ liệu là một vai trò cực kỳ quan trọng và tiên quyết với chất lượng của hệ thống. Để lấy được nguồn dữ liệu cho chatbot, thu thập các thông tin liên quan từ nguồn dữ liệu liên quan từ nguồn dữ liệu bên ngoài. Đối với đồ án lần này, dữ liệu học phần được lấy từ website cung cấp thông tin học phần ủa trường Đại học Bách khoa Hà Nội.
+
+\textbf{Web Crawling} là kỹ thuật từ động thu thập các dữ liệu từ các trang web bằng cách sử dụng các tool, chương trình, thu viện gọi là crawler. Các chương trình này gửi yêu cầu tới web server, nhận nội dung (response) của web, phân tích các cấu trúc dữ liệu và trích xuất các thông tin cần thiết.
+
+Khác với việc thu thập dữ liệu thủ công, web crawling cho phép xử lý và thu thập một lượng lớn các dữ liệu lớn trong thời gian ngắn, đồng thời có thể cập nhật dữ liệu định kỳ khi nội dung trên website thay đổi.
+
+Với đồ án lần này, web crawling được sử dụng để:
+\begin{itemize}
+    \item Thu thập danh sách các học phần.
+    \item Trích xuất mô tả học phần.
+    \item Thu thập số tín chỉ.
+    \item Thu thập điều kiện tiên quyết.
+\end{itemize}
+\vspace{2mm}
+
+Dưới đây là một số các thu viện hỗ trợ cho việc webcrawling:\\
+\textbf{BeautifulSoup}
+
 
 
 \end{document}
