@@ -1,0 +1,382 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Page-1" id="AKvihkO2TMERpupTZIRv">
+    <mxGraphModel dx="2065" dy="1118" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <UserObject label="" plantUmlData="{&#xa;  &quot;data&quot;: &quot;@startuml\ntitle Sequence Diagram - Quy trình xử lý phản hồi Chatbot và Text-to-Speech\n\nautonumber\n\nactor \&quot;Người dùng\&quot; as User\nparticipant \&quot;React Frontend\&quot; as FE\nparticipant \&quot;API Gateway\&quot; as GW\nparticipant \&quot;Chat Service\&quot; as CS\nparticipant \&quot;Chat Session Service\&quot; as CSS\nparticipant \&quot;OpenAI TTS Model\&quot; as TTS\nparticipant \&quot;Audio Stream\&quot; as AS\n\n\n== Lưu phản hồi Chatbot ==\n\nCS -&gt; CS: Nhận phản hồi từ Chatbot\n\nCS -&gt; CSS: Gửi Response cần lưu\n\nactivate CSS\nCSS -&gt; CSS: Lưu Response ID\n\nCSS -&gt; CSS: Chuẩn hóa văn bản giọng nói\\n(Normalize Voice Text)\n\nCSS --&gt; CS: Trả kết quả lưu thành công\ndeactivate CSS\n\nCS --&gt; FE: Trả nội dung phản hồi chatbot\n\n\n== Người dùng yêu cầu phát giọng nói ==\n\nUser -&gt; FE: Click nút Voice\n\nFE -&gt; GW: Gửi yêu cầu Text-to-Speech\n\nGW -&gt; CS: Chuyển tiếp yêu cầu Voice\n\n\n== Sinh Audio ==\n\nCS -&gt; TTS: Gửi text đã chuẩn hóa\n\nactivate TTS\nTTS --&gt; CS: Generate Audio\ndeactivate TTS\n\n\n== Streaming Audio ==\n\nCS -&gt; AS: Tạo Audio Stream\n\nactivate AS\nAS --&gt; FE: Streaming dữ liệu âm thanh\ndeactivate AS\n\n\n== Phát giọng nói ==\n\nFE -&gt; FE: Buffer Audio\nFE -&gt; FE: Play Voice\n\n\n@enduml&quot;,&#xa;  &quot;config&quot;: null&#xa;}" id="DP-FMpyENJixB9g3VE8V-70">
+          <mxCell connectable="0" parent="1" style="group;transparentBounds=1;editIcon=1;lockedGroup=0;groupPadding=10;" vertex="1">
+            <mxGeometry height="989" width="1098.3" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="" plantUmlId="life_3" plantUmlBaseStyle="endArrow=none;html=1;strokeColor=#181818;strokeWidth=0.5;dashed=1;dashPattern=5 5;" plantUmlBaseValue="" id="DP-FMpyENJixB9g3VE8V-71">
+          <mxCell edge="1" parent="DP-FMpyENJixB9g3VE8V-70" style="endArrow=none;html=1;strokeColor=#181818;strokeWidth=0.5;dashed=1;dashPattern=5 5;rounded=0;">
+            <mxGeometry relative="1" as="geometry">
+              <mxPoint x="70.4" y="126" as="sourcePoint" />
+              <mxPoint x="70.4" y="947" as="targetPoint" />
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="React Frontend" plantUmlId="p_4" plantUmlBaseStyle="shape=umlLifeline;perimeter=lifelinePerimeter;size=33;lifelineMirror=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;rounded=1;absoluteArcSize=1;arcSize=5;fillColor=#E2E2F0;strokeColor=#181818;strokeWidth=0.5;fontColor=#000000;fontSize=14;whiteSpace=wrap;html=1;" plantUmlBaseValue="React Frontend" id="DP-FMpyENJixB9g3VE8V-72">
+          <mxCell parent="DP-FMpyENJixB9g3VE8V-70" style="shape=umlLifeline;perimeter=lifelinePerimeter;size=33;lifelineMirror=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;rounded=1;absoluteArcSize=1;arcSize=5;fillColor=#E2E2F0;strokeColor=#181818;strokeWidth=0.5;fontColor=#000000;fontSize=14;whiteSpace=wrap;html=1;" vertex="1">
+            <mxGeometry height="886" width="108.8" x="140.72857142857143" y="93" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="API Gateway" plantUmlId="p_5" plantUmlBaseStyle="shape=umlLifeline;perimeter=lifelinePerimeter;size=33;lifelineMirror=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;rounded=1;absoluteArcSize=1;arcSize=5;fillColor=#E2E2F0;strokeColor=#181818;strokeWidth=0.5;fontColor=#000000;fontSize=14;whiteSpace=wrap;html=1;" plantUmlBaseValue="API Gateway" id="DP-FMpyENJixB9g3VE8V-73">
+          <mxCell parent="DP-FMpyENJixB9g3VE8V-70" style="shape=umlLifeline;perimeter=lifelinePerimeter;size=33;lifelineMirror=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;rounded=1;absoluteArcSize=1;arcSize=5;fillColor=#E2E2F0;strokeColor=#181818;strokeWidth=0.5;fontColor=#000000;fontSize=14;whiteSpace=wrap;html=1;" vertex="1">
+            <mxGeometry height="886" width="92.89999999999999" x="353.0785714285715" y="93" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="Chat Service" plantUmlId="p_6" plantUmlBaseStyle="shape=umlLifeline;perimeter=lifelinePerimeter;size=33;lifelineMirror=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;rounded=1;absoluteArcSize=1;arcSize=5;fillColor=#E2E2F0;strokeColor=#181818;strokeWidth=0.5;fontColor=#000000;fontSize=14;whiteSpace=wrap;html=1;" plantUmlBaseValue="Chat Service" id="DP-FMpyENJixB9g3VE8V-74">
+          <mxCell parent="DP-FMpyENJixB9g3VE8V-70" style="shape=umlLifeline;perimeter=lifelinePerimeter;size=33;lifelineMirror=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;rounded=1;absoluteArcSize=1;arcSize=5;fillColor=#E2E2F0;strokeColor=#181818;strokeWidth=0.5;fontColor=#000000;fontSize=14;whiteSpace=wrap;html=1;" vertex="1">
+            <mxGeometry height="886" width="93.19999999999999" x="546.7428571428571" y="93" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="Chat Session Service" plantUmlId="p_7" plantUmlBaseStyle="shape=umlLifeline;perimeter=lifelinePerimeter;size=33;lifelineMirror=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;rounded=1;absoluteArcSize=1;arcSize=5;fillColor=#E2E2F0;strokeColor=#181818;strokeWidth=0.5;fontColor=#000000;fontSize=14;whiteSpace=wrap;html=1;" plantUmlBaseValue="Chat Session Service" id="DP-FMpyENJixB9g3VE8V-75">
+          <mxCell parent="DP-FMpyENJixB9g3VE8V-70" style="shape=umlLifeline;perimeter=lifelinePerimeter;size=33;lifelineMirror=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;rounded=1;absoluteArcSize=1;arcSize=5;fillColor=#E2E2F0;strokeColor=#181818;strokeWidth=0.5;fontColor=#000000;fontSize=14;whiteSpace=wrap;html=1;" vertex="1">
+            <mxGeometry height="886" width="148.39999999999998" x="732.3714285714286" y="93" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="OpenAI TTS Model" plantUmlId="p_8" plantUmlBaseStyle="shape=umlLifeline;perimeter=lifelinePerimeter;size=33;lifelineMirror=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;rounded=1;absoluteArcSize=1;arcSize=5;fillColor=#E2E2F0;strokeColor=#181818;strokeWidth=0.5;fontColor=#000000;fontSize=14;whiteSpace=wrap;html=1;" plantUmlBaseValue="OpenAI TTS Model" id="DP-FMpyENJixB9g3VE8V-76">
+          <mxCell parent="DP-FMpyENJixB9g3VE8V-70" style="shape=umlLifeline;perimeter=lifelinePerimeter;size=33;lifelineMirror=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;rounded=1;absoluteArcSize=1;arcSize=5;fillColor=#E2E2F0;strokeColor=#181818;strokeWidth=0.5;fontColor=#000000;fontSize=14;whiteSpace=wrap;html=1;" vertex="1">
+            <mxGeometry height="886" width="128.3" x="1128.0857142857144" y="93" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="Audio Stream" plantUmlId="p_9" plantUmlBaseStyle="shape=umlLifeline;perimeter=lifelinePerimeter;size=33;lifelineMirror=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;rounded=1;absoluteArcSize=1;arcSize=5;fillColor=#E2E2F0;strokeColor=#181818;strokeWidth=0.5;fontColor=#000000;fontSize=14;whiteSpace=wrap;html=1;" plantUmlBaseValue="Audio Stream" id="DP-FMpyENJixB9g3VE8V-77">
+          <mxCell parent="DP-FMpyENJixB9g3VE8V-70" style="shape=umlLifeline;perimeter=lifelinePerimeter;size=33;lifelineMirror=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;rounded=1;absoluteArcSize=1;arcSize=5;fillColor=#E2E2F0;strokeColor=#181818;strokeWidth=0.5;fontColor=#000000;fontSize=14;whiteSpace=wrap;html=1;" vertex="1">
+            <mxGeometry height="886" width="97.10000000000001" x="1266.3857142857146" y="93" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="" plantUmlId="msg_13" plantUmlBaseStyle="endArrow=classic;endFill=1;endSize=9;html=1;strokeColor=#181818;strokeWidth=1;exitX=0.5;exitY=0.126;exitDx=0;exitDy=0;" plantUmlBaseValue="" id="DP-FMpyENJixB9g3VE8V-78">
+          <mxCell edge="1" parent="DP-FMpyENJixB9g3VE8V-70" source="DP-FMpyENJixB9g3VE8V-119" style="endArrow=classic;endFill=1;endSize=9;html=1;strokeColor=#181818;strokeWidth=1;rounded=0;" target="DP-FMpyENJixB9g3VE8V-74">
+            <mxGeometry relative="1" as="geometry">
+              <Array as="points">
+                <mxPoint x="631.3428571428572" y="205" />
+              </Array>
+              <mxPoint x="593.3428571428572" y="205" as="sourcePoint" />
+              <mxPoint x="596.3428571428572" y="225" as="targetPoint" />
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="1 Nhận phản hồi từ Chatbot" plantUmlId="msglbl_16" plantUmlBaseStyle="text;html=1;fontColor=#000000;fontSize=13;align=left;verticalAlign=middle;" plantUmlBaseValue="1 Nhận phản hồi từ Chatbot" id="DP-FMpyENJixB9g3VE8V-79">
+          <mxCell parent="DP-FMpyENJixB9g3VE8V-70" style="text;html=1;fontColor=#000000;fontSize=13;align=left;verticalAlign=middle;" vertex="1">
+            <mxGeometry height="18" width="164.22857142857146" x="600.3428571428572" y="185" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="2 Gửi Response cần lưu" plantUmlId="msg_17" plantUmlBaseStyle="endArrow=classic;endFill=1;endSize=9;html=1;rounded=0;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;strokeColor=#181818;strokeWidth=1;fontColor=#000000;fontSize=13;verticalAlign=bottom;labelBackgroundColor=none;" plantUmlBaseValue="2 Gửi Response cần lưu" id="DP-FMpyENJixB9g3VE8V-80">
+          <mxCell edge="1" parent="DP-FMpyENJixB9g3VE8V-70" source="DP-FMpyENJixB9g3VE8V-74" style="endArrow=classic;endFill=1;endSize=9;html=1;rounded=0;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;strokeColor=#181818;strokeWidth=1;fontColor=#000000;fontSize=13;verticalAlign=bottom;labelBackgroundColor=none;" target="DP-FMpyENJixB9g3VE8V-98">
+            <mxGeometry relative="1" x="-0.264" as="geometry">
+              <Array as="points">
+                <mxPoint x="697" y="257" />
+              </Array>
+              <mxPoint x="593.3428571428572" y="257" as="sourcePoint" />
+              <mxPoint x="801.5714285714287" y="257" as="targetPoint" />
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="" plantUmlId="msg_18" plantUmlBaseStyle="endArrow=classic;endFill=1;endSize=9;html=1;strokeColor=#181818;strokeWidth=1;exitX=1;exitY=0.235;exitDx=0;exitDy=0;" plantUmlBaseValue="" id="DP-FMpyENJixB9g3VE8V-81">
+          <mxCell edge="1" parent="DP-FMpyENJixB9g3VE8V-70" source="DP-FMpyENJixB9g3VE8V-98" style="endArrow=classic;endFill=1;endSize=9;html=1;strokeColor=#181818;strokeWidth=1;exitX=1;exitY=0.235;exitDx=0;exitDy=0;rounded=0;">
+            <mxGeometry relative="1" as="geometry">
+              <Array as="points">
+                <mxPoint x="849.5714285714287" y="289" />
+                <mxPoint x="849.5714285714287" y="309" />
+              </Array>
+              <mxPoint x="811.5714285714287" y="289" as="sourcePoint" />
+              <mxPoint x="814.5714285714287" y="309" as="targetPoint" />
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="3 Lưu Response ID" plantUmlId="msglbl_21" plantUmlBaseStyle="text;html=1;fontColor=#000000;fontSize=13;align=left;verticalAlign=middle;" plantUmlBaseValue="3 Lưu Response ID" id="DP-FMpyENJixB9g3VE8V-82">
+          <mxCell parent="DP-FMpyENJixB9g3VE8V-70" style="text;html=1;fontColor=#000000;fontSize=13;align=left;verticalAlign=middle;" vertex="1">
+            <mxGeometry height="18" width="115.75714285714285" x="813.5714285714287" y="269" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="" plantUmlId="msg_22" plantUmlBaseStyle="endArrow=classic;endFill=1;endSize=9;html=1;strokeColor=#181818;strokeWidth=1;exitX=1;exitY=0.618;exitDx=0;exitDy=0;" plantUmlBaseValue="" id="DP-FMpyENJixB9g3VE8V-83">
+          <mxCell edge="1" parent="DP-FMpyENJixB9g3VE8V-70" source="DP-FMpyENJixB9g3VE8V-98" style="endArrow=classic;endFill=1;endSize=9;html=1;strokeColor=#181818;strokeWidth=1;exitX=1;exitY=0.618;exitDx=0;exitDy=0;rounded=0;">
+            <mxGeometry relative="1" as="geometry">
+              <Array as="points">
+                <mxPoint x="849.5714285714287" y="341" />
+                <mxPoint x="849.5714285714287" y="361" />
+              </Array>
+              <mxPoint x="811.5714285714287" y="341" as="sourcePoint" />
+              <mxPoint x="814.5714285714287" y="361" as="targetPoint" />
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="4 Chuẩn hóa văn bản giọng nói&#xa;(Normalize Voice Text)" plantUmlId="msglbl_25" plantUmlBaseStyle="text;html=1;fontColor=#000000;fontSize=13;align=left;verticalAlign=middle;" plantUmlBaseValue="4 Chuẩn hóa văn bản giọng nói&#xa;(Normalize Voice Text)" id="DP-FMpyENJixB9g3VE8V-84">
+          <mxCell parent="DP-FMpyENJixB9g3VE8V-70" style="text;html=1;fontColor=#000000;fontSize=13;align=left;verticalAlign=middle;" vertex="1">
+            <mxGeometry height="18" width="336.66428571428577" x="813.5714285714287" y="321" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="5 Trả kết quả lưu thành công" plantUmlId="msg_26" plantUmlBaseStyle="endArrow=classic;endFill=1;endSize=9;html=1;rounded=0;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;strokeColor=#181818;strokeWidth=1;fontColor=#000000;fontSize=13;verticalAlign=bottom;labelBackgroundColor=none;dashed=1;dashPattern=2 2;" plantUmlBaseValue="5 Trả kết quả lưu thành công" id="DP-FMpyENJixB9g3VE8V-85">
+          <mxCell edge="1" parent="DP-FMpyENJixB9g3VE8V-70" source="DP-FMpyENJixB9g3VE8V-98" style="endArrow=classic;endFill=1;endSize=9;html=1;rounded=0;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;strokeColor=#181818;strokeWidth=1;fontColor=#000000;fontSize=13;verticalAlign=bottom;labelBackgroundColor=none;dashed=1;dashPattern=2 2;" target="DP-FMpyENJixB9g3VE8V-74">
+            <mxGeometry relative="1" x="0.023" as="geometry">
+              <Array as="points">
+                <mxPoint x="697" y="393" />
+              </Array>
+              <mxPoint x="801.5714285714287" y="393" as="sourcePoint" />
+              <mxPoint x="593.3428571428572" y="393" as="targetPoint" />
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="6 Trả nội dung phản hồi chatbot" plantUmlId="msg_27" plantUmlBaseStyle="endArrow=classic;endFill=1;endSize=9;html=1;rounded=0;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;strokeColor=#181818;strokeWidth=1;fontColor=#000000;fontSize=13;verticalAlign=bottom;labelBackgroundColor=none;dashed=1;dashPattern=2 2;" plantUmlBaseValue="6 Trả nội dung phản hồi chatbot" id="DP-FMpyENJixB9g3VE8V-86">
+          <mxCell edge="1" parent="DP-FMpyENJixB9g3VE8V-70" source="DP-FMpyENJixB9g3VE8V-74" style="endArrow=classic;endFill=1;endSize=9;html=1;rounded=0;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;strokeColor=#181818;strokeWidth=1;fontColor=#000000;fontSize=13;verticalAlign=bottom;labelBackgroundColor=none;dashed=1;dashPattern=2 2;" target="DP-FMpyENJixB9g3VE8V-72">
+            <mxGeometry relative="1" x="0.443" as="geometry">
+              <Array as="points">
+                <mxPoint x="394" y="425" />
+              </Array>
+              <mxPoint x="593.3428571428572" y="425" as="sourcePoint" />
+              <mxPoint x="195.12857142857143" y="425" as="targetPoint" />
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="7 Click nút Voice" plantUmlId="msg_31" plantUmlBaseStyle="endArrow=classic;endFill=1;endSize=9;html=1;rounded=0;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;strokeColor=#181818;strokeWidth=1;fontColor=#000000;fontSize=13;verticalAlign=bottom;labelBackgroundColor=none;" plantUmlBaseValue="7 Click nút Voice" id="DP-FMpyENJixB9g3VE8V-87">
+          <mxCell edge="1" parent="DP-FMpyENJixB9g3VE8V-70" style="endArrow=classic;endFill=1;endSize=9;html=1;rounded=0;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;strokeColor=#181818;strokeWidth=1;fontColor=#000000;fontSize=13;verticalAlign=bottom;labelBackgroundColor=none;" target="DP-FMpyENJixB9g3VE8V-72">
+            <mxGeometry relative="1" x="-0.088" as="geometry">
+              <Array as="points">
+                <mxPoint x="133" y="501" />
+              </Array>
+              <mxPoint x="70.4" y="501" as="sourcePoint" />
+              <mxPoint x="195.12857142857143" y="501" as="targetPoint" />
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="8 Gửi yêu cầu Text-to-Speech" plantUmlId="msg_32" plantUmlBaseStyle="endArrow=classic;endFill=1;endSize=9;html=1;rounded=0;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;strokeColor=#181818;strokeWidth=1;fontColor=#000000;fontSize=13;verticalAlign=bottom;labelBackgroundColor=none;" plantUmlBaseValue="8 Gửi yêu cầu Text-to-Speech" id="DP-FMpyENJixB9g3VE8V-88">
+          <mxCell edge="1" parent="DP-FMpyENJixB9g3VE8V-70" source="DP-FMpyENJixB9g3VE8V-72" style="endArrow=classic;endFill=1;endSize=9;html=1;rounded=0;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;strokeColor=#181818;strokeWidth=1;fontColor=#000000;fontSize=13;verticalAlign=bottom;labelBackgroundColor=none;" target="DP-FMpyENJixB9g3VE8V-73">
+            <mxGeometry relative="1" x="-0.054" as="geometry">
+              <Array as="points">
+                <mxPoint x="297" y="533" />
+              </Array>
+              <mxPoint x="195.12857142857143" y="533" as="sourcePoint" />
+              <mxPoint x="399.52857142857147" y="533" as="targetPoint" />
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="9 Chuyển tiếp yêu cầu&amp;nbsp;" plantUmlId="msg_33" plantUmlBaseStyle="endArrow=classic;endFill=1;endSize=9;html=1;rounded=0;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;strokeColor=#181818;strokeWidth=1;fontColor=#000000;fontSize=13;verticalAlign=bottom;labelBackgroundColor=none;" plantUmlBaseValue="9 Chuyển tiếp yêu cầu Voice" id="DP-FMpyENJixB9g3VE8V-89">
+          <mxCell edge="1" parent="DP-FMpyENJixB9g3VE8V-70" source="DP-FMpyENJixB9g3VE8V-73" style="endArrow=classic;endFill=1;endSize=9;html=1;rounded=0;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;strokeColor=#181818;strokeWidth=1;fontColor=#000000;fontSize=13;verticalAlign=bottom;labelBackgroundColor=none;" target="DP-FMpyENJixB9g3VE8V-74">
+            <mxGeometry relative="1" x="-0.057" as="geometry">
+              <Array as="points">
+                <mxPoint x="496" y="565" />
+              </Array>
+              <mxPoint x="399.52857142857147" y="565" as="sourcePoint" />
+              <mxPoint x="593.3428571428572" y="565" as="targetPoint" />
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="10 Gửi text đã chuẩn hóa" plantUmlId="msg_37" plantUmlBaseStyle="endArrow=classic;endFill=1;endSize=9;html=1;rounded=0;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;strokeColor=#181818;strokeWidth=1;fontColor=#000000;fontSize=13;verticalAlign=bottom;labelBackgroundColor=none;" plantUmlBaseValue="10 Gửi text đã chuẩn hóa" id="DP-FMpyENJixB9g3VE8V-90">
+          <mxCell edge="1" parent="DP-FMpyENJixB9g3VE8V-70" source="DP-FMpyENJixB9g3VE8V-74" style="endArrow=classic;endFill=1;endSize=9;html=1;rounded=0;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;strokeColor=#181818;strokeWidth=1;fontColor=#000000;fontSize=13;verticalAlign=bottom;labelBackgroundColor=none;" target="DP-FMpyENJixB9g3VE8V-99">
+            <mxGeometry relative="1" x="-0.729" as="geometry">
+              <Array as="points">
+                <mxPoint x="890" y="641" />
+              </Array>
+              <mxPoint x="593.3428571428572" y="641" as="sourcePoint" />
+              <mxPoint x="1187.2357142857145" y="641" as="targetPoint" />
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="11 Generate Audio" plantUmlId="msg_38" plantUmlBaseStyle="endArrow=classic;endFill=1;endSize=9;html=1;rounded=0;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;strokeColor=#181818;strokeWidth=1;fontColor=#000000;fontSize=13;verticalAlign=bottom;labelBackgroundColor=none;dashed=1;dashPattern=2 2;" plantUmlBaseValue="11 Generate Audio" id="DP-FMpyENJixB9g3VE8V-91">
+          <mxCell edge="1" parent="DP-FMpyENJixB9g3VE8V-70" source="DP-FMpyENJixB9g3VE8V-99" style="endArrow=classic;endFill=1;endSize=9;html=1;rounded=0;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;strokeColor=#181818;strokeWidth=1;fontColor=#000000;fontSize=13;verticalAlign=bottom;labelBackgroundColor=none;dashed=1;dashPattern=2 2;" target="DP-FMpyENJixB9g3VE8V-74">
+            <mxGeometry relative="1" x="0.764" as="geometry">
+              <Array as="points">
+                <mxPoint x="890" y="673" />
+              </Array>
+              <mxPoint x="1187.2357142857145" y="673" as="sourcePoint" />
+              <mxPoint x="593.3428571428572" y="673" as="targetPoint" />
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="12 Tạo Audio Stream" plantUmlId="msg_42" plantUmlBaseStyle="endArrow=classic;endFill=1;endSize=9;html=1;rounded=0;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;strokeColor=#181818;strokeWidth=1;fontColor=#000000;fontSize=13;verticalAlign=bottom;labelBackgroundColor=none;" plantUmlBaseValue="12 Tạo Audio Stream" id="DP-FMpyENJixB9g3VE8V-92">
+          <mxCell edge="1" parent="DP-FMpyENJixB9g3VE8V-70" source="DP-FMpyENJixB9g3VE8V-74" style="endArrow=classic;endFill=1;endSize=9;html=1;rounded=0;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;strokeColor=#181818;strokeWidth=1;fontColor=#000000;fontSize=13;verticalAlign=bottom;labelBackgroundColor=none;" target="DP-FMpyENJixB9g3VE8V-100">
+            <mxGeometry relative="1" x="-0.811" as="geometry">
+              <Array as="points">
+                <mxPoint x="952" y="749" />
+              </Array>
+              <mxPoint x="593.3428571428572" y="749" as="sourcePoint" />
+              <mxPoint x="1309.9357142857145" y="749" as="targetPoint" />
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="13 Streaming dữ liệu âm thanh" plantUmlId="msg_43" plantUmlBaseStyle="endArrow=classic;endFill=1;endSize=9;html=1;rounded=0;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;strokeColor=#181818;strokeWidth=1;fontColor=#000000;fontSize=13;verticalAlign=bottom;labelBackgroundColor=none;dashed=1;dashPattern=2 2;" plantUmlBaseValue="13 Streaming dữ liệu âm thanh" id="DP-FMpyENJixB9g3VE8V-93">
+          <mxCell edge="1" parent="DP-FMpyENJixB9g3VE8V-70" source="DP-FMpyENJixB9g3VE8V-100" style="endArrow=classic;endFill=1;endSize=9;html=1;rounded=0;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;strokeColor=#181818;strokeWidth=1;fontColor=#000000;fontSize=13;verticalAlign=bottom;labelBackgroundColor=none;dashed=1;dashPattern=2 2;" target="DP-FMpyENJixB9g3VE8V-72">
+            <mxGeometry relative="1" x="0.808" as="geometry">
+              <Array as="points">
+                <mxPoint x="753" y="781" />
+              </Array>
+              <mxPoint x="1309.9357142857145" y="781" as="sourcePoint" />
+              <mxPoint x="195.12857142857143" y="781" as="targetPoint" />
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="" plantUmlId="msg_47" plantUmlBaseStyle="endArrow=classic;endFill=1;endSize=9;html=1;strokeColor=#181818;strokeWidth=1;exitX=0.5;exitY=0.862;exitDx=0;exitDy=0;" plantUmlBaseValue="" id="DP-FMpyENJixB9g3VE8V-94">
+          <mxCell edge="1" parent="DP-FMpyENJixB9g3VE8V-70" source="DP-FMpyENJixB9g3VE8V-72" style="endArrow=classic;endFill=1;endSize=9;html=1;strokeColor=#181818;strokeWidth=1;exitX=0.5;exitY=0.862;exitDx=0;exitDy=0;rounded=0;">
+            <mxGeometry relative="1" as="geometry">
+              <Array as="points">
+                <mxPoint x="233.12857142857143" y="857" />
+                <mxPoint x="233.12857142857143" y="877" />
+              </Array>
+              <mxPoint x="195.12857142857143" y="857" as="sourcePoint" />
+              <mxPoint x="198.12857142857143" y="877" as="targetPoint" />
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="14 Buffer Audio" plantUmlId="msglbl_50" plantUmlBaseStyle="text;html=1;fontColor=#000000;fontSize=13;align=left;verticalAlign=middle;" plantUmlBaseValue="14 Buffer Audio" id="DP-FMpyENJixB9g3VE8V-95">
+          <mxCell parent="DP-FMpyENJixB9g3VE8V-70" style="text;html=1;fontColor=#000000;fontSize=13;align=left;verticalAlign=middle;" vertex="1">
+            <mxGeometry height="18" width="94.58571428571429" x="202.12857142857143" y="837" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="" plantUmlId="msg_51" plantUmlBaseStyle="endArrow=classic;endFill=1;endSize=9;html=1;strokeColor=#181818;strokeWidth=1;exitX=0.5;exitY=0.921;exitDx=0;exitDy=0;" plantUmlBaseValue="" id="DP-FMpyENJixB9g3VE8V-96">
+          <mxCell edge="1" parent="DP-FMpyENJixB9g3VE8V-70" source="DP-FMpyENJixB9g3VE8V-72" style="endArrow=classic;endFill=1;endSize=9;html=1;strokeColor=#181818;strokeWidth=1;exitX=0.5;exitY=0.921;exitDx=0;exitDy=0;rounded=0;">
+            <mxGeometry relative="1" as="geometry">
+              <Array as="points">
+                <mxPoint x="233.12857142857143" y="909" />
+                <mxPoint x="233.12857142857143" y="929" />
+              </Array>
+              <mxPoint x="195.12857142857143" y="909" as="sourcePoint" />
+              <mxPoint x="198.12857142857143" y="929" as="targetPoint" />
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="15 Play Voice" plantUmlId="msglbl_54" plantUmlBaseStyle="text;html=1;fontColor=#000000;fontSize=13;align=left;verticalAlign=middle;" plantUmlBaseValue="15 Play Voice" id="DP-FMpyENJixB9g3VE8V-97">
+          <mxCell parent="DP-FMpyENJixB9g3VE8V-70" style="text;html=1;fontColor=#000000;fontSize=13;align=left;verticalAlign=middle;" vertex="1">
+            <mxGeometry height="18" width="86.78571428571429" x="202.12857142857143" y="889" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="" plantUmlId="act_0" plantUmlBaseStyle="rounded=0;fillColor=#FFFFFF;strokeColor=#181818;strokeWidth=1;points=[];perimeter=orthogonalPerimeter;outlineConnect=0;portConstraint=eastwest;" plantUmlBaseValue="" id="DP-FMpyENJixB9g3VE8V-98">
+          <mxCell parent="DP-FMpyENJixB9g3VE8V-70" style="rounded=0;fillColor=#FFFFFF;strokeColor=#181818;strokeWidth=1;points=[];perimeter=orthogonalPerimeter;outlineConnect=0;portConstraint=eastwest;" vertex="1">
+            <mxGeometry height="136" width="10" x="801.5714285714287" y="257" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="" plantUmlId="act_1" plantUmlBaseStyle="rounded=0;fillColor=#FFFFFF;strokeColor=#181818;strokeWidth=1;points=[];perimeter=orthogonalPerimeter;outlineConnect=0;portConstraint=eastwest;" plantUmlBaseValue="" id="DP-FMpyENJixB9g3VE8V-99">
+          <mxCell parent="DP-FMpyENJixB9g3VE8V-70" style="rounded=0;fillColor=#FFFFFF;strokeColor=#181818;strokeWidth=1;points=[];perimeter=orthogonalPerimeter;outlineConnect=0;portConstraint=eastwest;" vertex="1">
+            <mxGeometry height="32" width="10" x="1187.2357142857145" y="641" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="" plantUmlId="act_2" plantUmlBaseStyle="rounded=0;fillColor=#FFFFFF;strokeColor=#181818;strokeWidth=1;points=[];perimeter=orthogonalPerimeter;outlineConnect=0;portConstraint=eastwest;" plantUmlBaseValue="" id="DP-FMpyENJixB9g3VE8V-100">
+          <mxCell parent="DP-FMpyENJixB9g3VE8V-70" style="rounded=0;fillColor=#FFFFFF;strokeColor=#181818;strokeWidth=1;points=[];perimeter=orthogonalPerimeter;outlineConnect=0;portConstraint=eastwest;" vertex="1">
+            <mxGeometry height="32" width="10" x="1309.9357142857145" y="749" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="" plantUmlId="divbar_10" plantUmlBaseStyle="endArrow=none;html=1;strokeColor=#000000;strokeWidth=1;" plantUmlBaseValue="" id="DP-FMpyENJixB9g3VE8V-101">
+          <mxCell edge="1" parent="DP-FMpyENJixB9g3VE8V-70" style="endArrow=none;html=1;strokeColor=#000000;strokeWidth=1;rounded=0;">
+            <mxGeometry relative="1" as="geometry">
+              <mxPoint x="30" y="160" as="sourcePoint" />
+              <mxPoint x="1368.4857142857145" y="160" as="targetPoint" />
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="" plantUmlId="divbar_11" plantUmlBaseStyle="endArrow=none;html=1;strokeColor=#000000;strokeWidth=1;" plantUmlBaseValue="" id="DP-FMpyENJixB9g3VE8V-102">
+          <mxCell edge="1" parent="DP-FMpyENJixB9g3VE8V-70" style="endArrow=none;html=1;strokeColor=#000000;strokeWidth=1;rounded=0;">
+            <mxGeometry relative="1" as="geometry">
+              <mxPoint x="30" y="163" as="sourcePoint" />
+              <mxPoint x="1368.4857142857145" y="163" as="targetPoint" />
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="Lưu phản hồi Chatbot" plantUmlId="div_12" plantUmlBaseStyle="rounded=0;fillColor=#EEEEEE;strokeColor=#000000;strokeWidth=2;fontColor=#000000;fontSize=13;fontStyle=1;align=center;verticalAlign=middle;html=1;" plantUmlBaseValue="Lưu phản hồi Chatbot" id="DP-FMpyENJixB9g3VE8V-103">
+          <mxCell parent="DP-FMpyENJixB9g3VE8V-70" style="rounded=0;fillColor=#EEEEEE;strokeColor=#000000;strokeWidth=2;fontColor=#000000;fontSize=13;fontStyle=1;align=center;verticalAlign=middle;html=1;" vertex="1">
+            <mxGeometry height="25.7" width="151.784" x="623.3508571428572" y="147.1" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="" plantUmlId="divbar_28" plantUmlBaseStyle="endArrow=none;html=1;strokeColor=#000000;strokeWidth=1;" plantUmlBaseValue="" id="DP-FMpyENJixB9g3VE8V-104">
+          <mxCell edge="1" parent="DP-FMpyENJixB9g3VE8V-70" style="endArrow=none;html=1;strokeColor=#000000;strokeWidth=1;rounded=0;">
+            <mxGeometry relative="1" as="geometry">
+              <mxPoint x="30" y="456" as="sourcePoint" />
+              <mxPoint x="1368.4857142857145" y="456" as="targetPoint" />
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="" plantUmlId="divbar_29" plantUmlBaseStyle="endArrow=none;html=1;strokeColor=#000000;strokeWidth=1;" plantUmlBaseValue="" id="DP-FMpyENJixB9g3VE8V-105">
+          <mxCell edge="1" parent="DP-FMpyENJixB9g3VE8V-70" style="endArrow=none;html=1;strokeColor=#000000;strokeWidth=1;rounded=0;">
+            <mxGeometry relative="1" as="geometry">
+              <mxPoint x="30" y="459" as="sourcePoint" />
+              <mxPoint x="1368.4857142857145" y="459" as="targetPoint" />
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="Người dùng yêu cầu phát giọng nói" plantUmlId="div_30" plantUmlBaseStyle="rounded=0;fillColor=#EEEEEE;strokeColor=#000000;strokeWidth=2;fontColor=#000000;fontSize=13;fontStyle=1;align=center;verticalAlign=middle;html=1;" plantUmlBaseValue="Người dùng yêu cầu phát giọng nói" id="DP-FMpyENJixB9g3VE8V-106">
+          <mxCell parent="DP-FMpyENJixB9g3VE8V-70" style="rounded=0;fillColor=#EEEEEE;strokeColor=#000000;strokeWidth=2;fontColor=#000000;fontSize=13;fontStyle=1;align=center;verticalAlign=middle;html=1;" vertex="1">
+            <mxGeometry height="25.7" width="239.0325714285715" x="579.7265714285716" y="443.1" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="" plantUmlId="divbar_34" plantUmlBaseStyle="endArrow=none;html=1;strokeColor=#000000;strokeWidth=1;" plantUmlBaseValue="" id="DP-FMpyENJixB9g3VE8V-107">
+          <mxCell edge="1" parent="DP-FMpyENJixB9g3VE8V-70" style="endArrow=none;html=1;strokeColor=#000000;strokeWidth=1;rounded=0;">
+            <mxGeometry relative="1" as="geometry">
+              <mxPoint x="30" y="596" as="sourcePoint" />
+              <mxPoint x="1368.4857142857145" y="596" as="targetPoint" />
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="" plantUmlId="divbar_35" plantUmlBaseStyle="endArrow=none;html=1;strokeColor=#000000;strokeWidth=1;" plantUmlBaseValue="" id="DP-FMpyENJixB9g3VE8V-108">
+          <mxCell edge="1" parent="DP-FMpyENJixB9g3VE8V-70" style="endArrow=none;html=1;strokeColor=#000000;strokeWidth=1;rounded=0;">
+            <mxGeometry relative="1" as="geometry">
+              <mxPoint x="30" y="599" as="sourcePoint" />
+              <mxPoint x="1368.4857142857145" y="599" as="targetPoint" />
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="Sinh Audio" plantUmlId="div_36" plantUmlBaseStyle="rounded=0;fillColor=#EEEEEE;strokeColor=#000000;strokeWidth=2;fontColor=#000000;fontSize=13;fontStyle=1;align=center;verticalAlign=middle;html=1;" plantUmlBaseValue="Sinh Audio" id="DP-FMpyENJixB9g3VE8V-109">
+          <mxCell parent="DP-FMpyENJixB9g3VE8V-70" style="rounded=0;fillColor=#EEEEEE;strokeColor=#000000;strokeWidth=2;fontColor=#000000;fontSize=13;fontStyle=1;align=center;verticalAlign=middle;html=1;" vertex="1">
+            <mxGeometry height="25.7" width="84.39200000000001" x="657.0468571428572" y="583.1" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="" plantUmlId="divbar_39" plantUmlBaseStyle="endArrow=none;html=1;strokeColor=#000000;strokeWidth=1;" plantUmlBaseValue="" id="DP-FMpyENJixB9g3VE8V-110">
+          <mxCell edge="1" parent="DP-FMpyENJixB9g3VE8V-70" style="endArrow=none;html=1;strokeColor=#000000;strokeWidth=1;rounded=0;">
+            <mxGeometry relative="1" as="geometry">
+              <mxPoint x="30" y="704" as="sourcePoint" />
+              <mxPoint x="1368.4857142857145" y="704" as="targetPoint" />
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="" plantUmlId="divbar_40" plantUmlBaseStyle="endArrow=none;html=1;strokeColor=#000000;strokeWidth=1;" plantUmlBaseValue="" id="DP-FMpyENJixB9g3VE8V-111">
+          <mxCell edge="1" parent="DP-FMpyENJixB9g3VE8V-70" style="endArrow=none;html=1;strokeColor=#000000;strokeWidth=1;rounded=0;">
+            <mxGeometry relative="1" as="geometry">
+              <mxPoint x="30" y="707" as="sourcePoint" />
+              <mxPoint x="1368.4857142857145" y="707" as="targetPoint" />
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="Streaming Audio" plantUmlId="div_41" plantUmlBaseStyle="rounded=0;fillColor=#EEEEEE;strokeColor=#000000;strokeWidth=2;fontColor=#000000;fontSize=13;fontStyle=1;align=center;verticalAlign=middle;html=1;" plantUmlBaseValue="Streaming Audio" id="DP-FMpyENJixB9g3VE8V-112">
+          <mxCell parent="DP-FMpyENJixB9g3VE8V-70" style="rounded=0;fillColor=#EEEEEE;strokeColor=#000000;strokeWidth=2;fontColor=#000000;fontSize=13;fontStyle=1;align=center;verticalAlign=middle;html=1;" vertex="1">
+            <mxGeometry height="25.7" width="120.194" x="639.1458571428573" y="691.1" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="" plantUmlId="divbar_44" plantUmlBaseStyle="endArrow=none;html=1;strokeColor=#000000;strokeWidth=1;" plantUmlBaseValue="" id="DP-FMpyENJixB9g3VE8V-113">
+          <mxCell edge="1" parent="DP-FMpyENJixB9g3VE8V-70" style="endArrow=none;html=1;strokeColor=#000000;strokeWidth=1;rounded=0;">
+            <mxGeometry relative="1" as="geometry">
+              <mxPoint x="30" y="812" as="sourcePoint" />
+              <mxPoint x="1368.4857142857145" y="812" as="targetPoint" />
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="" plantUmlId="divbar_45" plantUmlBaseStyle="endArrow=none;html=1;strokeColor=#000000;strokeWidth=1;" plantUmlBaseValue="" id="DP-FMpyENJixB9g3VE8V-114">
+          <mxCell edge="1" parent="DP-FMpyENJixB9g3VE8V-70" style="endArrow=none;html=1;strokeColor=#000000;strokeWidth=1;rounded=0;">
+            <mxGeometry relative="1" as="geometry">
+              <mxPoint x="30" y="815" as="sourcePoint" />
+              <mxPoint x="1368.4857142857145" y="815" as="targetPoint" />
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="Phát giọng nói" plantUmlId="div_46" plantUmlBaseStyle="rounded=0;fillColor=#EEEEEE;strokeColor=#000000;strokeWidth=2;fontColor=#000000;fontSize=13;fontStyle=1;align=center;verticalAlign=middle;html=1;" plantUmlBaseValue="Phát giọng nói" id="DP-FMpyENJixB9g3VE8V-115">
+          <mxCell parent="DP-FMpyENJixB9g3VE8V-70" style="rounded=0;fillColor=#EEEEEE;strokeColor=#000000;strokeWidth=2;fontColor=#000000;fontSize=13;fontStyle=1;align=center;verticalAlign=middle;html=1;" vertex="1">
+            <mxGeometry height="25.7" width="108.46057142857143" x="645.0125714285715" y="799.1" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="Người dùng" plantUmlId="p_55" plantUmlBaseStyle="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;fillColor=#E2E2F0;strokeColor=#181818;fontColor=#000000;fontSize=14;html=1;" plantUmlBaseValue="Người dùng" id="DP-FMpyENJixB9g3VE8V-116">
+          <mxCell parent="DP-FMpyENJixB9g3VE8V-70" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;fillColor=#E2E2F0;strokeColor=#181818;fontColor=#000000;fontSize=14;html=1;" vertex="1">
+            <mxGeometry height="38" width="24" x="58.4" y="69" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="Người dùng" plantUmlId="pf_56" plantUmlBaseStyle="shape=umlActor;verticalLabelPosition=top;verticalAlign=bottom;fillColor=#E2E2F0;strokeColor=#181818;fontColor=#000000;fontSize=14;html=1;" plantUmlBaseValue="Người dùng" id="DP-FMpyENJixB9g3VE8V-117">
+          <mxCell parent="DP-FMpyENJixB9g3VE8V-70" style="shape=umlActor;verticalLabelPosition=top;verticalAlign=bottom;fillColor=#E2E2F0;strokeColor=#181818;fontColor=#000000;fontSize=14;html=1;" vertex="1">
+            <mxGeometry height="38" width="24" x="58.4" y="965" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="OpenAI ChatModel" plantUmlId="p_8" plantUmlBaseStyle="shape=umlLifeline;perimeter=lifelinePerimeter;size=33;lifelineMirror=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;rounded=1;absoluteArcSize=1;arcSize=5;fillColor=#E2E2F0;strokeColor=#181818;strokeWidth=0.5;fontColor=#000000;fontSize=14;whiteSpace=wrap;html=1;" plantUmlBaseValue="OpenAI TTS Model" id="DP-FMpyENJixB9g3VE8V-119">
+          <mxCell parent="DP-FMpyENJixB9g3VE8V-70" style="shape=umlLifeline;perimeter=lifelinePerimeter;size=33;lifelineMirror=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;rounded=1;absoluteArcSize=1;arcSize=5;fillColor=#E2E2F0;strokeColor=#181818;strokeWidth=0.5;fontColor=#000000;fontSize=14;whiteSpace=wrap;html=1;" vertex="1">
+            <mxGeometry height="886" width="128.3" x="960" y="93" as="geometry" />
+          </mxCell>
+        </UserObject>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

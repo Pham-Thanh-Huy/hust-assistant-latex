@@ -1,15 +1,1064 @@
 \documentclass[../DoAn.tex]{subfiles}
 \begin{document}
 
-Chương này có độ dài không quá 10 trang. Nếu cần trình bày dài hơn, sinh viên đưa vào phần phụ lục. Chú ý đây là kiến thức đã có sẵn; SV sau khi tìm hiểu được thì phân tích và tóm tắt lại. Sinh viên không trình bày dài dòng, chi tiết. 
+\section{Phân tích yêu cầu hệ thống}
+\subsection{Bài toán}
+Trong quá trình học tập, sinh viên thường xuyên có nhu cầu tra cứu các thông tin liên quan đến học phần như: mô tả môn học, số tín chỉ, học phần tiên quyết, điều kiện đăng ký, nội dung giảng dạy, chuẩn đầu ra, và một số thông tin khác được công bố trên website của nhà trường. Đây là những thông tin quan trọng hỗ trợ sinh viên trong việc đăng ký học phần cũng như tìm hiểu chương trình đào tạo.
 
-Với đồ án ứng dụng, sinh viên để tên chương là “Nền tảng lý thuyết và Công nghệ sử dụng”. Trong chương này, sinh viên giới thiệu về các công nghệ, nền tảng lý thuyết sử dụng trong đồ án. Sinh viên cũng có thể trình bày thêm nền tảng lý thuyết nào đó nếu cần dùng tới.
+Bài toán đặt ra là xây dựng một hệ thống cho phép người dùng tra cứu thông tin học phần thông qua hình thức hội thoại bằng ngôn ngữ tự nhiên thay vì tìm kiếm thủ công trên website của trường. Hệ thống phải đảm bảo rằng các câu trả lời được dựa trên dữ liệu chính thức của nhà trường và có khả năng phản hồi trong thời gian ngắn.
 
-Với từng công nghệ/nền tảng/lý thuyết được trình bày, sinh viên phải phân tích rõ công nghệ/nền tảng/lý thuyết đó dùng để để giải quyết vấn đề/yêu cầu cụ thể nào ở Chương 2. Hơn nữa, với từng vấn đề/yêu cầu, sinh viên phải liệt kê danh sách các công nghệ/hướng tiếp cận tương tự có thể dùng làm lựa chọn thay thế, rồi giải thích rõ sự lựa chọn của mình.
+Nguồn dữ liệu của hệ thống là các trang thông tin học phần được công bố trên website của trường. Do dữ liệu có thể được cập nhật theo thời gian, hệ thống cần có cơ chế tự động thu thập, chuẩn hóa và đồng bộ dữ liệu mà không yêu cầu thao tác thủ công từ người quản trị. Sau khi dữ liệu được cập nhật, hệ thống phải bảo đảm các câu trả lời mới phản ánh đúng nội dung hiện có trên website.
 
-Lưu ý: Nội dung ĐATN phải có tính chất liên kết, liền mạch, và nhất quán. Vì vậy, các công nghệ/thuật toán trình bày trong chương này phải khớp với nội dung giới thiệu của sinh viên ở phần trước đó. 
+Đối với quá trình hỏi đáp, người dùng có thể đặt câu hỏi dưới nhiều cách diễn đạt khác nhau như hỏi tên học phần, hỏi về điều kiện tiên quyết, số tín chỉ, nội dung môn học hoặc các thông tin liên quan khác. Vì vậy, hệ thống không thể chỉ dựa trên việc so khớp từ khóa mà cần có khả năng tìm kiếm theo ngữ nghĩa để xác định đúng nội dung phù hợp với câu hỏi của người dùng.
 
-Trong chương này, để tăng tính khoa học và độ tin cậy, sinh viên nên chỉ rõ nguồn kiến thức mình thu thập được ở tài liệu nào, đồng thời đưa tài liệu đó vào trong danh sách tài liệu tham khảo rồi tạo các tham chiếu chéo (xem hướng dẫn ở phụ lục A.7).
+Một yêu cầu quan trọng khác là LLM được trả lời dựa trên tri thức chung có sẵn mà phải dựa trên dữ liệu học phần đã được thu thập. Điều này nhằm giảm thiểu khả năng LLM trả lời không chính xác hoặc không tồn tại trong hệ thống dữ liệu của nhà trường. Do đó, trước khi sinh câu trả lời, hệ thống cần xác định các tài liệu liên quan và sử dụng chúng làm ngữ cảnh cho bot.
+
+Ngoài hình thức nhập liệu bằng văn bản, hệ thống còn cần hỗ trợ tương tác bằng giọng nói. Người dùng có thể gửi câu hỏi thông qua âm thanh, âm thanh đó sẽ thành chuyển thành text để hỏi bot và nhận lại nội dung dưới dạng văn bản. Đồng thời, đối với các câu trả lời của chatbot, hệ thống cần cung cấp khả năng chuyển đổi văn bản thành giọng nói để nâng cao trải nghiệm người dùng.
+
+Trong quá trình sử dụng, mỗi cuộc hội thoại cần được lưu trữ để người dùng có thể xem lại lịch sử chat. Hệ thống cũng có chức năng quản lý tài khoản, xác thực người dùng và kiểm soát quyền truy cập đối với các chức năng quản trị. Các cơ chế phân quyền phải đảm bảo chỉ những người dùng được cấp quyền mới có thể thực hiện các chức năng tương ứng.
+
+Từ yêu cầu bài toán trên, hệ thống được xác định gồm các nội dung chính sau:
+\begin{itemize}
+    \item Tự động thu thập và cập nhật dữ liệu học phần từ website của trường.
+    \item Lưu trữ dữ liệu dưới dạng phù hợp để phục vụ tìm kiếm theo ngữ nghĩa.
+    \item Tiếp nhận câu hỏi bằng văn bản hoặc giọng nói(sẽ được chuyển thành văn bản).
+    \item Tìm kiếm các thông tin liên quan từ cơ sở dữ liệu trước khi sinh câu trả lời.
+    \item Sinh câu trả lời dựa trên dữ liệu đã truy xuất.
+    \item Hỗ trợ chuyển đổi giữa văn bản và giọng nói khi nhận về câu trả lời cùa bot.
+    \item Quản lý người dùng, phân quyền truy cập và lưu trữ lịch sử hội thoại.
+\end{itemize}
+
+\subsection{Yêu cầu chức năng}
+\paragraph{1. Tạo tài khoản}\leavevmode\\
+\hspace*{1em}Hệ thống chỉ cho phép tạo tài khoản từ phía admin, Điều này giúp chỉ cho các tài khoản nội bộ của trường như các tài khoản sinh viên... mới có thể truy cập. Điều này giúp nhất quán về mặt dữ liệu, không bị tồn tại nhiều tài khoản rác, và đảm bảo tính bảo mật.
+
+\paragraph{2. Đăng nhập}\leavevmode\\
+\hspace*{1em}Người dùng có thể đăng nhập vào hệ thống bằng tài khoản sau khi được cung cấp. Sau khi xác thực thành công, hệ thống cấp phiên làm việc và cho phép truy cập các chức năng tương ứng với quyền của người dùng.
+
+\paragraph{3. Hỏi đáp với chatbot}\leavevmode\\
+\hspace*{1em}Người dùng nhập câu hỏi gửi đến hệ thống. Chatbot tiếp nhận yêu cầu, tìm kiếm các thông tin liên quan trong cơ sở dữ liệu, tìm kiếm các học phần tương ứng và trả lời phù hợp để trả về cho người dùng theo thời gian thực.
+
+\paragraph{4. Chuyển đổi giọng nói thành văn bản (Speech-to-Text)}\leavevmode\\
+\hspace*{1em}Hệ thống cho phép người dùng thu âm giọng nói để không phải gõ tay text chat, nội dung âm thanh sẽ chuyển thành văn bản trước khi thực hiện gửi cho hệ thống hỏi đáp chatbot.
+
+\vspace{1cm}
+
+\paragraph{5. Chuyển đổi văn bản thành giọng nói (Text-to-Speech)}\leavevmode\\
+\hspace*{1em}Đối với các câu trả lời của chatbot, hệ thống có chức năng chuyển đổi câu trả lời thành giọng nói để người dùng có thể nghe trực tiếp khi có yêu cầu.
+
+\paragraph{6. Quản lý lịch sử hội thoại}\leavevmode\\
+\hspace*{1em}Hệ thống lưu trữ toàn bộ lịch sử hội thoại giữa người dùng và chatbot. Người dùng có thể xem lại các cuộc hội thoại trước đây, tiếp tục hội thoại đó hoặc xóa lịch sử theo nhu cầu.
+
+\paragraph{7. Thu thập dữ liệu học phần}\leavevmode\\
+\hspace*{1em}Hệ thống tự động thu thập dữ liệu học phần từ website của nhà trường, bao gồm các thông tin như tên học phần, mã học phần, số tín chỉ, học phần tiên quyết và các thông tin liên quan khác.
+
+\paragraph{8. Quản lý dữ liệu học phần}\leavevmode\\
+\hspace*{1em}Hệ thống cho phép quản trị viên theo dõi, cập nhật, đồng bộ đã được thu thập nhằm đảm bảo dữ liệu phục vụ quá trình hỏi đáp luôn được cập nhật.
+
+\paragraph{9. Quản lý dữ liệu tìm kiếm ngữ nghĩa}\leavevmode\\
+\hspace*{1em}Sau khi dữ liệu học phần được thu thập, hệ thống thực hiện xử lý, tạo biểu diễn vector và lưu trữ vào cơ sở dữ liệu vector để phục vụ quá trình tìm kiếm theo ngữ nghĩa khi người dùng đặt câu hỏi.
+
+\paragraph{10. Kiểm tra quyền truy cập}\leavevmode\\
+\hspace*{1em} Trước khi xử lý các yêu cầu đến hệ thống, cơ chế xác thực và phân quyền sẽ kiểm tra quyền của người dùng đối với API hoặc chức năng được yêu cầu. Chỉ các yêu cầu hợp lệ mới được chuyển tiếp đến các dịch vụ xử lý tương ứng.
+
+\subsection{Yêu cầu phi chức năng}
+Hệ thống cần đáp ứng các yêu cầu phi chức năng về hiệu năng, đảm bảo khả năng xử lý nhanh và ổn định trong quá trình sử dụng. Hệ thống hỗ trợ streaming realtime nhằm cung cấp dữ liệu liên tục với độ trễ thấp. Về bảo mật, hệ thống cần đảm bảo an toàn dữ liệu, kiểm soát quyền truy cập và bảo vệ thông tin người dùng. Ngoài ra, hệ thống được thiết kế với khả năng mở rộng để đáp ứng sự gia tăng về số lượng người dùng và dữ liệu. Khả năng bảo trì được đảm bảo thông qua kiến trúc rõ ràng, dễ nâng cấp và sửa lỗi. Hệ thống hỗ trợ triển khai bằng docker container nhằm đơn giản hóa quá trình cài đặt, quản lý môi trường và triển khai trên nhiều nền tảng khác nhau.
+
+\section{Phân tích Use Case}
+\subsection{Xác định actor}
+Trong quá trình phân tích yêu cầu hệ thống, việc xác định các actor đóng vai trò quan trọng nhằm làm rõ các đối tượng bên ngoài có tương tác với hệ thống. Actor có thể là người dùng, hệ thống bên ngoài hoặc các dịch vụ hỗ trợ tham gia vào quá trình trao đổi dữ liệu với hệ thống chatbot.
+
+Đối với hệ thống chatbot tra cứu thông tin học phần, các actor được xác định dựa trên vai trò và mức độ tương tác với hệ thống. Người dùng cuối là đối tượng chính thực hiện các thao tác tra cứu, gửi câu hỏi và nhận kết quả từ chatbot. Bên cạnh đó, hệ thống còn tương tác với các thành phần bên ngoài như website của trường để thu thập dữ liệu học phần và dịch vụ OpenAI API để hỗ trợ xử lý ngôn ngữ tự nhiên.
+
+Danh sách các actor và vai trò tương ứng trong hệ thống được trình bày trong những bảng sau đây.
+\begin{table}[htbp]
+    \centering
+    \renewcommand{\arraystretch}{1.8} % tăng chiều cao ô
+    \label{tab:actors_system}
+    \begin{tabular}{|>{\centering\arraybackslash}m{1.2cm}|>{\centering\arraybackslash}m{4cm}|>{\centering\arraybackslash}m{9cm}|}
+        \hline
+        \textbf{STT} & \textbf{Actor}   & \textbf{Mô tả}                                                                                                                \\
+        \hline
+        1            & User             & Người dùng sử dụng chatbot để tra cứu thông tin học phần                                                                      \\
+        \hline
+        2            & Admin            & Người quản trị hệ thống, quản lý người dùng và cơ chế phân quyền                                                              \\
+        \hline
+        3            & Website của HUST & Website của trường cung cấp dữ liệu học phần cho hệ thống crawler                                                             \\
+        \hline
+        4            & OpenAI API       & Dịch vụ trí tuệ nhân tạo bên ngoài cung cấp các mô hình xử lý ngôn ngữ                                                        \\
+        \hline
+        5            & Vector Database  & Hệ thống lưu trữ vector embedding của dữ liệu học phần, hỗ trợ tìm kiếm ngữ nghĩa và cung cấp thông tin liên quan cho chatbot \\
+        \hline
+    \end{tabular}
+    \caption{Danh sách các Actor trong hệ thống chatbot tra cứu thông tin học phần}
+\end{table}
+\subsection{Actor user}
+\textbf{User} là đối tượng chính sử dụng hệ thống chatbot để tìm kiếm và trao đổi thông tin liên quan đến các khóa học trong chương trình đào tạo của trường.
+
+Người dùng có thể sử dụng hệ thống thông qua giao diện web được xây dựng bằng ReactJS. Tại đây, người dùng có thể nhập câu hỏi trực tiếp bằng văn bản hoặc sử dụng giọng nói để gửi yêu cầu đến hệ thống. Sau khi nhận được câu hỏi, hệ thống sẽ tiến hành xử lý và tìm kiếm thông tin phù hợp thông qua quy trình RAG để đưa ra câu trả lời. Kết quả sau khi xử lý sẽ được hiển thị ngay trên giao diện web để người dùng dễ dàng theo dõi. Ngoài ra, trong trường hợp người dùng sử dụng tính năng giọng nói, câu trả lời cũng có thể được chuyển đổi thành âm thanh để người dùng nghe trực tiếp thay vì chỉ đọc trên màn hình.
+\begin{table}[htbp]
+    \centering
+    \renewcommand{\arraystretch}{1.8} % tăng chiều cao ô
+    \label{tab:usecase_list}
+    \begin{tabular}{|>{\centering\arraybackslash}m{4cm}|>{\centering\arraybackslash}m{9cm}|}
+        \hline
+        \textbf{Use Case}                              & \textbf{Mô tả}                                             \\
+        \hline
+        Cấp tài khoản người dùng                       & Admin tọa tài khoản người dùng mới có thể sử dụng hệ thống \\
+        \hline
+        Đăng nhập                                      & Người dùng đăng nhập và xác thực tài khoản                 \\
+        \hline
+        Chat với chatbot                               & Người dùng gửi câu hỏi và nhận câu trả lời từ chatbot      \\
+        \hline
+        Chat bằng voice to text                        & Người dùng gửi câu hỏi bằng giọng nói                      \\
+        \hline
+        Chuyển đổi câu trả lời của bot thành giọng nói & Người dùng nghe câu trả lời được tổng hợp bằng giọng nói   \\
+        \hline
+        Xem lịch sử chat                               & Người dùng xem lại lịch sử hội thoại                       \\
+        \hline
+        Đăng xuất                                      & Người dùng đăng xuất khỏi hệ thống                         \\
+        \hline
+    \end{tabular}
+    \caption{Actor User trong hệ thống}
+\end{table}
+
+\subsection{Actor Admin}
+\begin{table}[htbp]
+    \centering
+    \small
+    \renewcommand{\arraystretch}{1.6}
+    \label{tab:admin_functions}
+    \begin{tabular}{|>{\centering\arraybackslash}m{4cm}|>{\arraybackslash}m{8cm}|}
+        \hline
+        \textbf{Chức năng}        & \textbf{Mô tả}                                  \\
+        \hline
+        Quản lý người dùng        & Thêm, sửa, xóa và theo dõi tài khoản            \\
+        \hline
+        Quản lý vai trò           & Tạo và cập nhật các nhóm quyền                  \\
+        \hline
+        Quản lý tài nguyên        & Quản lý danh sách API hoặc chức năng cần bảo vệ \\
+        \hline
+        Quản lý quyền truy cập    & Thiết lập quyền giữa vai trò và tài nguyên      \\
+        \hline
+        Theo dõi hệ thống crawler & Kiểm tra trạng thái thu thập dữ liệu            \\
+        \hline
+    \end{tabular}
+    \caption{Actor Admin trong hệ thống}
+\end{table}
+
+\newpage
+\subsection{Website của HUST}
+\begin{table}[htbp]
+    \centering
+    \renewcommand{\arraystretch}{1.8}
+    \label{tab:website_functions}
+    \begin{tabular}{|>{\centering\arraybackslash}m{5cm}|>{\arraybackslash}m{9cm}|}
+        \hline
+        \textbf{Chức năng}        & \textbf{Mô tả}                                                                      \\
+        \hline
+        Cung cấp dữ liệu học phần & Cung cấp thông tin về môn học, chương trình đào tạo, số tín chỉ, mô tả học phần,... \\
+        \hline
+    \end{tabular}
+    \caption{Actor chức năng của website hust trong hệ thống}
+\end{table}
+
+\subsection{Actor OpenAI}
+\begin{table}[htbp]
+    \centering
+    \renewcommand{\arraystretch}{1.8}
+    \label{tab:openai_functions}
+    \begin{tabular}{|>{\centering\arraybackslash}m{5cm}|>{\arraybackslash}m{9cm}|}
+        \hline
+        \textbf{Chức năng}   & \textbf{Mô tả}                                                        \\
+        \hline
+        Tạo vector embedding & Chuyển đổi dữ liệu văn bản thành vector biểu diễn ngữ nghĩa           \\
+        \hline
+        Sinh câu trả lời     & Tạo phản hồi dựa trên câu hỏi và dữ liệu truy xuất từ vector database \\
+        \hline
+        Speech-to-text       & Chuyển đổi giọng nói người dùng thành văn bản                         \\
+        \hline
+        Text-to-speech       & Chuyển đổi câu trả lời văn bản thành giọng nói                        \\
+        \hline
+    \end{tabular}
+    \caption{Các chức năng của OpenAI API trong hệ thống}
+\end{table}
+
+\subsection{Actor vector database}
+\begin{table}[htbp]
+    \centering
+    \renewcommand{\arraystretch}{2}
+    \label{tab:actor_vector_database}
+    \begin{tabular}{|>{\centering\arraybackslash}m{1.2cm}|>{\centering\arraybackslash}m{4cm}|>{\centering\arraybackslash}m{9cm}|}
+        \hline
+        \textbf{STT} & \textbf{Actor}  & \textbf{Mô tả}                                                                                                                                                                                                                              \\
+        \hline
+        1            & Vector Database &
+        Thành phần lưu trữ các vector embedding được sinh ra từ dữ liệu học phần. Vector Database hỗ trợ tìm kiếm tương đồng ngữ nghĩa giữa câu hỏi của người dùng và dữ liệu đã lưu trữ, sau đó cung cấp các thông tin liên quan làm ngữ cảnh cho mô hình ngôn ngữ tạo câu trả lời. \\
+        \hline
+    \end{tabular}
+    \caption{Actor Vector Database trong hệ thống chatbot}
+\end{table}
+
+\newpage
+\section{Đặc tả Use Case}
+
+\subsection{Biểu đồ Use Case tổng quan}
+
+\begin{figure}[H]
+    \centering
+    \makebox[\textwidth][c]{%
+        % \hspace{-1cm}%
+        \includegraphics[
+            width=1.5\textwidth,
+            height=1\textheight,
+            keepaspectratio
+        ]{Hinhve/chuong_3/use-case-tong-quan}
+    }
+    \caption{Biểu đồ Use Case tổng quan của hệ thống hỏi đáp học phần}
+    \label{fig:usecase-tongquan}
+\end{figure}
+
+% ===================UC-01===================
+\newpage
+\subsection{Đặc tả UC-01: Đăng nhập}
+
+\begin{table}[H]
+    \centering
+    \renewcommand{\arraystretch}{1.4}
+    \begin{tabular}{|l|l|}
+        \hline
+        \textbf{Thuộc tính} & \textbf{Nội dung}                \\
+        \hline
+        Tên                 & Đăng nhập                        \\
+        \hline
+        Actor               & User                             \\
+        \hline
+        Mục đích            & Xác thực người dùng              \\
+        \hline
+        Tiền điều kiện      & Người dùng đã được cấp tài khoản \\
+        \hline
+        Hậu điều kiện       & Tạo phiên đăng nhập thành công   \\
+        \hline
+    \end{tabular}
+    \caption{Đặc tả Use Case UC-01: Đăng nhập}
+    \label{tab:usecase-login}
+\end{table}
+
+\textbf{Luồng chính}
+Người dùng nhập tên đăng nhập và mật khẩu. Hệ thống gửi yêu cầu xác thực
+thông qua API Gateway đến User Service. Sau khi thông tin được xác thực,
+User Service tạo JWT Token và trả kết quả về Gateway. Gateway phản hồi cho
+Frontend, sau đó Frontend lưu Token và chuyển người dùng đến trang chính.
+
+
+\textbf{Sequence Diagram}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[height=0.48\textheight,width=1.2\textwidth]{Hinhve/chuong_3/sequence-diagram-dang-nhap.png}
+    \caption{Sequence Diagram UC-01: Đăng nhập}
+    \label{fig:sequence-login}
+\end{figure}
+
+% ===================UC-02===================
+\newpage
+\subsection{Đặc tả UC-02: Chat với chatbot}
+
+\begin{table}[htbp]
+    \centering
+    \renewcommand{\arraystretch}{1.4}
+    \begin{tabular}{|l|p{10cm}|}
+        \hline
+        \textbf{Thuộc tính} & \textbf{Nội dung}                                                                                                         \\
+        \hline
+        Tên                 & Chat với chatbot                                                                                                          \\
+        \hline
+        Actor               & User                                                                                                                      \\
+        \hline
+        Mục đích            & Cho phép người dùng gửi câu hỏi và nhận phản hồi từ chatbot dựa trên dữ liệu được truy xuất và mô hình ngôn ngữ lớn (LLM) \\
+        \hline
+        Tiền điều kiện      & Người dùng đã đăng nhập thành công; hệ thống chatbot, Chat Service và các dịch vụ liên quan đang hoạt động                \\
+        \hline
+        Hậu điều kiện       & Người dùng nhận được câu trả lời từ chatbot; nội dung hội thoại được hiển thị trên giao diện chat                         \\
+        \hline
+    \end{tabular}
+    \caption{Đặc tả Use Case UC-02: Chat với chatbot}
+    \label{tab:usecase-chatbot}
+\end{table}
+
+\textbf{Luồng chính}
+\begin{itemize}
+    \item User nhập câu hỏi trên giao diện React FE.
+
+    \item React FE gửi câu hỏi thông qua Websocket.
+
+    \item Websocket tiếp nhận và truyền request tới Gateway.
+
+    \item Gateway định tuyến request tới Chat Service.
+
+    \item Chat Service xử lý câu hỏi của User.
+
+    \item Hệ thống chuyển đổi câu hỏi thành vector embedding.
+
+    \item Thực hiện tìm kiếm vector tương đồng (Vector Search) trong ChromaDB.
+
+    \item ChromaDB trả về các thông tin liên quan (Retrieve Context).
+
+    \item Chat Service xây dựng prompt dựa trên câu hỏi và context thu được.
+
+    \item Prompt được gửi tới OpenAI LLM để sinh câu trả lời.
+
+    \item OpenAI LLM trả về kết quả theo dạng streaming response.
+
+    \item Kết quả được truyền về React FE.
+
+    \item React FE hiển thị phản hồi của chatbot cho User.
+\end{itemize}
+
+\clearpage
+\textbf{Sequence Diagram}
+\begin{figure}[htbp]
+    \centering
+    \makebox[\textwidth][c]{%
+        % \hspace{1cm}%
+        \includegraphics[
+            width=1.37\textwidth,
+            height=1\textheight,
+            keepaspectratio
+        ]{Hinhve/chuong_3/sequence-diagram-chat.png}
+    }
+    \caption{Sequence Diagram UC-02: Chat với chatbot}
+    \label{fig:sequence-chat}
+\end{figure}
+
+
+% ===================UC-03===================
+\newpage
+\subsection{Đặc tả UC-03: Voice To Text}
+\begin{table}[htbp]
+    \centering
+    \renewcommand{\arraystretch}{1.4}
+    \begin{tabular}{|l|p{10cm}|}
+        \hline
+        \textbf{Thuộc tính} & \textbf{Nội dung}                                                                                                                                                  \\
+        \hline
+        Tên                 & Voice To Text                                                                                                                                                      \\
+        \hline
+        Actor               & User                                                                                                                                                               \\
+        \hline
+        Mục đích            & Cho phép người dùng sử dụng giọng nói để đặt câu hỏi, hệ thống thực hiện chuyển đổi audio thành văn bản và gửi câu hỏi tới Chat Service                            \\
+        \hline
+        Tiền điều kiện      & Người dùng đã đăng nhập thành công và có quyền sử dụng chức năng chat bằng giọng nói; hệ thống Voice Service, Chat Service và các dịch vụ liên quan đang hoạt động \\
+        \hline
+        Hậu điều kiện       & Audio của người dùng được chuyển đổi thành văn bản thành công; nội dung text nhận dạng được gửi tới Chat Service để tiếp tục xử lý hội thoại chatbot               \\
+        \hline
+    \end{tabular}
+    \caption{Đặc tả Use Case UC-03: Voice To Text}
+    \label{tab:usecase-voice-to-text}
+\end{table}
+
+\textbf{Luồng chính}
+\begin{itemize}
+    \item User nhấn nút ghi âm trên giao diện chat của React FE.
+
+    \item User thực hiện ghi âm câu hỏi thông qua microphone.
+
+    \item React FE thu thập dữ liệu audio từ thiết bị người dùng.
+
+    \item React FE upload file audio tới Gateway.
+
+    \item Gateway tiếp nhận và định tuyến request tới Chat Service.
+
+    \item Chat Service tiếp nhận và xử lý dữ liệu audio input.
+
+    \item Chat Service gửi audio tới OpenAI Whisper/STT Service để thực hiện chuyển đổi giọng nói thành văn bản.
+
+    \item OpenAI Whisper/STT Service xử lý audio và trả về kết quả text.
+
+    \item Chat Service nhận kết quả text từ STT Service.
+
+    \item Chat Service gửi nội dung text nhận dạng được về React FE.
+
+    \item React FE hiển thị nội dung text cho User kiểm tra.
+
+    \item User xác nhận nội dung câu hỏi hoặc sử dụng trực tiếp nội dung text đã nhận dạng.
+
+    \item React FE gửi câu hỏi dạng text tới Chat Service để tiếp tục thực hiện luồng Chat với chatbot (UC-02).
+
+\end{itemize}
+
+\clearpage
+\textbf{Sequence Diagram}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[height=0.5\textheight,width=1.1\textwidth]{Hinhve/chuong_3/sequence-diagram-voice-to-text.png}
+    \caption{Sequence Diagram UC-01: Đăng nhập}
+    \label{fig:sequence-voice-to-text}
+\end{figure}
+
+
+% ===================UC-04===================
+\newpage
+\subsection{Đặc tả UC-04: Text To Speech}
+\begin{table}[htbp]
+    \centering
+    \renewcommand{\arraystretch}{1.4}
+    \begin{tabular}{|l|p{10cm}|}
+        \hline
+        \textbf{Thuộc tính} & \textbf{Nội dung}                                                                                                                         \\
+        \hline
+        Tên                 & Text To Speech                                                                                                                            \\
+        \hline
+        Actor               & User                                                                                                                                      \\
+        \hline
+        Mục đích            & Cho phép người dùng nghe câu trả lời của chatbot dưới dạng giọng nói thông qua việc chuyển đổi nội dung văn bản thành dữ liệu âm thanh    \\
+        \hline
+        Tiền điều kiện      & Chatbot đã hoàn thành việc tạo câu trả lời dạng văn bản; Chat Service, Voice Service và các dịch vụ liên quan đang hoạt động              \\
+        \hline
+        Hậu điều kiện       & Nội dung câu trả lời của chatbot được chuyển đổi thành dữ liệu âm thanh thành công và người dùng có thể nghe được phản hồi bằng giọng nói \\
+        \hline
+    \end{tabular}
+    \caption{Đặc tả Use Case UC-04: Text To Speech}
+    \label{tab:usecase-text-to-speech}
+\end{table}
+
+\textbf{Luồng chính}
+\begin{itemize}
+    \item Chatbot hoàn thành câu trả lời cho User dưới dạng văn bản.
+
+    \item Chat Service thực hiện chuẩn hóa nội dung câu trả lời để phù hợp với việc chuyển đổi sang giọng nói.
+
+    \item Chat Service lưu Response ID và nội dung voice text vào Chat Session Service.
+
+    \item React FE hiển thị nút phát âm thanh (Voice) bên cạnh câu trả lời của chatbot.
+
+    \item User nhấn nút Voice để yêu cầu phát câu trả lời bằng giọng nói.
+
+    \item React FE gửi Response ID tới Gateway.
+
+    \item Gateway tiếp nhận và định tuyến request tới Chat Service.
+
+    \item Chat Service lấy nội dung voice text tương ứng dựa trên Response ID.
+
+    \item Chat Service gửi nội dung text tới OpenAI Text-To-Speech Service để thực hiện chuyển đổi văn bản thành âm thanh.
+
+    \item OpenAI Text-To-Speech Service xử lý nội dung text và tạo dữ liệu audio.
+
+    \item Chat Service nhận dữ liệu audio và thực hiện streaming audio về React FE.
+
+    \item React FE nhận dữ liệu âm thanh và phát lại cho User.
+
+\end{itemize}
+
+\clearpage
+\textbf{Sequence Diagram}
+\begin{figure}[htbp]
+    \centering
+    \makebox[\textwidth][c]{%
+        % \hspace{1cm}%
+        \includegraphics[
+            width=1.37\textwidth,
+            height=1\textheight,
+            keepaspectratio
+        ]{Hinhve/chuong_3/sequence-diagram-text-to-speech.png}
+    }
+    \caption{Sequence Diagram UC-04: Text-to-speech}
+    \label{fig:sequence-text-to-speech}
+\end{figure}
+
+% ===================UC-05===================
+\newpage
+\subsection{Đặc tả UC-05: Xem lịch sử hội thoại}
+\begin{table}[htbp]
+    \centering
+    \renewcommand{\arraystretch}{1.6}
+    \begin{tabular}{|l|p{10cm}|}
+        \hline
+        \textbf{Thuộc tính} & \textbf{Nội dung}                                            \\
+        \hline
+        Tên                 & Xem lịch sử hội thọi                                         \\
+        \hline
+        Actor               & User                                                         \\
+        \hline
+        Mục đích            & Cho phép người dùng xem lại các phiên hội thoại đã thực hiện \\
+        \hline
+        Tiền điều kiện      & Người dùng đã đăng nhập thành công                           \\
+        \hline
+        Hậu điều kiện       & Hiển thị danh sách các lịch sử hội thoại đã thực hiện        \\
+        \hline
+    \end{tabular}
+    \caption{Đặc tả Use Case UC-05: Xem lịch sử hội thoại}
+    \label{tab:usecase-chat-history}
+\end{table}
+\textbf{Luồng chính}
+\begin{itemize}
+    \item User đăng nhập thành công hoặc vào trang web trong trang thái đã đăng nhập
+    \item FE gửi request lấy lịch sử hội thoại
+    \item Gateway tiếp nhận request
+    \item Gateway chuyển request tới chat-session-service
+    \item Chat-session xác định được sessionId, userId
+    \item Service truy vấn dữ liệu trong database
+    \item Database trả về danh sách lịch sử hội thoại
+    \item Chat-session-service xử lý dữ liệu
+    \item Gateway trả kết quả về FE
+    \item FE hiển thị danh sách lịch sử hội thoại
+\end{itemize}
+\clearpage
+
+\textbf{Sequence Diagram}
+\begin{figure}[htbp]
+    \centering
+    \makebox[\textwidth][c]{%
+        \includegraphics[
+            height=0.35\textheight,
+            keepaspectratio
+        ]{Hinhve/chuong_3/sequence-diagram-history-chat.png}
+    }
+    \caption{Sequence Diagram UC-05: Lịch sử hội thoại}
+    \label{fig:sequence-text-to-speech}
+\end{figure}
+
+% ===================UC-06===================
+\newpage
+\subsection{Đặc tả UC-06: Thu thập dữ liệu học phần}
+\begin{table}[htbp]
+    \centering
+    \renewcommand{\arraystretch}{1.4}
+    \begin{tabular}{|l|p{10cm}|}
+        \hline
+        \textbf{Thuộc tính} & \textbf{Nội dung}                                                                                               \\
+        \hline
+        Tên                 & Thu thập dữ liệu học phần                                                                                       \\
+        \hline
+        Actor               & Crawler Service                                                                                                 \\
+        \hline
+        Mục đích            & Thu thập dữ liệu học phần từ website trường, xử lý và tạo dữ liệu vector embedding phục vụ cho hệ thống chatbot \\
+        \hline
+        Tiền điều kiện      & Website trường có dữ liệu học phần; Crawler Service được kích hoạt và các dịch vụ liên quan đang hoạt động      \\
+        \hline
+        Hậu điều kiện       & Dữ liệu học phần được làm sạch, chuyển đổi thành vector embedding và lưu trữ thành công trong ChromaDB          \\
+        \hline
+    \end{tabular}
+    \caption{Đặc tả Use Case UC-06: Thu thập dữ liệu học phần}
+    \label{tab:usecase-crawl-course-data}
+\end{table}
+
+\textbf{Luồng chính}
+\begin{itemize}
+    \item Scheduler kích hoạt tiến trình crawl dữ liệu học phần theo lịch được cấu hình.
+
+    \item Crawler Service khởi tạo Selenium để thực hiện quá trình truy cập website trường.
+
+    \item Selenium truy cập vào website trường và điều hướng tới trang chứa thông tin học phần.
+
+    \item Crawler Service thu thập dữ liệu học phần từ website.
+
+    \item Dữ liệu thu thập được thực hiện làm sạch và chuẩn hóa.
+
+    \item Crawler Service phân đoạn dữ liệu thành các document phù hợp cho quá trình xử lý ngữ nghĩa.
+
+    \item Crawler Service gửi các document tới OpenAI Embedding Model để tạo vector embedding.
+
+    \item OpenAI Embedding Model xử lý dữ liệu và trả về các vector embedding tương ứng.
+
+    \item Crawler Service lưu vector embedding, metadata của học phần vào Chroma.
+
+    \item Hệ thống hoàn tất quá trình cập nhật dữ liệu phục vụ cho chatbot.
+\end{itemize}
+\clearpage
+
+\textbf{Sequence Diagram}
+\begin{figure}[htbp]
+    \centering
+    \makebox[\textwidth][c]{%
+        \includegraphics[
+            height=0.4\textheight,
+            keepaspectratio
+        ]{Hinhve/chuong_3/sequence-diagram-crawler-course.png}
+    }
+    \caption{Sequence Diagram UC-06: Thu thập dữ liệu học phần}
+    \label{fig:sequence-text-to-speech}
+\end{figure}
+
+\newpage
+\section{Kiến trúc hệ thống}
+\subsection{Tổng quan kiến trúc hệ thống}
+Hệ thống hỏi đáp học phần được chia thành các nhóm thành phần chính như sau:
+
+\begin{itemize}
+    \item \textbf{Frontend Layer:}
+          Được xây dựng bằng ReactJS kết hợp với TypeScript, chịu trách nhiệm giao tiếp với người dùng.
+          Thành phần này đảm nhiệm việc hiển thị giao diện chatbot, xử lý streaming response,
+          thu âm giọng nói và phát lại âm thanh phản hồi.
+
+    \item \textbf{API Gateway Layer:}
+          Đóng vai trò là điểm truy cập duy nhất từ phía client vào hệ thống.
+          API Gateway thực hiện điều hưóng các request đến các service tương ứng,
+          đồng thời đảm bảo việc kiểm tra xác thực (authentication) và phân quyền (authorization).
+
+    \item \textbf{Business Service Layer:}
+          Bao gồm các microservice chịu trách nhiệm xử lý các nghiệp vụ chính của hệ thống, bao gồm:
+          \begin{itemize}
+              \item Auth Service: Quản lý xác thực người dùng
+              \item User Service: Quản lý thông tin người dùng và quyền truy cập.
+              \item Chat Service: Xử lý các yêu cầu hội thoại giữa người dùng và hệ thống.
+              \item Chat Session Service: Quản lý phiên hội thoại.
+              \item Crawler Service: Thu thập và xử lý dữ liệu từ các nguồn tài liệu.
+          \end{itemize}
+
+    \item \textbf{AI Processing Layer:}
+          Bao gồm các thành phần xử lý trí tuệ nhân tạo, cung cấp khả năng tìm kiếm ngữ nghĩa,
+          sinh câu trả lời và tương tác bằng giọng nói:
+          \begin{itemize}
+              \item OpenAI Embedding Model: Chuyển đổi dữ liệu văn bản thành vector embedding.
+              \item OpenAI Large Language Model: Trả lời dựa trên ngữ cảnh và dữ liệu truy xuất.
+              \item OpenAI Speech-To-Text Model: Chuyển đổi giọng nói của người dùng thành văn bản.
+              \item OpenAI Text-To-Speech Model: Chuyển đổi câu trả lời dạng văn bản thành âm thanh.
+          \end{itemize}
+
+    \item \textbf{Data Storage Layer:}
+          Chịu trách nhiệm lưu trữ và quản lý dữ liệu của hệ thống, bao gồm các thành phần:
+
+          \begin{itemize}
+              \item \textbf{MySQL Database:}
+                    Lưu trữ các dữ liệu có cấu trúc của hệ thống như thông tin người dùng
+                    (\textit{user data}), thông tin xác thực, quyền truy cập và các dữ liệu
+                    quản lý nghiệp vụ khác.
+
+              \item \textbf{MongoDB:}
+                    Lưu trữ dữ liệu lịch sử phiên chat (\textit{chat session history}),
+                    bao gồm nội dung hội thoại, trạng thái phiên và các thông tin liên quan
+                    đến quá trình tương tác của người dùng.
+
+              \item \textbf{ChromaDB:}
+                    Lưu trữ các vector embedding được sinh ra từ dữ liệu, phục vụ cho quá trình
+                    tìm kiếm ngữ nghĩa (\textit{semantic search}) và truy xuất thông tin dựa
+                    trên vector.
+          \end{itemize}
+\end{itemize}
+
+\textbf{Sequence Diagram}
+\begin{figure}[htbp]
+    \centering
+    \makebox[\textwidth][c]{%
+        \includegraphics[
+            height=0.44\textheight,
+            keepaspectratio
+        ]{Hinhve/chuong_3/system-diagram-over-all}
+    }
+    \caption{Sơ đồ kiến trúc tổng thể hệ thống}
+    \label{fig:system-diagram-over-all}
+\end{figure}
+
+\subsection{Kiến trúc triển khai}
+Hệ thống được triển khai bằng \textbf{Docker Compose}, trong đó mỗi service
+được đóng gói và chạy trong một container riêng biệt nhằm đảm bảo tính độc lập,
+dễ quản lý và khả năng mở rộng.
+
+Các container chính của hệ thống bao gồm:
+
+\begin{itemize}
+    \item \textbf{Frontend container}: Chứa ứng dụng giao diện người dùng,
+          chịu trách nhiệm cung cấp giao diện tương tác với hệ thống.
+
+    \item \textbf{Gateway container}: Đóng vai trò là cổng giao tiếp trung gian
+          giữa frontend và các service phía backend.
+
+    \item \textbf{Auth Service container}: Quản lý quá trình xác thực và
+          phân quyền người dùng.
+
+    \item \textbf{User Service container}: Xử lý các chức năng liên quan đến
+          thông tin và quản lý người dùng.
+
+    \item \textbf{Chat Service container}: Cung cấp các chức năng xử lý
+          hội thoại và tương tác chat.
+
+    \item \textbf{Chat Session Service container}: Quản lý trạng thái và
+          thông tin của các phiên hội thoại.
+
+    \item \textbf{Crawler Service container}: Thực hiện việc thu thập và
+    \item
+          xử lý dữ liệu từ các nguồn bên ngoài.
+    \item \textbf{ChromaDB container}:
+          Cung cấp hệ thống lưu trữ vector (\textit{vector database}) phục vụ cho việc
+          lưu trữ các vector embedding, hỗ trợ quá trình tìm kiếm ngữ nghĩa
+          (\textit{semantic search}) và truy xuất thông tin dựa trên độ tương đồng của
+          dữ liệu.
+
+    \item \textbf{Database container}:
+          Cung cấp hệ thống cơ sở dữ liệu phục vụ lưu trữ dữ liệu nghiệp vụ của hệ thống,
+          bao gồm:
+          \begin{itemize}
+              \item \textbf{MySQL container}: Lưu trữ các dữ liệu có cấu trúc như thông
+                    tin người dùng, thông tin xác thực, quyền truy cập và các dữ liệu quản lý
+                    hệ thống.
+
+              \item \textbf{MongoDB container}: Lưu trữ dữ liệu phi cấu trúc liên quan
+                    đến lịch sử phiên chat, bao gồm nội dung hội thoại, thông tin phiên và
+                    trạng thái sử dụng của người dùng.
+          \end{itemize}
+\end{itemize}
+
+Việc sử dụng Docker Compose quá trình triển khai hệ thống trở nên dễ dàng và thuận tiện,
+quản lý môi trường thực thi và đảm bảo sự nhất quán giữa các môi trường chạy, , bên cạnh đó Docker Compose có hỗ trợ version deployment giúp việc nâng cấp, triển khai version mới trở nên dễ dàng hơn trong quá trình đẩy lên production
+Ngoài ra, kiến trúc triển khai dạng container cho phép dễ dàng mở rộng hệ thống
+bằng cách tăng số lượng instance của các service khi nhu cầu sử dụng tăng lên.
+
+\section{Thiết kế bảng cơ sở dữ liêu}
+\subsection{Bảng User (MYSQL)}
+Bảng User lưu trữ thông tin tài khoản đăng nhập của người dùng. Đây là bảng trung tâm phục vụ cho quá trình xác thực và phân quyền của hệ thống. Mỗi người dùng có một tài khoản duy nhất và được liên kết với thông tin cá nhân trong bảng Profile cũng như các vai trò trong bảng Role.
+\begin{table}[htbp]
+    \centering
+    \small
+    \renewcommand{\arraystretch}{1.3}
+    \label{tab:user-structure}
+    \begin{tabularx}{\textwidth}{|c|l|l|l|>{\raggedright\arraybackslash}X|}
+        \hline
+        \textbf{STT} & \textbf{Tên trường} & \textbf{Kiểu dữ liệu} & \textbf{Ràng buộc/khóa} & \textbf{Ý nghĩa}                      \\
+        \hline
+        1            & id                  & bigint                & pk, auto\_increment     & Mã định danh duy nhất của người dùng. \\
+        \hline
+        2            & username            & varchar(255)          & unique, not null        & Tên đăng nhập của người dùng.         \\
+        \hline
+        3            & password            & varchar(255)          & not null                & Mật khẩu đã được mã hóa.              \\
+        \hline
+    \end{tabularx}
+    \caption{Cấu trúc bảng user}
+\end{table}
+
+\subsection{Bảng Profile (MYSQL)}
+Bảng Profile lữu trữ chi tiết các thông tin người dùng, giúp tách biệt hoàn toàn với thông tin đăng nhập đảm bảo chuẩn hóa dữ liệu, dễ mở rộng.
+\begin{table}[htbp]
+    \centering
+    \small
+    \renewcommand{\arraystretch}{1.3}
+    \label{tab:profile-structure}
+    \begin{tabularx}{\textwidth}{|c|l|l|l|>{\raggedright\arraybackslash}X|}
+        \hline
+        \textbf{STT} & \textbf{Tên trường} & \textbf{Kiểu dữ liệu} & \textbf{Ràng buộc/khóa} & \textbf{Ý nghĩa}                     \\
+        \hline
+        1            & id                  & bigint                & pk, auto\_increment     & Mã hồ sơ người dùng.                 \\
+        \hline
+        2            & first\_name         & varchar(255)          & not null                & Họ của người dùng.                   \\
+        \hline
+        3            & last\_name          & varchar(255)          & not null                & Tên của người dùng.                  \\
+        \hline
+        4            & age                 & int                   & not null                & Tuổi của người dùng.                 \\
+        \hline
+        5            & birth\_of\_date     & date                  & --                      & Ngày sinh của người dùng.            \\
+        \hline
+        6            & user\_id            & bigint                & fk, unique              & Khóa ngoại tham chiếu đến bảng user. \\
+        \hline
+    \end{tabularx}
+    \caption{Cấu trúc bảng profile}
+\end{table}
+
+\subsection{Bảng Role (MYSQL)}
+Bảng Role lưu trữ các vai trò trong hệ thống. Mỗi vai trò đại diện cho một nhóm quyền được thao tác trong hệ thống và có thể được gán cho nhiều người dùng.
+\begin{table}[htbp]
+    \centering
+    \small
+    \renewcommand{\arraystretch}{1.3}
+    \label{tab:role-structure}
+    \begin{tabularx}{\textwidth}{|c|l|l|l|>{\raggedright\arraybackslash}X|}
+        \hline
+        \textbf{STT} & \textbf{Tên trường} & \textbf{Kiểu dữ liệu} & \textbf{Ràng buộc/khóa} & \textbf{Ý nghĩa}               \\
+        \hline
+        1            & id                  & bigint                & pk, auto\_increment     & Mã vai trò.                    \\
+        \hline
+        2            & name                & varchar(255)          & unique, not null        & Tên vai trò (admin, user,...). \\
+        \hline
+    \end{tabularx}
+    \caption{Cấu trúc bảng role}
+\end{table}
+
+\subsection{Bảng Resource (MYSQL)}
+Bảng Resource lưu trữ các API cần được phân quyền trong hệ thống.
+\begin{table}[htbp]
+    \centering
+    \small
+    \renewcommand{\arraystretch}{1.3}
+    \label{tab:resource-structure}
+    \begin{tabularx}{\textwidth}{|c|l|l|l|>{\raggedright\arraybackslash}X|}
+        \hline
+        \textbf{STT} & \textbf{Tên trường} & \textbf{Kiểu dữ liệu} & \textbf{Ràng buộc/khóa} & \textbf{Ý nghĩa}                       \\
+        \hline
+        1            & id                  & bigint                & pk, auto\_increment     & Mã API                                 \\
+        \hline
+        2            & name                & varchar(255)          & --                      & Tên tài nguyên/API.                    \\
+        \hline
+        3            & uri                 & varchar(255)          & --                      & Đường dẫn uri của api.                 \\
+        \hline
+        4            & method              & enum                  & --                      & Phương thức http (get, post, put,...). \\
+        \hline
+    \end{tabularx}
+    \caption{Cấu trúc bảng resource}
+\end{table}
+
+\subsection{Bảng User\_Role (MYSQL)}
+Bảng User\_Role là bảng trung gian biểu diễn quan hệ nhiều-nhiều giữa User và Role.
+\begin{table}[htbp]
+    \centering
+    \small
+    \renewcommand{\arraystretch}{1.3}
+    \label{tab:userrole-structure}
+    \begin{tabularx}{\textwidth}{|c|l|l|l|>{\raggedright\arraybackslash}X|}
+        \hline
+        \textbf{STT} & \textbf{Tên trường} & \textbf{Kiểu dữ liệu} & \textbf{Ràng buộc/khóa} & \textbf{Ý nghĩa}          \\
+        \hline
+        1            & user\_id            & bigint                & pk, fk                  & Tham chiếu đến bảng user. \\
+        \hline
+        2            & role\_id            & bigint                & pk, fk                  & Tham chiếu đến bảng role. \\
+        \hline
+    \end{tabularx}
+    \caption{Cấu trúc bảng user\_role}
+\end{table}
+
+\subsection{Bảng Role\_Resource (MYSQL)}
+Bảng Role\_Resource là bảng trung gian biểu diễn quan hệ nhiều-nhiều giữa Role và Resource, phục vụ cho phân quyền trong hệ thống.
+\begin{table}[htbp]
+    \centering
+    \small
+    \renewcommand{\arraystretch}{1.3}
+    \label{tab:roleresource-structure}
+    \begin{tabularx}{\textwidth}{|c|l|l|l|>{\raggedright\arraybackslash}X|}
+        \hline
+        \textbf{STT} & \textbf{Tên trường} & \textbf{Kiểu dữ liệu} & \textbf{Ràng buộc/khóa} & \textbf{Ý nghĩa}              \\
+        \hline
+        1            & role\_id            & bigint                & pk, fk                  & Tham chiếu đến bảng role.     \\
+        \hline
+        2            & resource\_id        & bigint                & pk, fk                  & Tham chiếu đến bảng resource. \\
+        \hline
+    \end{tabularx}
+    \caption{Cấu trúc bảng role\_resource}
+\end{table}
+\clearpage
+
+\begin{figure}[htbp]
+    \hspace*{-2cm}
+    \centering
+    \includegraphics[width=1.3\textwidth,height=0.8\textheight,keepaspectratio]{Hinhve/chuong_3/Relationship-authen.png}
+    \caption{Mối quan hệ giữa các bảng để thực hiện phân quyền}
+    \vspace{2mm}
+    \label{fig:hust-Relationship-diagram-authen}
+\end{figure}
+
+\subsection{Bảng Course (MYSQL)}
+Bảng Course được sử dụng để lưu trữ thông tin về các học phần trong hệ thống.
+\begin{table}[H]
+    \centering
+    \small
+    \renewcommand{\arraystretch}{1.1}
+    \label{tab:course-structure}
+    \begin{tabularx}{\textwidth}{|c|>{\raggedright\arraybackslash}p{2.5cm}|>{\raggedright\arraybackslash}p{2.5cm}|>{\raggedright\arraybackslash}p{3cm}|>{\raggedright\arraybackslash}X|}
+        \hline
+        \textbf{STT}            &
+        \textbf{Tên trường}     &
+        \textbf{Kiểu dữ liệu}   &
+        \textbf{Ràng buộc/khóa} &
+        \textbf{Ý nghĩa}                                                                                    \\
+        \hline
+
+        1                       & id                                 & int          & pk, auto\_increment &
+        Mã định danh duy nhất của học phần.                                                                 \\
+        \hline
+
+        2                       & name                               & varchar(255) & --                  &
+        Tên học phần bằng tiếng Việt.                                                                       \\
+        \hline
+
+        3                       & english\_name                      & varchar(255) & --                  &
+        Tên học phần bằng tiếng Anh.                                                                        \\
+        \hline
+
+        4                       & code                               & varchar(255) & --                  &
+        Mã học phần dùng để định danh học phần trong hệ thống đào tạo.                                      \\
+        \hline
+
+        5                       & duration                           & varchar(255) & --                  &
+        Thời lượng học phần.                                                                                \\
+        \hline
+
+        6                       & credits                            & varchar(255) & --                  &
+        Số tín chỉ của học phần.                                                                            \\
+        \hline
+
+        7                       & credit\_fee                        & varchar(255) & --                  &
+        Mức học phí tính theo tín chỉ của học phần.                                                         \\
+        \hline
+
+        8                       & weight                             & varchar(255) & --                  &
+        Trọng số của học phần trong chương trình đào tạo.                                                   \\
+        \hline
+
+        9                       & \seqsplit{list\_course\_condition} & varchar(255) & --                  &
+        Danh sách các học phần điều kiện.                                                                   \\
+        \hline
+
+        10                      & instituteManage                    & varchar(255) & --                  &
+        Viện hoặc đơn vị quản lý học phần.                                                                  \\
+        \hline
+    \end{tabularx}
+    \caption{Cấu trúc bảng course}
+
+\end{table}
+
+\subsection{Vector Database (ChromaDB)}
+ChromaDB được sử dụng trong hệ thống để lưu trữ dữ liệu vector embedding của các học phần.
+\begin{table}[htbp]
+    \centering
+    \small
+    \renewcommand{\arraystretch}{0.9}
+    \label{tab:chroma-course-structure}
+    \begin{tabularx}{\textwidth}{|c|p{3cm}|p{2.8cm}|p{3.5cm}|X|}
+        \hline
+        \textbf{STT}            &
+        \textbf{Tên trường}     &
+        \textbf{Kiểu dữ liệu}   &
+        \textbf{Ràng buộc/Khóa} &
+        \textbf{Ý nghĩa}                                                                     \\
+        \hline
+
+        1                       & id                                          &
+        String                  &
+        Primary Key             &
+        Mã định danh của vector, được lấy từ mã id của học phần trong cơ sở dữ liệu MySQL.   \\
+        \hline
+
+        2                       & document                                    &
+        String                  &
+        NOT NULL                &
+        Nội dung văn bản được tổng hợp từ thông tin học phần trước khi thực hiện embedding.  \\
+        \hline
+
+        3                       & embedding                                   &
+        Array[Float]            &
+        NOT NULL                &
+        Vector biểu diễn đặc trưng ngữ nghĩa của học phần được sinh ra từ mô hình embedding. \\
+        \hline
+
+        4                       & metadata.name                               &
+        String                  &
+        --                      &
+        Tên học phần.                                                                        \\
+        \hline
+
+        5                       & \seqsplit{metadata.english\_name}           &
+        String                  &
+        --                      &
+        Tên học phần bằng tiếng Anh.                                                         \\
+        \hline
+
+        6                       & metadata.code                               &
+        String                  &
+        --                      &
+        Mã học phần.                                                                         \\
+        \hline
+
+        7                       & metadata.duration                           &
+        String                  &
+        --                      &
+        Thời lượng học phần.                                                                 \\
+        \hline
+
+        8                       & \seqsplit{metadata.institute\_manage}       &
+        String                  &
+        --                      &
+        Viện hoặc đơn vị quản lý học phần.                                                   \\
+        \hline
+
+        9                       & metadata.credits                            &
+        String                  &
+        --                      &
+        Số tín chỉ của học phần.                                                             \\
+        \hline
+
+        10                      & \seqsplit{metadata.credit\_fee}             &
+        String                  &
+        --                      &
+        Học phí tính theo tín chỉ.                                                           \\
+        \hline
+
+        11                      & \seqsplit{metadata.list\_course\_condition} &
+        String                  &
+        --                      &
+        Danh sách học phần điều kiện hoặc học phần tiên quyết.                               \\
+        \hline
+
+        12                      & metadata.weight                             &
+        String                  &
+        --                      &
+        Trọng số của học phần.                                                               \\
+        \hline
+    \end{tabularx}
+    \caption{Cấu trúc Collection Course trong ChromaDB}
+
+\end{table}
+
+\newpage
+\subsection{ChatSession (MongoDB)}
+Collection này lưu trữ thông tin các phiên hội thoại của người dùng với hệ thống hỏi đáp, Mỗi bản ghi đại diện cho một phiên trò chuyện bảo gồm các thông tin như: thông tin người dùng, trạng thái phiên ...
+\begin{table}[htbp]
+    \centering
+    \small
+    \renewcommand{\arraystretch}{1.6}
+    \label{tab:mongodb-chat-session}
+    \begin{tabularx}{\textwidth}{|c|p{3cm}|p{2.8cm}|p{3.5cm}|>{\raggedright\arraybackslash}X|}
+        \hline
+        \textbf{STT} & \textbf{Tên trường} & \textbf{Kiểu dữ liệu} & \textbf{Ràng buộc/khóa} & \textbf{Ý nghĩa}                                         \\
+        \hline
+        1            & id                  & string                & \_id, primary key       & Mã định danh duy nhất của phiên hội thoại trong mongodb. \\
+        \hline
+        2            & title               & string                & --                      & Tiêu đề của phiên trò chuyện.                            \\
+        \hline
+        3            & status              & string                & --                      & Trạng thái hiện tại của phiên hội thoại.                 \\
+        \hline
+        4            & username            & string                & --                      & Tên người dùng thực hiện phiên trò chuyện.               \\
+        \hline
+        5            & lastMessageAt       & datetime              & --                      & Thời điểm gửi tin nhắn gần nhất trong phiên.             \\
+        \hline
+        6            & totalMessage        & integer               & --                      & Tổng số lượng tin nhắn trong phiên hội thoại.            \\
+        \hline
+        7            & createdAt           & datetime              & --                      & Thời điểm tạo phiên trò chuyện.                          \\
+        \hline
+        8            & updatedAt           & datetime              & --                      & Thời điểm cập nhật thông tin phiên gần nhất.             \\
+        \hline
+    \end{tabularx}
+    \caption{Cấu trúc collection ChatSession}
+\end{table}
+
+\newpage
+\subsection{ChatMessage (MongoDB)}
+Collection lưu trữ nội dung chi tiết của từng lượt hỏi đáp giữa người dùng và hệ thống chatbot, mỗi bản ghi tương ứng với một tin nhắn bao gồm các thông tin như: câu hỏi, câu phản hồi ....
+\begin{table}[htbp]
+    \centering
+    \small
+    \renewcommand{\arraystretch}{1.1}
+    \label{tab:mongodb-chat-message}
+
+    \begin{tabularx}{\textwidth}{|c|p{3cm}|p{2.8cm}|p{3.5cm}|>{\raggedright\arraybackslash}X|}
+        \hline
+        \textbf{stt} & \textbf{tên trường} & \textbf{kiểu dữ liệu} & \textbf{ràng buộc/khóa} & \textbf{ý nghĩa}                                                  \\
+        \hline
+        1            & id                  & string                & \_id, primary key       & Mã định danh duy nhất của tin nhắn.                               \\
+        \hline
+        2            & sessionId           & string                & reference               & Mã phiên hội thoại chứa tin nhắn này, tham chiếu đến chatSession. \\
+        \hline
+        3            & message             & string                & not null                & Nội dung câu hỏi hoặc tin nhắn của người dùng gửi đến chatbot.    \\
+        \hline
+        4            & answer              & string                & --                      & Nội dung phản hồi được sinh ra bởi chatbot.                       \\
+        \hline
+        5            & model               & string                & --                      & Tên mô hình AI được sử dụng để sinh câu trả lời.                  \\
+        \hline
+        6            & sequence            & integer               & --                      & Thứ tự của tin nhắn trong một phiên hội thoại.                    \\
+        \hline
+        7            & chatAt              & datetime              & --                      & Thời điểm thực hiện lượt hội thoại.                               \\
+        \hline
+    \end{tabularx}
+    \caption{Cấu trúc collection ChatMessage}
+\end{table}
+
+
 
 
 \end{document}
