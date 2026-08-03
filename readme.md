@@ -1,297 +1,78 @@
 https://app.justdone.ai/tools/ai_content_detector
 
-CHƯƠNG 1. GIỚI THIỆU ĐỀ TÀI (10–12 trang)
-1.1 Đặt vấn đề
-Thực trạng tra cứu thông tin học phần
-Khó khăn khi tìm kiếm trên website trường
-Hạn chế của chatbot thông thường
-Nhu cầu xây dựng trợ lý ảo chuyên biệt
-1.2 Lý do chọn đề tài
-Xu hướng phát triển của AI và LLM
-Khả năng ứng dụng RAG trong hệ thống hỏi đáp
-Ý nghĩa đối với sinh viên và nhà trường
-1.3 Mục tiêu của đồ án
-Mục tiêu tổng quát
-Mục tiêu cụ thể
-Xây dựng hệ thống thu thập dữ liệu
-Xây dựng cơ sở tri thức
-Triển khai chatbot
-Hỗ trợ truy vấn bằng tiếng Việt
-1.4 Đối tượng nghiên cứu
-Website học phần HUST
-Dữ liệu học phần
-LLM
-RAG
-Embedding
-Vector Database
-1.5 Phạm vi nghiên cứu
+4.2 Triển khai hệ thống
 
-Bao gồm
+4.2.1 Triển khai Crawler Service
 
-Thông tin học phần
-Mô tả môn học
-Số tín chỉ
-Điều kiện tiên quyết
-Chuẩn đầu ra
+    - Thu thập dữ liệu bằng Selenium
 
-Không bao gồm
+    - Chuẩn hóa dữ liệu
 
-Đăng ký học
-Điểm
-Thông tin cá nhân
-1.6 Phương pháp nghiên cứu
-Nghiên cứu tài liệu
-Khảo sát hệ thống
-Thiết kế
-Xây dựng
-Thực nghiệm
-Đánh giá
-1.7 Nội dung thực hiện
+    - Sinh Vector Embedding
 
-Giới thiệu ngắn các chương còn lại.
+    - Lưu vào ChromaDB
 
-CHƯƠNG 2. CƠ SỞ LÝ THUYẾT (25–30 trang)
-2.1 Tổng quan về chatbot
-Khái niệm
-Phân loại
-Chatbot truyền thống
-AI Chatbot
-2.2 Xử lý ngôn ngữ tự nhiên (NLP)
-NLP
-Tokenization
-Named Entity
-Semantic Search
-2.3 Large Language Model
-Transformer
-GPT
-Gemini
-Llama
-Qwen
-2.4 Transformer Architecture
-Attention
-Self-Attention
-Multi-head Attention
-Positional Encoding
-Feed Forward
-Encoder
-Decoder
-2.5 Embedding
-Khái niệm
-Sentence Embedding
-Text Embedding
-Vector Space
-2.6 Vector Database
-Khái niệm
-Chroma
-FAISS
-Milvus
-Pinecone
+4.2.2 Triển khai Chat Service
 
-So sánh các Vector Database
+    - Kết nối WebSocket
 
-2.7 Similarity Search
-Cosine Similarity
-Euclidean Distance
-Dot Product
-Approximate Nearest Neighbor
-2.8 Retrieval-Augmented Generation (RAG)
-Nguyên lý
-Pipeline
-Retriever
-Generator
-Prompt
-Context
-2.9 LangChain Framework
-Document Loader
-Text Splitter
-Embedding
-Retriever
-Chain
-2.10 Web Crawling
-HTTP
-HTML
-BeautifulSoup
-Selenium
-Crawl Strategy
-2.11 Prompt Engineering
-Zero-shot
-Few-shot
-System Prompt
-Context Injection
-2.12 Các nghiên cứu liên quan
-Chatbot giáo dục
-RAG
-QA System
-CHƯƠNG 3. PHÂN TÍCH VÀ THIẾT KẾ HỆ THỐNG (20–25 trang)
-3.1 Khảo sát bài toán
-Website học phần
-Dữ liệu
-Quy trình tra cứu
-3.2 Phân tích yêu cầu
-Chức năng
-Crawl dữ liệu
-Xử lý dữ liệu
-Embedding
-Lưu Vector Database
-Hỏi đáp
-Phi chức năng
-Hiệu năng
-Khả năng mở rộng
-Độ chính xác
-Khả năng cập nhật
-3.3 Phân tích nghiệp vụ
+    - Sinh Embedding câu hỏi
 
-Use Case
+    - Semantic Search trên ChromaDB
 
-Actor
+    - Xây dựng Prompt
 
-Sinh viên
-Quản trị viên
-3.4 Kiến trúc hệ thống
+    - Gọi OpenAI
 
-Mô tả đầy đủ Pipeline
+    - Streaming Response
 
-Website
+4.2.3 Triển khai Speech-to-Text
 
-↓
+    - Thu âm
 
-Crawler
+    - Gửi audio
 
-↓
+    - OpenAI STT
 
-Document
+    - Hiển thị kết quả
 
-↓
+4.2.4 Triển khai Text-to-Speech
 
-Cleaning
+    - Chuẩn hóa nội dung đọc
 
-↓
+    - Sinh audio
 
-Chunking
+    - Streaming audio
 
-↓
+    - Phát trên giao diện
 
-Embedding
+4.2.5 Triển khai Authentication và Authorization
 
-↓
+    - Login
 
-Chroma Database
+    - JWT
 
-↓
+    - User-Role-Resource
 
-Retriever
+    - Gateway kiểm tra quyền
 
-↓
+4.2.6 Triển khai Chat Session
 
-LLM
+    - Lưu lịch sử chat
 
-↓
+    - Hiển thị lịch sử
 
-Answer
+    - Tiếp tục cuộc hội thoại
 
-3.5 Thiết kế dữ liệu
+4.2.7 Triển khai Docker Compose
 
-Document
+    - docker-compose.yml
 
-Metadata
+    - Network
 
-Collection
+    - Volume
 
-Chunk
-
-3.6 Thiết kế Crawler
-Crawl
-Parse
-Clean
-Save
-3.7 Thiết kế Vector Database
-Collection
-Metadata
-Index
-3.8 Thiết kế RAG Pipeline
-Query EmbeddingREST
-Retrieval
-Prompt
-Generation
-3.9 Thiết kế Prompt
-
-System Prompt
-
-User Prompt
-
-Context
-
-Output Format
-
-3.10 Thiết kế API
-
-REST API
-
-Endpoint
-
-Crawl
-Search
-Chat
-3.11 Thiết kế giao diện
-Chat
-Sidebar
-History
-CHƯƠNG 4. XÂY DỰNG VÀ TRIỂN KHAI HỆ THỐNG (25–30 trang)
-4.1 Công nghệ sử dụng
-Python
-LangChain
-Chroma
-BeautifulSoup
-FastAPI
-React/Streamlit
-Docker
-4.2 Môi trường phát triển
-IDE
-Python
-Package
-GPU/CPU
-4.3 Xây dựng Crawler
-Crawl HTML
-Parse
-Chuẩn hóa dữ liệu
-4.4 Tiền xử lý dữ liệu
-Remove HTML
-Unicode
-Normalize
-Chunking
-4.5 Sinh Vector Embedding
-Model Embedding
-Batch
-Vector Dimension
-4.6 Xây dựng Chroma Database
-Collection
-Persist
-Metadata
-4.7 Xây dựng Retriever
-Similarity Search
-Top-k
-MMR
-4.8 Xây dựng Prompt
-
-Prompt hoàn chỉnh
-
-Prompt Template
-
-4.9 Tích hợp LLM
-API
-Chat Model
-Response
-4.10 Xây dựng API
-Endpoint
-Request
-Response
-4.11 Xây dựng giao diện
-Chat
-Lịch sử
-Hiển thị nguồn dữ liệu
-4.12 Quy trình hoạt động
-
-Flow hoàn chỉnh của hệ thống
+    - Khởi động toàn bộ hệ thống
 
 CHƯƠNG 5. THỰC NGHIỆM VÀ ĐÁNH GIÁ (20–25 trang)
 5.1 Môi trường thực nghiệm

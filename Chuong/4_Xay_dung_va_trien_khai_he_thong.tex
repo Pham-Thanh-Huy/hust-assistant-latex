@@ -1,0 +1,218 @@
+\documentclass[../DoAn.tex]{subfiles}
+\begin{document}
+\section{Công nghệ sử dụng}
+Đồ án lần này sử dụng nhiều công nghệ khác nhau phục vụ cho giao diện người dùng, server, database, trí tuệ nhân tạo và nền tảng triển khai. Việc lựa chọn này dựa trên các tiêu chí về hiệu năng cũng như khả năng mở rộng hệ thống sau này, hệ thống viết theo cấu trúc microservice có khả năng tích hợp với các mô hình ngôn ngữ lớn (Large Language Models - LLM)
+
+Các công nghệ trong chương này bao gồm:
+\begin{itemize}
+    \item React JS
+    \item Typescript
+    \item Websocket
+    \item Spring boot
+    \item Python Fast API
+    \item ChromaDB
+    \item OpenAI API
+    \item Docker - Docker compose
+    \item MongoDB 
+    \item Mysql
+    \item Và một số công nghệ khác ...
+\end{itemize}
+
+\subsection{ReactJS}
+React JS là thư viện mã nguồn mở JavaScript do Facebook phát triển (hiện nay là meta)
+phát triển giúp xây dựng giao diện người dùng theo mô hình Component-Based Architecture.
+Thay vì thao tác trực tiếp trên DOM của trình duyệt, React sử dụng Virtual DOM theo dõi
+sự thay đỏi của giao diện, từ đó chỉ cập nhật những phần có thay đổi, giúp giảm số lượng
+thao tác trên DOM và tăng hiệu năng của app.
+
+Trong đồ án lần này ReactJS được lựa chọn vì các ưu điểm sau:
+\begin{itemize}
+    \item Chia component giúp giao diện được chia thành các phần độc lập, dễ bảo trì và phát triển
+    \item Khả năng cập nhật theo thời gian thực phù hợp với chatbot và cơ chế Streaming Response
+    \item Thư viện rộng lớn, dễ dàng hỗ trợ như React Router, Tailwind CSS
+    \item Dễ dàng tích hợp WebSocket để xây dựng ứng dụng giao diện hội thoại theo thời gian thực
+    \item Hỗ trợ tốt TypeScript.
+\end{itemize}
+
+\subsection{TypeScript}
+TypeScript là ngôn ngữ lập trình được Microsoft phát triển dựa trên JS và phát triển thêm dữ liệu tĩnh (Static Typing). Mã nguồn TypeScript sau khi biên dịch
+sẽ trở thành JavaScript để thực thi trình duyệt trên môi trường NodeJs.
+
+Khác với JavaScript, TypeScript cho phép định nghĩa kiểu dữ liệu, đối tượng, hàm, interface, từ đó dễ phát hiện lỗi trong quá trình phát triển thay vì khi chương trình đang chạy.
+
+Đồ án này có bổ sung thêm TypeScript vì các lý do sau
+\begin{itemize}
+    \item Giảm lỗi quá trình phát triển, có cơ chế kiểm tra dữ liệu
+    \item Quản lý các cấu trúc dữ liệu phức tạp trong hệ thống hỏi đáp
+    \item Dễ dàng bảo trì khi dự án mở rộng
+    \item Tích hợp với ReactJS
+\end{itemize}
+
+\subsection{WebSocket}
+Websocket là giao thức hai chiều hoạt động trên một kết nối TCP duy nhất. Sau khi kết nối được thiết lập, máy khách (Client) và máy chủ (Server) có thể gửi dữ liệu cho nhau bất kỳ lúc nào mà không cần tạo lại kết nối như giao thức HTTP.
+
+So với mô hình Request/Response truyền thống. Websocket có độ phản hồi cao và có thể trao đổi dữ liệu theo dời gian thực
+
+Trong hệ thống hỏi đáp học phần lần này, websocket là lựa chọng không thể thiếu vì có khả năng trao đổi dữ liệu hai chiều theo thời gian thực phù hợp với cơ chế streaming response của OpenAI, cải thiện trải nghiệm hội thoại của người dùng.
+
+\subsection{Python}
+Python là ngôn ngữ lập trình bậc cao được phát triển theo hướng đơn giản, dễ đọc và dễ mở rộng. Với hệ sinh thái thư viện phong phú, Python được sử dụng rộng rãi trong nhiều lĩnh vực như phát triển Web, trí tuệ nhân tạo (Artificial Intelligence - AI), học máy (Machine Learning), xử lý ngôn ngữ tự nhiên (Natural Language Processing - NLP) và phân tích dữ liệu. Đặc biệt, Python là một trong những ngôn ngữ được cộng đồng AI sử dụng phổ biến nhất nhờ khả năng tích hợp nhanh với các mô hình và dịch vụ trí tuệ nhân tạo hiện đại.
+
+Lý do lựa chọn trong đồ án lần này:
+\begin{itemize}
+    \item Sở hữu nhiều thư viện mạnh về AI, hỗ trợ tốt phát triển các mô hình LLM
+    \item Có thư viện chính thức của OpenAI, giúp tích hợp các dịch vụ như tạo Vector Embedding Speech-to-Text và Text-to-Speech một cách thuận tiện.
+    \item Hỗ trợ lập trình bất đồng bộ
+    \item Hỗ trợ giao thức WebSocket thông qua các framework hiện đại như FastAPI, đáp ứng yêu cầu truyền dữ liệu theo thời gian thực trong quá trình chatbot phản hồi theo cơ chế streaming.
+    \item Dễ dàng tích hợp với các thư viện xử lý dữ liệu và cơ sở dữ liệu vector như ChromaDB, phục vụ cho mô hình RAG.
+    \item Có cộng đồng phát triển lớn, tài liệu phong phú và nhiều thư viện mã nguồn mở, giúp rút ngắn thời gian phát triển hệ thống
+\end{itemize}
+
+\subsection{Spring Boot}
+
+Spring Boot là framework mã nguồn mở được phát triển dựa trên Spring Framework nhằm đơn giản hóa quá trình xây dựng các ứng dụng Java. Framework này cung cấp cơ chế tự động cấu hình (Auto Configuration), quản lý phụ thuộc (Dependency Management), giúp giảm đáng kể thời gian phát triển và triển khai ứng dụng. Nhờ khả năng xây dựng các dịch vụ độc lập, dễ mở rộng và dễ bảo trì, Spring Boot hiện được sử dụng rộng rãi trong các hệ thống doanh nghiệp và kiến trúc Microservices.
+
+Trong đồ án này, Spring Boot được lựa chọn để xây dựng các dịch vụ nghiệp vụ (\textit{Business Services}) nhờ các ưu điểm sau:
+
+\begin{itemize}
+    \item Hỗ trợ xây dựng các dịch vụ RESTful API theo chuẩn HTTP, giúp các Microservice giao tiếp với nhau một cách thống nhất và dễ dàng tích hợp với API Gateway.
+
+    \item Tích hợp sẵn Spring Security, cung cấp cơ chế xác thực (Authentication) và phân quyền (Authorization), đáp ứng yêu cầu xây dựng hệ thống bảo mật theo mô hình User -- Role -- Resource.
+
+    \item Hỗ trợ xác thực bằng JSON Web Token (JWT), cho phép các dịch vụ kiểm tra danh tính và quyền truy cập của người dùng mà không cần lưu trữ trạng thái phiên làm việc trên máy chủ.
+
+    \item Tích hợp Spring Data JPA, hỗ trợ ánh xạ đối tượng với cơ sở dữ liệu quan hệ (ORM), giúp đơn giản hóa quá trình truy vấn và thao tác dữ liệu, đồng thời giảm số lượng câu lệnh SQL cần xây dựng.
+
+    \item Cung cấp hệ sinh thái phong phú cùng nhiều thư viện hỗ trợ phát triển Microservices, giúp việc mở rộng, bảo trì và triển khai hệ thống trở nên thuận tiện hơn.
+
+    \item Có cộng đồng phát triển lớn, tài liệu đầy đủ và được sử dụng rộng rãi trong các hệ thống doanh nghiệp, góp phần rút ngắn thời gian phát triển và nâng cao độ ổn định của hệ thống.
+\end{itemize}
+
+Trong hệ thống được xây dựng, Spring Boot được sử dụng để phát triển các dịch vụ gồm \textit{User Service}, \textit{Authentication Service} và \textit{Chat Session Service}. Các dịch vụ này chịu trách nhiệm quản lý người dùng, đăng ký và đăng nhập tài khoản, xác thực và phân quyền truy cập dựa trên JWT và Spring Security, đồng thời lưu trữ lịch sử hội thoại của người dùng. Bên cạnh đó, các dịch vụ được xây dựng theo kiến trúc RESTful API để giao tiếp với API Gateway và các Microservice khác trong hệ thống, góp phần tạo nên một kiến trúc có khả năng mở rộng và dễ bảo trì.
+
+\subsection{ChromaDB}
+
+ChromaDB là cơ sở dữ liệu vector (Vector Database) mã nguồn mở được thiết kế chuyên biệt cho các ứng dụng trí tuệ nhân tạo và mô hình ngôn ngữ lớn LLM. Khác với cơ sở dữ liệu quan hệ truyền thống lưu trữ dữ liệu dưới dạng bảng, ChromaDB lưu trữ dữ liệu dưới dạng các vector embedding có số chiều lớn, cho phép thực hiện truy vấn dựa trên mức độ tương đồng ngữ nghĩa (Semantic Similarity). Nhờ đó, ChromaDB được sử dụng phổ biến trong các hệ thống Retrieval-Augmented Generation (RAG), tìm kiếm ngữ nghĩa (Semantic Search) và các ứng dụng hỏi đáp thông minh.
+
+Trong đồ án này, ChromaDB được lựa chọn nhờ các ưu điểm sau:
+
+\begin{itemize}
+    \item Được thiết kế chuyên biệt để lưu trữ và quản lý các vector embedding phục vụ các hệ thống AI và LLM.
+
+    \item Hỗ trợ tìm kiếm ngữ nghĩa (Semantic Search), cho phép truy xuất các tài liệu có nội dung liên quan về mặt ý nghĩa thay vì chỉ dựa trên từ khóa.
+
+    \item Tích hợp dễ dàng với các mô hình tạo embedding của OpenAI, giúp đơn giản quá trình xây dựng hệ thống Retrieval-Augmented Generation (RAG).
+
+    \item Có khả năng truy vấn với độ trễ thấp và hiệu năng cao ngay cả khi số lượng vector lớn, đáp ứng yêu cầu phản hồi nhanh của chatbot.
+
+    \item Hỗ trợ đầy đủ cho Python cùng nhiều thư viện AI phổ biến, giúp việc tích hợp vào Chat Service trở nên thuận tiện.
+
+    \item Là cơ sở dữ liệu mã nguồn mở, dễ triển khai thông qua Docker và phù hợp với quy mô của đồ án.
+\end{itemize}
+
+Trong hệ thống được xây dựng, ChromaDB đóng vai trò là cơ sở dữ liệu vector lưu trữ embedding của các tài liệu được thu thập từ website của nhà trường. Sau khi Crawler Service hoàn thành quá trình thu thập dữ liệu, các tài liệu sẽ được chuyển thành vector embedding thông qua mô hình của OpenAI và lưu vào ChromaDB. Khi người dùng gửi câu hỏi, Chat Service tiếp tục tạo embedding cho câu hỏi, thực hiện Semantic Search trên ChromaDB để tìm các tài liệu có nội dung tương đồng nhất, sau đó sử dụng các kết quả truy xuất được làm ngữ cảnh (Context) để xây dựng Prompt theo mô hình RAG trước khi gửi đến mô hình ngôn ngữ lớn của OpenAI trả lời.
+
+\subsection{MySQL}
+
+MySQL là hệ quản trị cơ sở dữ liệu quan hệ (Relational Database Management System -- RDBMS) mã nguồn mở được sử dụng rộng rãi trong các hệ thống thông tin và ứng dụng Web. MySQL tổ chức dữ liệu dưới dạng các bảng có mối quan hệ với nhau, hỗ trợ ngôn ngữ truy vấn SQL giúp dữ liệu luôn nhất quán và an toàn trong quá trình xử lý.
+
+Trong đồ án này, MySQL được lựa chọn nhờ các ưu điểm sau:
+
+\begin{itemize}
+    \item Dễ dàng tích hợp với Spring Boot thông qua Spring Data JPA.
+    
+    \item Có hiệu năng tốt đối với các nghiệp vụ quản lý người dùng và phân quyền.
+    
+\end{itemize}
+
+Trong hệ thống được xây dựng, MySQL được sử dụng để lưu trữ dữ liệu nghiệp vụ của các Microservice như thông tin người dùng, vai trò (Role), tài nguyên (Resource), quyền truy cập (Permission), lịch sử hội thoại và các dữ liệu phục vụ quá trình quản lý hệ thống. Các dịch vụ Spring Boot sử dụng Spring Data JPA để thực hiện các thao tác truy vấn và cập nhật dữ liệu trên MySQL.
+
+\subsection{MongoDB}
+
+MongoDB là hệ quản trị cơ sở dữ liệu NoSQL lưu trữ dữ liệu theo dạng tài liệu (Document Database). Thay vì lưu trữ dữ liệu theo các bảng và quan hệ như cơ sở dữ liệu quan hệ, MongoDB sử dụng định dạng BSON (Binary JSON), cho phép lưu trữ các dữ liệu có cấu trúc linh hoạt và dễ dàng mở rộng.
+
+Trong đồ án này, MongoDB được lựa chọn nhờ các ưu điểm sau:
+
+\begin{itemize}
+    \item Hỗ trợ lưu trữ dữ liệu bán cấu trúc (Semi-structured Data) với cấu trúc linh hoạt.
+
+    \item Không yêu cầu thiết kế lược đồ (Schema) cố định, thuận tiện khi dữ liệu thường xuyên thay đổi.
+
+    \item Có khả năng mở rộng tốt và xử lý nhanh đối với các tài liệu JSON.
+
+    \item Dễ dàng tích hợp với các dịch vụ Spring Boot và Python.
+
+    \item Phù hợp để lưu trữ các dữ liệu không yêu cầu quan hệ chặt chẽ giữa các bảng.
+\end{itemize}
+
+Trong hệ thống được xây dựng, MongoDB được sử dụng để lưu trữ các dữ liệu có cấu trúc linh hoạt như những dữ liệu về lịch sử hội thoại..., phục vụ các chức năng cần thao tác với tài liệu JSON và hỗ trợ mở rộng hệ thống trong tương lai.
+
+\subsection{Docker và Docker Compose}
+
+Docker là nền tảng ảo hóa ở mức hệ điều hành (Containerization Platform), cho phép đóng gói ứng dụng cùng toàn bộ môi trường thực thi, thư viện và các thành phần phụ thuộc vào một Container độc lập. Nhờ đó, ứng dụng có thể được triển khai đồng nhất trên nhiều môi trường khác nhau mà không phát sinh sự khác biệt về cấu hình.
+
+Docker Compose là công cụ hỗ trợ quản lý và triển khai đồng thời nhiều Container thông qua một tệp cấu hình \texttt{docker-compose.yml}. Công cụ này cho phép định nghĩa các dịch vụ, mạng (Network), ổ lưu trữ (Volume) và mối quan hệ giữa các Container trong cùng một hệ thống.
+
+Trong đồ án này, Docker và Docker Compose được lựa chọn nhờ các ưu điểm sau:
+
+\begin{itemize}
+    \item Chuẩn hóa môi trường phát triển và triển khai, đảm bảo tính nhất quán giữa các môi trường.
+
+    \item Cho phép đóng gói từng Microservice thành các Container độc lập, thuận tiện trong việc bảo trì và mở rộng.
+
+    \item Hỗ trợ triển khai đồng thời nhiều dịch vụ thông qua Docker Compose, giúp đơn giản hóa quá trình khởi động toàn bộ hệ thống.
+
+    \item Dễ dàng cấu hình mạng nội bộ giữa các Container, cho phép các Microservice giao tiếp với nhau thông qua tên dịch vụ.
+
+    \item Hỗ trợ quản lý Volume, giúp lưu trữ bền vững dữ liệu của MySQL, ChromaDB và các thành phần khác.
+
+    \item Đơn giản hóa quá trình triển khai hệ thống trên nhiều máy chủ hoặc môi trường khác nhau.
+\end{itemize}
+
+Trong đồ án này, toàn bộ hệ thống được triển khai bằng Docker Compose. Mỗi thành phần của hệ thống như API Gateway, User Service, Authentication Service, Chat Service, Crawler Service, Chat Session Service, MySQL và ChromaDB được đóng gói thành các Container riêng biệt. Docker Compose chịu trách nhiệm khởi tạo, kết nối mạng giữa các dịch vụ và quản lý vòng đời của toàn bộ hệ thống, giúp việc triển khai chỉ cần thực hiện thông qua một lệnh duy nhất.
+
+\section{Triển khai hệ thống}
+Sau khi hoàn thành quá trình thiết kế kiến trúc hệ thống ở Chương 3 và lựa chọn các công nghệ phù hợp, đồ án tiến hành triển khai các thành phần của hệ thống theo kiến trúc Microservices. Mỗi dịch vụ đảm nhiệm một chức năng độc lập và giao tiếp với nhau thông qua REST API hoặc WebSocket. Dữ liệu sau khi được thu thập từ website của nhà trường sẽ được xử lý, chuyển đổi thành vector embedding và lưu trữ trong cơ sở dữ liệu vector ChromaDB để phục vụ quá trình truy xuất ngữ nghĩa của chatbot.
+
+Phần này trình bày chi tiết quá trình triển khai từng thành phần của hệ thống, bao gồm Crawler Service, Chat Service, cơ chế Speech-to-Text, Text-to-Speech, phân quyền người dùng và triển khai hệ thống bằng Docker Compose.
+\subsection{Triển khai Crawler Service}
+
+Crawler Service là thành phần chịu trách nhiệm xây dựng dữ liệu về học phần cho hệ thống chatbot. Service này được phát triển bằng Java kết hợp với Selenium nhằm tự động thu thập dữ liệu từ website chính thức của Trường Đại học Bách khoa Hà Nội. Sau khi dữ liệu được thu thập, hệ thống tiếp tục thực hiện quá trình tiền xử lý, sinh vector embedding và lưu trữ vào cơ sở dữ liệu vector ChromaDB để phục vụ quá trình truy xuất thông tin của mô hình RAG.
+\subsubsection{Thu thập dữ liệu bằng Selenium}
+
+Website của nhà trường chứa phần lớn thông tin học phần dưới dạng các trang HTML động. Vì vậy, việc sử dụng các thư viện gửi yêu cầu HTTP thông thường như jsoup không thể đảm bảo thu thập đầy đủ dữ liệu do nhiều nội dung chỉ được tải sau khi JavaScript được thực hiện.
+
+Để giải quyết vấn đề này, đồ án sử dụng Selenium WebDriver nhằm mô phỏng quá trình người dùng truy cập website bằng trình duyệt thực. Selenium cho phép tự động mở trình duyệt, điều hướng giữa các trang, thực thi JavaScript và lấy toàn bộ nội dung sau khi trang đã được tải hoàn chỉnh.
+
+Crawler Service được cấu hình để lần lượt truy cập các  mục chứa thông tin học phần, 
+chương trình đào tạo, quy định học tập và các thông báo liên quan. Sau khi tải thành công nội dung của từng trang, 
+hệ thống tiến hành trích xuất các thành phần cần thiết như tiêu đề, nội dung văn bản để phục vụ các bước xử lý tiếp theo.
+
+Nhờ sử dụng Selenium, dữ liệu thu thập được có tính đầy đủ và chính xác hơn so với phương pháp thu thập HTML tĩnh, đồng thời hạn chế ảnh hưởng từ các thay đổi nhỏ trong cấu trúc giao diện của website.
+
+
+\subsubsection{Chuẩn hóa dữ liệu}
+
+Sau khi thu thập dữ liệu từ website, Crawler Service tiến hành tiền xử lý nhằm loại bỏ các thành phần không cần thiết trước khi đưa vào hệ thống RAG.
+
+Các bước chuẩn hóa bao gồm:
+
+\begin{itemize}
+    \item Chuẩn hóa khoảng trắng và ký tự đặc biệt.
+    \item Loại bỏ các nội dung trùng lặp hoặc không liên quan.
+    \item Ghép các đoạn văn bản liên tục thành tài liệu hoàn chỉnh.
+    \item Gắn thông tin metadata như tiêu đề, đường dẫn nguồn và thời điểm thu thập dữ liệu.
+\end{itemize}
+
+Sau quá trình chuẩn hóa, dữ liệu được chuyển thành các tài liệu văn bản có cấu trúc thống nhất, tạo điều kiện thuận lợi cho việc sinh vector embedding và truy xuất ngữ nghĩa trong các bước tiếp theo.
+
+\subsubsection{Sinh Vector Embedding}
+
+Sau khi dữ liệu được chuẩn hóa, Crawler Service sử dụng mô hình Embedding của OpenAI để chuyển đổi từng tài liệu thành vector số có số chiều lớn.
+
+Khác với phương pháp lưu trữ văn bản truyền thống, vector embedding biểu diễn ngữ nghĩa của nội dung dưới dạng các điểm trong không gian vector. Các tài liệu có nội dung tương đồng sẽ có khoảng cách gần nhau trong không gian này, tạo điều kiện cho việc tìm kiếm theo ngữ nghĩa thay vì chỉ dựa trên từ khóa.
+
+Crawler Service lần lượt gửi từng tài liệu tới OpenAI Embedding API để sinh vector embedding. Bên cạnh vector, hệ thống vẫn lưu giữ nội dung gốc cùng các metadata tương ứng nhằm phục vụ quá trình xây dựng ngữ cảnh (Context) khi chatbot thực hiện truy xuất thông tin.
+
+
+\end{document}
