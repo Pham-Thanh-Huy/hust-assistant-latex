@@ -56,12 +56,12 @@ So với mô hình Request/Response truyền thống. Websocket có độ phản
 Trong hệ thống hỏi đáp học phần lần này, websocket là lựa chọng không thể thiếu vì có khả năng trao đổi dữ liệu hai chiều theo thời gian thực phù hợp với cơ chế streaming response của OpenAI, cải thiện trải nghiệm hội thoại của người dùng.
 
 \subsection{Python}
-Python là ngôn ngữ lập trình bậc cao được phát triển theo hướng đơn giản, dễ đọc và dễ mở rộng. Với hệ sinh thái thư viện phong phú, Python được sử dụng rộng rãi trong nhiều lĩnh vực như phát triển Web, trí tuệ nhân tạo (Artificial Intelligence - AI), học máy (Machine Learning), xử lý ngôn ngữ tự nhiên (Natural Language Processing - NLP) và phân tích dữ liệu. Đặc biệt, Python là một trong những ngôn ngữ được cộng đồng AI sử dụng phổ biến nhất nhờ khả năng tích hợp nhanh với các mô hình và dịch vụ trí tuệ nhân tạo hiện đại.
+Python là ngôn ngữ lập trình bậc cao được phát triển theo hướng đơn giản, dễ đọc và dễ mở rộng. Với hệ sinh thái thư viện phong phú, Python được sử dụng rộng rãi trong nhiều lĩnh vực như phát triển Web, trí tuệ nhân tạo (Artificial Intelligence - AI), học máy (Machine Learning), xử lý ngôn ngữ tự nhiên (Natural Language Processing - NLP) và phân tích dữ liệu. Đặc biệt, Python là một trong những ngôn ngữ được cộng đồng AI sử dụng phổ biến nhất nhờ khả năng tích hợp nhanh với các mô hình và service trí tuệ nhân tạo hiện đại.
 
 Lý do lựa chọn trong đồ án lần này:
 \begin{itemize}
     \item Sở hữu nhiều thư viện mạnh về AI, hỗ trợ tốt phát triển các mô hình LLM
-    \item Có thư viện chính thức của OpenAI, giúp tích hợp các dịch vụ như tạo Vector Embedding Speech-to-Text và Text-to-Speech một cách thuận tiện.
+    \item Có thư viện chính thức của OpenAI, giúp tích hợp các service như tạo Vector Embedding Speech-to-Text và Text-to-Speech một cách thuận tiện.
     \item Hỗ trợ lập trình bất đồng bộ
     \item Hỗ trợ giao thức WebSocket thông qua các framework hiện đại như FastAPI, đáp ứng yêu cầu truyền dữ liệu theo thời gian thực trong quá trình chatbot phản hồi theo cơ chế streaming.
     \item Dễ dàng tích hợp với các thư viện xử lý dữ liệu và cơ sở dữ liệu vector như ChromaDB, phục vụ cho mô hình RAG.
@@ -70,16 +70,16 @@ Lý do lựa chọn trong đồ án lần này:
 
 \subsection{Spring Boot}
 
-Spring Boot là framework mã nguồn mở được phát triển dựa trên Spring Framework nhằm đơn giản hóa quá trình xây dựng các ứng dụng Java. Framework này cung cấp cơ chế tự động cấu hình (Auto Configuration), quản lý phụ thuộc (Dependency Management), giúp giảm đáng kể thời gian phát triển và triển khai ứng dụng. Nhờ khả năng xây dựng các dịch vụ độc lập, dễ mở rộng và dễ bảo trì, Spring Boot hiện được sử dụng rộng rãi trong các hệ thống doanh nghiệp và kiến trúc Microservices.
+Spring Boot là framework mã nguồn mở được phát triển dựa trên Spring Framework nhằm đơn giản hóa quá trình xây dựng các ứng dụng Java. Framework này cung cấp cơ chế tự động cấu hình (Auto Configuration), quản lý phụ thuộc (Dependency Management), giúp giảm đáng kể thời gian phát triển và triển khai ứng dụng. Nhờ khả năng xây dựng các service độc lập, dễ mở rộng và dễ bảo trì, Spring Boot hiện được sử dụng rộng rãi trong các hệ thống doanh nghiệp và kiến trúc Microservices.
 
-Trong đồ án này, Spring Boot được lựa chọn để xây dựng các dịch vụ nghiệp vụ (\textit{Business Services}) nhờ các ưu điểm sau:
+Trong đồ án này, Spring Boot được lựa chọn để xây dựng các service nghiệp vụ (\textit{Business Services}) nhờ các ưu điểm sau:
 
 \begin{itemize}
-    \item Hỗ trợ xây dựng các dịch vụ RESTful API theo chuẩn HTTP, giúp các Microservice giao tiếp với nhau một cách thống nhất và dễ dàng tích hợp với API Gateway.
+    \item Hỗ trợ xây dựng các service RESTful API theo chuẩn HTTP, giúp các Microservice giao tiếp với nhau một cách thống nhất và dễ dàng tích hợp với API Gateway.
 
     \item Tích hợp sẵn Spring Security, cung cấp cơ chế xác thực (Authentication) và phân quyền (Authorization), đáp ứng yêu cầu xây dựng hệ thống bảo mật theo mô hình User -- Role -- Resource.
 
-    \item Hỗ trợ xác thực bằng JSON Web Token (JWT), cho phép các dịch vụ kiểm tra danh tính và quyền truy cập của người dùng mà không cần lưu trữ trạng thái phiên làm việc trên máy chủ.
+    \item Hỗ trợ xác thực bằng JSON Web Token (JWT), cho phép các service kiểm tra danh tính và quyền truy cập của người dùng mà không cần lưu trữ trạng thái phiên làm việc trên máy chủ.
 
     \item Tích hợp Spring Data JPA, hỗ trợ ánh xạ đối tượng với cơ sở dữ liệu quan hệ (ORM), giúp đơn giản hóa quá trình truy vấn và thao tác dữ liệu, đồng thời giảm số lượng câu lệnh SQL cần xây dựng.
 
@@ -88,7 +88,7 @@ Trong đồ án này, Spring Boot được lựa chọn để xây dựng các d
     \item Có cộng đồng phát triển lớn, tài liệu đầy đủ và được sử dụng rộng rãi trong các hệ thống doanh nghiệp, góp phần rút ngắn thời gian phát triển và nâng cao độ ổn định của hệ thống.
 \end{itemize}
 
-Trong hệ thống được xây dựng, Spring Boot được sử dụng để phát triển các dịch vụ gồm \textit{User Service}, \textit{Authentication Service} và \textit{Chat Session Service}. Các dịch vụ này chịu trách nhiệm quản lý người dùng, đăng ký và đăng nhập tài khoản, xác thực và phân quyền truy cập dựa trên JWT và Spring Security, đồng thời lưu trữ lịch sử hội thoại của người dùng. Bên cạnh đó, các dịch vụ được xây dựng theo kiến trúc RESTful API để giao tiếp với API Gateway và các Microservice khác trong hệ thống, góp phần tạo nên một kiến trúc có khả năng mở rộng và dễ bảo trì.
+Trong hệ thống được xây dựng, Spring Boot được sử dụng để phát triển các service gồm \textit{User Service}, \textit{Authentication Service} và \textit{Chat Session Service}. Các service này chịu trách nhiệm quản lý người dùng, đăng ký và đăng nhập tài khoản, xác thực và phân quyền truy cập dựa trên JWT và Spring Security, đồng thời lưu trữ lịch sử hội thoại của người dùng. Bên cạnh đó, các service được xây dựng theo kiến trúc RESTful API để giao tiếp với API Gateway và các Microservice khác trong hệ thống, góp phần tạo nên một kiến trúc có khả năng mở rộng và dễ bảo trì.
 
 \subsection{ChromaDB}
 
@@ -125,7 +125,7 @@ Trong đồ án này, MySQL được lựa chọn nhờ các ưu điểm sau:
     
 \end{itemize}
 
-Trong hệ thống được xây dựng, MySQL được sử dụng để lưu trữ dữ liệu nghiệp vụ của các Microservice như thông tin người dùng, vai trò (Role), tài nguyên (Resource), quyền truy cập (Permission), lịch sử hội thoại và các dữ liệu phục vụ quá trình quản lý hệ thống. Các dịch vụ Spring Boot sử dụng Spring Data JPA để thực hiện các thao tác truy vấn và cập nhật dữ liệu trên MySQL.
+Trong hệ thống được xây dựng, MySQL được sử dụng để lưu trữ dữ liệu nghiệp vụ của các Microservice như thông tin người dùng, vai trò (Role), tài nguyên (Resource), quyền truy cập (Permission), lịch sử hội thoại và các dữ liệu phục vụ quá trình quản lý hệ thống. Các service Spring Boot sử dụng Spring Data JPA để thực hiện các thao tác truy vấn và cập nhật dữ liệu trên MySQL.
 
 \subsection{MongoDB}
 
@@ -140,7 +140,7 @@ Trong đồ án này, MongoDB được lựa chọn nhờ các ưu điểm sau:
 
     \item Có khả năng mở rộng tốt và xử lý nhanh đối với các tài liệu JSON.
 
-    \item Dễ dàng tích hợp với các dịch vụ Spring Boot và Python.
+    \item Dễ dàng tích hợp với các service Spring Boot và Python.
 
     \item Phù hợp để lưu trữ các dữ liệu không yêu cầu quan hệ chặt chẽ giữa các bảng.
 \end{itemize}
@@ -151,7 +151,7 @@ Trong hệ thống được xây dựng, MongoDB được sử dụng để lưu
 
 Docker là nền tảng ảo hóa ở mức hệ điều hành (Containerization Platform), cho phép đóng gói ứng dụng cùng toàn bộ môi trường thực thi, thư viện và các thành phần phụ thuộc vào một Container độc lập. Nhờ đó, ứng dụng có thể được triển khai đồng nhất trên nhiều môi trường khác nhau mà không phát sinh sự khác biệt về cấu hình.
 
-Docker Compose là công cụ hỗ trợ quản lý và triển khai đồng thời nhiều Container thông qua một tệp cấu hình \texttt{docker-compose.yml}. Công cụ này cho phép định nghĩa các dịch vụ, mạng (Network), ổ lưu trữ (Volume) và mối quan hệ giữa các Container trong cùng một hệ thống.
+Docker Compose là công cụ hỗ trợ quản lý và triển khai đồng thời nhiều Container thông qua một tệp cấu hình \texttt{docker-compose.yml}. Công cụ này cho phép định nghĩa các service, mạng (Network), ổ lưu trữ (Volume) và mối quan hệ giữa các Container trong cùng một hệ thống.
 
 Trong đồ án này, Docker và Docker Compose được lựa chọn nhờ các ưu điểm sau:
 
@@ -160,19 +160,19 @@ Trong đồ án này, Docker và Docker Compose được lựa chọn nhờ các
 
     \item Cho phép đóng gói từng Microservice thành các Container độc lập, thuận tiện trong việc bảo trì và mở rộng.
 
-    \item Hỗ trợ triển khai đồng thời nhiều dịch vụ thông qua Docker Compose, giúp đơn giản hóa quá trình khởi động toàn bộ hệ thống.
+    \item Hỗ trợ triển khai đồng thời nhiều service thông qua Docker Compose, giúp đơn giản hóa quá trình khởi động toàn bộ hệ thống.
 
-    \item Dễ dàng cấu hình mạng nội bộ giữa các Container, cho phép các Microservice giao tiếp với nhau thông qua tên dịch vụ.
+    \item Dễ dàng cấu hình mạng nội bộ giữa các Container, cho phép các Microservice giao tiếp với nhau thông qua tên service.
 
     \item Hỗ trợ quản lý Volume, giúp lưu trữ bền vững dữ liệu của MySQL, ChromaDB và các thành phần khác.
 
     \item Đơn giản hóa quá trình triển khai hệ thống trên nhiều máy chủ hoặc môi trường khác nhau.
 \end{itemize}
 
-Trong đồ án này, toàn bộ hệ thống được triển khai bằng Docker Compose. Mỗi thành phần của hệ thống như API Gateway, User Service, Authentication Service, Chat Service, Crawler Service, Chat Session Service, MySQL và ChromaDB được đóng gói thành các Container riêng biệt. Docker Compose chịu trách nhiệm khởi tạo, kết nối mạng giữa các dịch vụ và quản lý vòng đời của toàn bộ hệ thống, giúp việc triển khai chỉ cần thực hiện thông qua một lệnh duy nhất.
+Trong đồ án này, toàn bộ hệ thống được triển khai bằng Docker Compose. Mỗi thành phần của hệ thống như API Gateway, User Service, Authentication Service, Chat Service, Crawler Service, Chat Session Service, MySQL và ChromaDB được đóng gói thành các Container riêng biệt. Docker Compose chịu trách nhiệm khởi tạo, kết nối mạng giữa các service và quản lý vòng đời của toàn bộ hệ thống, giúp việc triển khai chỉ cần thực hiện thông qua một lệnh duy nhất.
 
 \section{Triển khai hệ thống}
-Sau khi hoàn thành quá trình thiết kế kiến trúc hệ thống ở Chương 3 và lựa chọn các công nghệ phù hợp, đồ án tiến hành triển khai các thành phần của hệ thống theo kiến trúc Microservices. Mỗi dịch vụ đảm nhiệm một chức năng độc lập và giao tiếp với nhau thông qua REST API hoặc WebSocket. Dữ liệu sau khi được thu thập từ website của nhà trường sẽ được xử lý, chuyển đổi thành vector embedding và lưu trữ trong cơ sở dữ liệu vector ChromaDB để phục vụ quá trình truy xuất ngữ nghĩa của chatbot.
+Sau khi hoàn thành quá trình thiết kế kiến trúc hệ thống ở Chương 3 và lựa chọn các công nghệ phù hợp, đồ án tiến hành triển khai các thành phần của hệ thống theo kiến trúc Microservices. Mỗi service đảm nhiệm một chức năng độc lập và giao tiếp với nhau thông qua REST API hoặc WebSocket. Dữ liệu sau khi được thu thập từ website của nhà trường sẽ được xử lý, chuyển đổi thành vector embedding và lưu trữ trong cơ sở dữ liệu vector ChromaDB để phục vụ quá trình truy xuất ngữ nghĩa của chatbot.
 
 Phần này trình bày chi tiết quá trình triển khai từng thành phần của hệ thống, bao gồm Crawler Service, Chat Service, cơ chế Speech-to-Text, Text-to-Speech, phân quyền người dùng và triển khai hệ thống bằng Docker Compose.
 \subsection{Triển khai Crawler Service}
@@ -214,5 +214,210 @@ Khác với phương pháp lưu trữ văn bản truyền thống, vector embedd
 
 Crawler Service lần lượt gửi từng tài liệu tới OpenAI Embedding API để sinh vector embedding. Bên cạnh vector, hệ thống vẫn lưu giữ nội dung gốc cùng các metadata tương ứng nhằm phục vụ quá trình xây dựng ngữ cảnh (Context) khi chatbot thực hiện truy xuất thông tin.
 
+\subsubsection{Lưu trữ vào ChromaDB}
 
+Sau khi vector embedding được tạo thành công, Crawler Service tiến hành lưu trữ toàn bộ dữ liệu vào cơ sở dữ liệu vector ChromaDB.
+
+Mỗi bản ghi trong ChromaDB bao gồm các thành phần:
+
+\begin{itemize}
+    \item ID của tài liệu.
+    \item Vector embedding.
+    \item Nội dung văn bản.
+    \item Metadata gồm tiêu đề, đường dẫn nguồn và các thông tin liên quan.
+\end{itemize}
+
+Khi người dùng gửi câu hỏi, Chat Service sẽ sử dụng cùng mô hình Embedding để chuyển đổi câu hỏi thành vector. Sau đó, ChromaDB thực hiện phép tìm kiếm theo độ tương đồng ngữ nghĩa (Semantic Search) nhằm xác định các tài liệu có mức độ liên quan cao nhất. Những tài liệu này sẽ được sử dụng làm ngữ cảnh cho mô hình RAG trước khi gửi tới mô hình ngôn ngữ lớn để sinh câu trả lời.
+
+Việc sử dụng ChromaDB giúp hệ thống không cần đưa toàn bộ cơ sở dữ liệu vào Prompt mà chỉ lựa chọn các tài liệu có liên quan nhất, góp phần giảm chi phí xử lý, tăng tốc độ phản hồi và nâng cao độ chính xác của câu trả lời.
+
+\subsection{Triển khai Chat Service}
+Chat Service là service chính của hệ thống chatbot, được phát triển bằng Python và FastAPI. Service này chịu trách nhiệm tiếp nhận yêu cầu chat từ user, thực hiện truy xuất dữ liệu, tương tác với mô LLM của OpenAI và trả kết quả về theo cơ chế Streaming.
+
+Khác với các chatbot truyền thống chỉ dựa trên kiến thức đã được huấn luyện của mô hình từ trước, Chat Service kết hợp thêm cơ chế truy xuất tri thức từ cơ sở dữ liệu vector ChromaDB. Điều này giúp câu trả lời luôn bám sát dữ liệu được thu thập từ website của nhà trường.
+
+\subsubsection{Sinh Vector Embedding cho câu hỏi}
+Sau khi nhận được câu hỏi từ người dùng, Chat Service không gửi trực tiếp nội dung này tới mô hình ngôn ngữ lớn mà sử dụng mô hình Embedding của OpenAI để chuyển đổi câu hỏi thành vector.
+
+Vector embedding cho phép biểu diễn nội dung câu hỏi dưới dạng các giá trị số trong không gian nhiều chiều. Những câu hỏi có ý nghĩa tương đồng sẽ có khoảng cách gần nhau trong không gian vector mặc dù cách diễn đạt có thể khác nhau.
+
+Việc chuyển đổi câu hỏi thành vector embedding giúp hệ thống có thể thực hiện truy xuất thông tin dựa trên ngữ nghĩa thay vì chỉ dựa vào việc so sánh trùng khớp từ khóa.
+
+\subsubsection{Semantic Search trên ChromaDB}
+Sau khi vector embedding của câu hỏi được tạo, Chat Service thực hiện truy vấn đến ChromaDB để tìm kiếm các tài liệu liên quan nhất.
+
+Khác với phương pháp tìm kiếm truyền thống dựa trên từ khóa, Semantic Search sử dụng khoảng cách giữa các vector embedding để đánh giá mức độ liên quan giữa câu hỏi và các tài liệu đã được lưu trữ. Do đó, hệ thống vẫn có thể tìm được những tài liệu phù hợp ngay cả khi câu hỏi và nội dung tài liệu sử dụng các cách diễn đạt khác nhau.
+
+Kết quả truy xuất bao gồm các đoạn văn bản có độ tương đồng cao, cùng các thông tin metadata như tiêu đề và đường dẫn nguồn. Các dữ liệu này sẽ được sử dụng làm ngữ cảnh cho mô hình RAG trong các bước tới.
+
+\subsubsection{Xây dựng Prompt}
+Sau khi hoàn thành quá trình truy xuất dữ liệu, Chat Service tiến hành xây dựng Prompt để gửi tới LLM của OpenAI.
+
+Prompt được tạo thành từ nhiều thành phần bao gồm System Prompt, các tài liệu được truy xuất từ ChromaDB và nội dung câu hỏi của người dùng. 
+
+\begin{figure}[htbp]
+    \centering
+    \hspace*{0.2cm}
+    \makebox[\textwidth][c]{%
+        \includegraphics[
+            height=0.45\textheight,
+            keepaspectratio
+        ]{Hinhve/chuong_4/prompt.png}
+    }
+    \caption{Prompt của chat-service trong hệ thống chat-bot}
+    \label{fig:hust-prompt-chat-service}
+\end{figure}
+
+Ngoài ra, Prompt còn được thiết kế để yêu cầu mô hình ưu tiên sử dụng các thông tin được truy xuất, chỉ đưa ra câu trả lời trong phạm vi dữ liệu của nhà trường và từ chối trả lời đối với các câu hỏi không liên quan. Cách xây dựng Prompt này giúp nâng cao độ chính xác và tính nhất quán của chatbot trong quá trình trả lời người dùng.
+
+\subsubsection{Gọi mô hình OpenAI}
+Sau khi Prompt được xây dựng hoàn chỉnh, Chat Service sẽ sử dụng thư viện OpenAI trong python để gửi yêu cầu tới mô hình của OpenAI
+
+Trong quá trình này, hệ thống truyền toàn bộ Prompt cùng các tham số cấu hình như mô hình sử dụng, chế độ Streaming kết hợp thông tin truy xuất được và đưa ra câu trả lời phù hợp với câu hỏi của người dùng.
+
+Việc sử dụng thư viện OpenAI giúp đơn giản hóa quá trình tích hợp với các mô hình ngôn ngữ lớn, đồng thời hỗ trợ xử lý bất đồng bộ và truyền dữ liệu theo thời gian thực.
+
+\subsubsection{Streaming Response}
+Thay vì chờ LLM đưa ra hoàn chỉnh toàn bộ câu trả lời, Chat Service sử dụng cơ chế Streaming để nhận từng phần dữ liệu ngay khi được tạo ra.
+
+Mỗi đoạn nội dung nhận được từ OpenAI sẽ được Chat Service chuyển tiếp ngay tới giao diện ReactJS thông qua kết nối WebSocket. Giao diện sẽ liên tục cập nhật nội dung của tin nhắn cho đến khi mô hình hoàn thành việc sinh câu trả lời.
+\begin{figure}[htbp]
+    \centering
+    \hspace*{-1cm}
+    \makebox[\textwidth][c]{%
+        \includegraphics[
+            height=0.45\textheight,
+            keepaspectratio
+        ]{Hinhve/chuong_4/websocket-chat.png}
+    }
+    \caption{Streaming response của chat-service trong hệ thống chat-bot}
+    \label{fig:hust-websocket-chat-streaming}
+\end{figure}
+Việc áp dụng cơ chế Streaming không chỉ giúp giảm thời gian chờ cảm nhận của người dùng mà còn tạo trải nghiệm tương tác tự nhiên hơn, tương tự các hệ thống chatbot hiện đại như ChatGPT hay Gemini.
+
+\subsection{Triển khai Speech-to-Text}
+Nhằm nâng cao trải nghiệm người dùng và hỗ trợ việc tương tác bằng giọng nói, hệ thống triển khai chức năng chuyển đổi giọng nói thành văn bản (Speech-to-Text -- STT). Chức năng này cho phép người dùng đặt câu hỏi bằng giọng nói thay vì nhập từ bàn phím. Sau khi được chuyển đổi thành văn bản, kết quả sẽ được hiển thị trên giao diện và tiếp tục được sử dụng làm đầu vào cho Chat Service để thực hiện quy trình hỏi đáp.
+
+\subsubsection{Thu âm}
+Khi người dùng lựa chọn chức năng nhập liệu bằng giọng nói, giao diện ReactJS sử dụng Web API của trình duyệt để truy cập thiết bị ghi âm và thu nhận tín hiệu âm thanh từ microphone.
+
+Trong quá trình ghi âm, dữ liệu âm thanh được lưu tạm trên phía trình duyệt dưới định dạng phù hợp để truyền tới máy chủ. Người dùng có thể chủ động bắt đầu và kết thúc quá trình ghi âm thông qua giao diện của hệ thống. Sau khi hoàn thành, tệp âm thanh sẽ được gửi đến Chat Service để thực hiện chuyển đổi thành văn bản.
+
+\subsubsection{Gửi dữ liệu âm thanh}
+Sau khi quá trình ghi âm kết thúc, giao diện ReactJS đóng gói dữ liệu âm thanh dưới dạng tệp và gửi tới Chat Service thông qua giao thức HTTP. Dữ liệu được truyền theo định dạng \texttt{multipart/form-data}, cho phép máy chủ tiếp nhận trực tiếp tệp âm thanh từ phía người dùng.
+
+Sau khi nhận được tệp âm thanh, Chat Service kiểm tra định dạng và chuyển tiếp dữ liệu tới mô hình Speech-to-Text của OpenAI để thực hiện quá trình nhận dạng giọng nói.
+
+\subsubsection{Chuyển đổi giọng nói thành văn bản}
+Sau khi nhận được tệp âm thanh, Chat Service gửi dữ liệu tới mô hình Speech-to-Text của OpenAI.
+
+Mô hình sẽ phân tích âm thanh và chuyển đổi thành văn bản. Kết quả trả về là chuỗi ký tự chính xác nội dung người dùng đã phát biểu.
+
+Việc sử dụng mô hình Speech-to-Text của OpenAI giúp hệ thống đạt độ chính xác cao trong quá trình nhận dạng, đồng thời hỗ trợ nhiều ngôn ngữ và có khả năng xử lý tốt đối với các câu nói có tốc độ hoặc ngữ điệu khác nhau.
+
+\subsubsection{Hiển thị kết quả}
+Sau khi nhận được kết quả nhận dạng từ OpenAI, Chat Service trả nội dung văn bản về giao diện ReactJS.
+
+Văn bản nhận dạng được tự động hiển thị tại ô nhập câu hỏi, cho phép người dùng kiểm tra hoặc chỉnh sửa nếu cần trước khi gửi câu hỏi tới chatbot. Khi người dùng xác nhận gửi câu hỏi, nội dung văn bản này sẽ được xử lý giống như dữ liệu nhập từ bàn phím và tiếp tục thực hiện quy trình hỏi đáp của Chat Service.
+
+Việc tích hợp chức năng Speech-to-Text giúp đa dạng phương thức tương tác với hệ thống, đồng thời nâng cao tính thuận tiện cho người dùng trong quá trình sử dụng chatbot.
+
+\subsection{Triển khai Text-to-Speech}
+Bên cạnh chức năng hỏi đáp bằng văn bản, hệ thống còn hỗ trợ chuyển đổi câu trả lời của chatbot thành giọng nói (Text-to-Speech -- TTS). Chức năng này giúp người dùng có thể nghe nội dung phản hồi thay vì xem trực tiếp trên giao diện, từ đó giúp người dùng dễ dàng hiểu câu trả lời thuận tiện hơn, nâng cao trải nghiệm sử dụng hệ thống.
+
+Khác với chức năng Speech-to-Text, Text-to-Speech chỉ được thực hiện khi người dùng có nhu cầu nghe lại câu trả lời. Sau khi chatbot hoàn thành việc trả lời cầu hỏi, hệ thống sẽ chuẩn hóa văn bản dùng cho việc đọc và lưu cùng với dữ liệu hội thoại. Khi người dùng lựa chọn phát âm thanh, Chat Service sẽ sử dụng mô hình Text-to-Speech của OpenAI để sinh dữ liệu âm thanh và truyền trực tiếp tới giao diện theo cơ chế Streaming.
+
+\subsubsection{Sinh dữ liệu âm thanh}
+Khi người dùng nhấn nút phát âm thanh trên giao diện, ReactJS gửi mã định danh của câu trả lời (Response ID) tới Chat Service.
+
+Sau khi nhận được yêu cầu, Chat Service sẽ gọi tới Chat-session-Service để lấy ra lịch sử chat từ đó lấy ra được nội dung câu trả lời, từ đó gửi tới mô hình TTS của OpenAI
+
+Mô hình Text-to-Speech phân tích nội dung văn bản và thực hiện quá trình tổng hợp giọng nói để tạo dữ liệu âm thanh. Quá trình này được thực hiện hoàn toàn trên máy chủ của OpenAI, giúp đảm bảo chất lượng phát âm và hỗ trợ nhiều ngôn ngữ khác nhau.
+
+\subsubsection{Streaming dữ liệu âm thanh}
+Thay vì chờ mô hình tổng hợp hoàn chỉnh toàn bộ tệp âm thanh, Chat Service sử dụng cơ chế Streaming để truyền dữ liệu âm thanh ngay khi được OpenAI sinh ra.
+
+Các khối dữ liệu âm thanh (Audio Chunks) được nhận liên tục từ OpenAI và chuyển tiếp trực tiếp tới giao diện người dùng mà không cần lưu tạm toàn bộ tệp trên máy chủ. Cơ chế này giúp giảm thời gian chờ và cho phép người dùng bắt đầu nghe câu trả lời gần như ngay lập tức.
+
+Việc truyền dữ liệu theo cơ chế Streaming cũng giúp giảm dung lượng bộ nhớ cần sử dụng trên máy chủ, đồng thời cải thiện hiệu năng của hệ thống khi có nhiều người dùng sử dụng chức năng Text-to-Speech đồng thời.
+
+\subsubsection{Phát âm thanh trên giao diện}
+Giao diện ReactJS tiếp nhận luồng dữ liệu âm thanh do Chat Service gửi về và phát trực tiếp trong quá trình nhận dữ liệu. Người dùng có thể nghe câu trả lời gần như ngay lập tức mà không cần chờ toàn bộ nội dung âm thanh được tạo hoàn chỉnh.
+
+Sau khi quá trình truyền dữ liệu kết thúc, giao diện tự động kết thúc việc phát âm thanh và giải phóng các tài nguyên đã sử dụng. Mỗi câu trả lời của chatbot đều được hiển thị kèm nút phát âm thanh, cho phép người dùng nghe lại bất kỳ thời điểm nào mà không ảnh hưởng đến các chức năng hỏi đáp khác của hệ thống.
+
+\subsection{Triển khai Chat Session}
+Để hỗ trợ người dùng xem các cuộc hội thoại và tiếp tục trao đổi với chatbot ở những lần sử dụng sau, hệ thống triển khai Chat Session Service. Service này chịu trách nhiệm quản lý các phiên hội thoại, lưu trữ lịch sử trao đổi giữa người dùng và chatbot, đồng thời cung cấp các API phục vụ việc truy xuất và hiển thị lịch sử trên giao diện.
+
+Sau khi Chat Service hoàn thành việc sinh câu trả lời, toàn bộ thông tin của phiên hội thoại sẽ được gửi tới Chat Session Service thông qua API. Tại đây, dữ liệu được lưu trữ và quản lý theo từng phiên hội thoại (Chat Session), giúp người dùng có thể xem lại hoặc tiếp tục các cuộc trò chuyện trước đó.
+
+Quá trình triển khai Chat Session Service bao gồm các bước sau.
+
+\subsubsection{Lưu lịch sử hội thoại}
+Sau khi Chat Service hoàn thành việc xử lý câu hỏi và trả kết quả cho người dùng, hệ thống tiến hành gửi dữ liệu hội thoại tới Chat Session Service thông qua API.
+
+Thông tin được lưu trữ bao gồm mã phiên hội thoại, mã người dùng, câu hỏi của người dùng, câu trả lời của chatbot, thời gian tạo và các thông tin liên quan khác. Việc lưu trữ được thực hiện sau khi quá trình Streaming kết thúc nhằm đảm bảo dữ liệu được ghi nhận đầy đủ và nhất quán.
+
+\subsubsection{Hiển thị lịch sử hội thoại}
+Khi người dùng truy cập chức năng lịch sử trò chuyện, giao diện ReactJS gửi request tới Chat Session Service để lấy danh sách các phiên hội thoại tương ứng với tài khoản đang đăng nhập.
+
+Chat Session Service truy vấn cơ sở dữ liệu, tổng hợp thông tin của từng phiên hội thoại và trả kết quả về giao diện dưới dạng danh sách. Mỗi phiên hiển thị các thông tin như tiêu đề cuộc trò chuyện, thời gian tạo hoặc cập nhật gần nhất và số lượng tin nhắn trong phiên.
+
+Khi người dùng lựa chọn một phiên hội thoại, toàn bộ nội dung trao đổi giữa người dùng và chatbot sẽ được tải và hiển thị trên giao diện, giúp người dùng dễ dàng xem lại các thông tin đã được trao đổi trước đó.
+
+\subsubsection{Tiếp tục cuộc hội thoại}
+Bên cạnh chức năng lưu trữ lịch sử, hệ thống còn hỗ trợ tiếp tục các cuộc hội thoại đã tồn tại.
+
+Khi người dùng gửi câu hỏi mới trong một phiên hội thoại cũ, giao diện sẽ gửi Session ID cùng với nội dung câu hỏi tới Chat Service. Sau khi hoàn thành, Chat Service trả câu trả lời cho người dùng và đồng thời gửi thông tin của lượt hội thoại mới tới Chat Session Service để cập nhật dữ liệu của phiên hiện tại.
+
+Toàn bộ nội dung trao đổi được lưu trữ liên tục trong cùng một phiên hội thoại, giúp người dùng dễ dàng theo dõi ngữ cảnh của cuộc trò chuyện và xem lại các nội dung đã trao đổi mà không cần tạo một phiên mới cho mỗi lần đặt câu hỏi.
+
+\subsection{Triển khai Authentication và Authorization}
+Để đảm bảo an toàn cho hệ thống và kiểm soát quyền truy cập đến các service, đồ án triển khai cơ chế xác thực (Authentication) và phân quyền (Authorization) theo kiến trúc Microservices. Hệ thống gồm hai service chính là \textit{User Service} và \textit{Authentication Service}. Trong đó, User Service chịu trách nhiệm quản lý người dùng và xác thực thông tin đăng nhập, còn Authentication Service đảm nhiệm việc kiểm tra quyền truy cập đối với các API trong hệ thống.
+
+Quá trình xác thực và phân quyền được triển khai theo các bước sau.
+
+\subsubsection{Đăng nhập hệ thống}
+Khi người dùng thực hiện đăng nhập, giao diện gửi thông tin tài khoản và mật khẩu tới User Service thông qua API. User Service tiến hành kiểm tra thông tin đăng nhập với dữ liệu được lưu trong cơ sở dữ liệu.
+
+Nếu thông tin hợp lệ, User Service tạo một JSON Web Token (JWT) chứa thông tin cần thiết như id người dùng, username. JWT sau đó được trả về cho giao diện và được lưu để sử dụng trong các yêu cầu tiếp theo.
+
+\subsubsection{Phân quyền theo mô hình User -- Role -- Resource}
+Sau khi xác thực thành công JWT, Authentication Service tiếp tục thực hiện kiểm tra quyền truy cập dựa trên mô hình User -- Role -- Resource.
+
+Trong mô hình này:
+\begin{itemize}
+    \item User đại diện cho người sử dụng hệ thống.
+    \item Role biểu diễn vai trò của người dùng như User hoặc Administrator...
+    \item Resource là các thông tin về API.
+\end{itemize}
+
+Mỗi Role được cấu hình danh sách các Resource được phép truy cập. Khi một yêu cầu được gửi tới hệ thống, Authentication Service xác định Role của người dùng từ JWT, sau đó đối chiếu với danh sách quyền đã được cấu hình để quyết định có cho phép truy cập tài nguyên hay không.
+
+\subsubsection{Kiểm tra quyền tại API Gateway}
+Các request từ phía giao diện trước khi được chuyển đến các Microservice đều phải đi qua API Gateway.
+
+Sau khi nhận được yêu cầu, API Gateway forward  thông tin này tới Authentication Service để kiểm tra tính hợp lệ của Token cũng như quyền truy cập tương ứng với API đang được yêu cầu.
+
+Nếu Authentication Service trả về kết quả hợp lệ, API Gateway sẽ tiếp tục định tuyến yêu cầu đến service tương ứng như User Service, Chat Service hoặc Chat Session Service. Ngược lại, nếu JWT không hợp lệ hoặc người dùng không có quyền truy cập tài nguyên, API Gateway sẽ trả về mã lỗi và không chuyển tiếp yêu cầu đến các service phía sau.
+
+\subsection{Triển khai Docker Compose}
+Hệ thống được xây dựng theo kiến trúc Microservices với nhiều service hoạt động độc lập như API Gateway, User Service, Authentication Service, Chat Service, Chat Session Service, Crawler Service cùng các thành phần lưu trữ dữ liệu như MySQL, MongoDB và ChromaDB. Để đơn giản hóa quá trình triển khai và đảm bảo tính nhất quán giữa các môi trường phát triển và vận hành, toàn bộ hệ thống được đóng gói dưới dạng các Docker Container và được quản lý thông qua Docker Compose.
+
+Docker Compose cho phép khai báo toàn bộ các service trong một tệp cấu hình duy nhất, đồng thời tự động khởi tạo mạng nội bộ, quản lý dữ liệu lưu trữ và điều phối quá trình khởi động của các Container. Nhờ đó, việc triển khai toàn bộ hệ thống chỉ cần thực hiện thông qua một lệnh duy nhất mà không cần cấu hình thủ công từng service.
+
+Quá trình triển khai bằng Docker Compose bao gồm các nội dung sau.
+
+\subsubsection{Cấu hình docker-compose.yml}
+
+Tệp \texttt{docker-compose.yml} đóng vai trò là trung tâm cấu hình của toàn bộ hệ thống. Trong tệp này, mỗi Microservice được định nghĩa như một service độc lập cùng với các thông tin cần thiết như Docker Image, cổng service (Port), biến môi trường (Environment Variables), mạng kết nối (Network) và vùng lưu trữ dữ liệu (Volume).
+
+Bên cạnh các service nghiệp vụ như API Gateway, User Service, Authentication Service, Chat Service, Chat Session Service và Crawler Service, tệp cấu hình còn khai báo các service hạ tầng như MySQL và ChromaDB. Docker Compose chịu trách nhiệm khởi tạo các Container theo đúng cấu hình và đảm bảo các service có thể giao tiếp với nhau thông qua tên service trong mạng nội bộ của Docker.
+
+\subsubsection{Khởi động toàn bộ hệ thống}
+Sau khi hoàn thành việc cấu hình các service, mạng và vùng lưu trữ dữ liệu, toàn bộ hệ thống được khởi động thông qua Docker Compose.
+
+Docker Compose lần lượt tạo các Container, thiết lập mạng nội bộ, gắn các Docker Volume và khởi động từng service theo cấu hình đã khai báo. Sau khi các Container hoạt động ổn định, API Gateway trở thành điểm truy cập duy nhất từ phía giao diện người dùng, tiếp nhận các yêu cầu và định tuyến đến các Microservice tương ứng.
+
+Việc sử dụng Docker Compose giúp quá trình triển khai hệ thống trở nên đơn giản, giảm thời gian cấu hình môi trường và đảm bảo tính nhất quán giữa các môi trường phát triển, kiểm thử và triển khai thực tế. Đồng thời, kiến trúc này cũng tạo điều kiện thuận lợi cho việc mở rộng hệ thống trong tương lai khi cần bổ sung thêm các Microservice hoặc thay đổi hạ tầng triển khai.
 \end{document}
