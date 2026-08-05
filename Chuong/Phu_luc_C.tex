@@ -1,0 +1,247 @@
+\documentclass[../DoAn.tex]{subfiles}
+
+\begin{document}
+
+\section{Giới thiệu}
+
+Phụ lục này trình bày cấu hình triển khai hệ thống chatbot hỏi đáp học phần bằng Docker Compose.
+File cấu hình định nghĩa các service trong kiến trúc Microservice, bao gồm các dịch vụ xử lý nghiệp vụ,
+dịch vụ quản lý người dùng, dịch vụ xác thực, dịch vụ chatbot, dịch vụ thu thập dữ liệu và giao diện người dùng.
+
+\section{Cấu trúc các service triển khai}
+
+Hệ thống được triển khai gồm các service chính sau:
+
+\begin{table}[H]
+    \centering
+    \renewcommand{\arraystretch}{1.8}
+    \begin{tabular}{|c|c|c|}
+        \hline
+        \textbf{STT} & \textbf{Service}     & \textbf{Chức năng}                            \\
+        \hline
+        1            & Eureka Server        & Quản lý đăng ký và phát hiện service          \\
+        \hline
+        2            & Cloud Gateway        & Cổng giao tiếp giữa client và backend service \\
+        \hline
+        3            & User Service         & Quản lý tài khoản người dùng                  \\
+        \hline
+        4            & Authen Service       & Xác thực và kiểm tra quyền truy cập           \\
+        \hline
+        5            & Chat Session Service & Quản lý lịch sử hội thoại                     \\
+        \hline
+        6            & Chat Service         & Xử lý hội thoại chatbot và xử lý giọng nói    \\
+        \hline
+        7            & Crawler Service      & Thu thập dữ liệu học phần                     \\
+        \hline
+        8            & Chat App             & Giao diện người dùng ReactJS                  \\
+        \hline
+    \end{tabular}
+    \caption{Danh sách các service trong Docker Compose}
+
+\end{table}
+
+
+
+\section{Cấu hình Docker Compose}
+
+Hệ thống sử dụng Docker Compose phiên bản 3.8 để định nghĩa và triển khai các container.
+
+\begin{verbatim}
+version: "3.8"
+\end{verbatim}
+
+
+\subsection{Eureka Server}
+
+Eureka Server chịu trách nhiệm quản lý trạng thái và đăng ký các service trong hệ thống.
+
+\begin{verbatim}
+hust-assistant-eureka-server:
+    image: eureka-server:v1.0
+    container_name:
+    hust-assistant-eureka-server
+    ports:
+        - 8671:8671
+\end{verbatim}
+
+
+
+\subsection{API Gateway}
+
+Cloud Gateway là điểm truy cập chính từ phía client đến các backend service.
+
+\begin{verbatim}
+hust-assistant-cloud-gateway:
+    image: cloud-gateway:v1.3
+    container_name:
+    hust-assistant-cloud-gateway
+    ports:
+        - 9898:9898
+\end{verbatim}
+
+
+
+\subsection{Các backend service}
+
+Các service nghiệp vụ được triển khai dưới dạng các container độc lập và kết nối thông qua Docker Network.
+
+Bao gồm:
+
+\begin{itemize}
+    \item User Service: Quản lý thông tin người dùng.
+    \item Authen Service: Kiểm tra JWT và quyền truy cập tài nguyên.
+    \item Chat Session Service: Lưu trữ thông tin phiên hội thoại.
+    \item Chat Service: Xử lý câu hỏi, sinh câu trả lời chatbot và xử lý giọng nói.
+    \item Crawler Service: Thu thập và xử lý dữ liệu học phần.
+\end{itemize}
+
+
+Ví dụ cấu hình Chat Service:
+
+\begin{verbatim}
+hust-assistant-chat-service:
+    image: chat-service:v1.4
+    container_name:
+    hust-assistant-chat-service
+    ports:
+        - 1923:1923
+\end{verbatim}
+
+
+
+\subsection{Frontend Service}
+
+Giao diện người dùng được triển khai thông qua container ReactJS.
+
+\begin{verbatim}
+hust-assistant-chat-app:
+    image: chat-app:v1.7
+    container_name:
+    hust-assistant-chat-app
+    ports:
+        - 5173:5173
+\end{verbatim}
+
+
+
+\section{Cấu hình Docker Network}
+Các service trong hệ thống sử dụng chung một Docker Network nhằm cho phép các container giao tiếp với nhau thông qua tên service.
+
+\begin{verbatim}
+networks:
+  hust-assistant-network:
+      external: true
+\end{verbatim}
+
+
+
+\section{Quản lý biến môi trường}
+
+Một số thông tin cấu hình được tách ra khỏi file Docker Compose thông qua file môi trường nhằm đảm bảo an toàn và thuận tiện khi triển khai.
+
+Ví dụ:
+\begin{verbatim}
+env_file:
+    - .env-hust-assistant-chat-service
+\end{verbatim}
+
+Các thông tin nhạy cảm như API Key, mật khẩu cơ sở dữ liệu hoặc khóa bí mật không được lưu trực tiếp trong file Docker Compose.
+
+\section{Tổng quan quá trình triển khai}
+Quá trình triển khai hệ thống được thực hiện theo các bước:
+
+\begin{enumerate}
+    \item Chuẩn bị môi trường Docker trên máy chủ VPS.
+    \item Tạo Docker Network dùng chung cho các service.
+    \item Khởi tạo các container thông qua Docker Compose.
+    \item Kiểm tra trạng thái hoạt động của các service.
+    \item Truy cập hệ thống thông qua API Gateway và giao diện người dùng.
+\end{enumerate}
+
+\section{File cấu hình Docker Compose tổng hợp}
+
+Toàn bộ các service của hệ thống được khai báo trong một file Docker Compose duy nhất. 
+File cấu hình này định nghĩa các container, image sử dụng, cổng kết nối, dependency giữa các service và Docker Network dùng chung.
+
+\begin{verbatim}
+version: "3.8"
+
+services:
+
+  hust-assistant-eureka-server:
+    image: phamthanhhuy/eureka-server:v1.0
+    container_name: hust-assistant-eureka-server
+    ports:
+      - 8671:8671
+    networks:
+      - hust-assistant-network
+
+
+  hust-assistant-cloud-gateway:
+    image: phamthanhhuy/cloud-gateway:v1.3
+    container_name: hust-assistant-cloud-gateway
+    ports:
+      - 9898:9898
+    depends_on:
+      hust-assistant-eureka-server:
+        condition: service_healthy
+    networks:
+      - hust-assistant-network
+
+
+  hust-assistant-user-service:
+    image: phamthanhhuy/user-service:v1.5
+    container_name: hust-assistant-user-service
+    networks:
+      - hust-assistant-network
+
+
+  hust-assistant-authen-service:
+    image: phamthanhhuy/authen-service:v1.2
+    container_name: hust-assistant-authen-service
+    networks:
+      - hust-assistant-network
+
+
+  hust-assistant-chat-session-service:
+    image: phamthanhhuy/chat-session-service:v1.6
+    container_name: hust-assistant-chat-session-service
+    networks:
+      - hust-assistant-network
+
+
+  hust-assistant-chat-service:
+    image: phamthanhhuy/chat-service:v1.4
+    container_name: hust-assistant-chat-service
+    ports:
+      - 1923:1923
+    env_file:
+      - .env-hust-assistant-chat-service
+    networks:
+      - hust-assistant-network
+
+
+  hust-assistant-crawler-service:
+    image: phamthanhhuy/crawler-service:v1.1
+    container_name: hust-assistant-crawler-service
+    networks:
+      - hust-assistant-network
+
+
+  hust-assistant-chat-app:
+    image: phamthanhhuy/chat-app:v1.7
+    container_name: hust-assistant-chat-app
+    ports:
+      - 5173:5173
+    networks:
+      - hust-assistant-network
+
+
+
+networks:
+
+  hust-assistant-network:
+    external: true
+\end{verbatim}
+
+\end{document}

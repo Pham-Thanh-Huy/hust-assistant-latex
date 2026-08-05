@@ -1,15 +1,35 @@
 \documentclass[../DoAn.tex]{subfiles}
 \begin{document}
 \section{Kết luận}
-Sinh viên so sánh kết quả nghiên cứu hoặc sản phẩm của mình với các nghiên cứu hoặc sản phẩm tương tự.
+Trong phạm vi đồ án này, hệ thống chatbot hỏi đáp học phần đã được nghiên cứu, xây dựng và triển khai nhằm hỗ trợ người dùng tra cứu các thông tin liên quan đến học phần của trường một cách nhanh chóng và thuận tiện.
 
-Sinh viên phân tích trong suốt quá trình thực hiện ĐATN, mình đã làm được gì, chưa làm được gì, các đóng góp nổi bật là gì, và tổng hợp những bài học kinh nghiệm rút ra nếu có.
+Đồ án đã hoàn thành các mục tiêu chính đề ra, bao gồm xây dựng hệ thống thu thập dữ liệu học phần tự động từ website của trường, xử lý và lưu trữ dữ liệu dưới dạng vector phục vụ truy vấn ngữ nghĩa, đồng thời tích hợp mô hình ngôn ngữ lớn để tạo câu trả lời dựa trên nguồn dữ liệu đã được cung cấp.
 
-\section{Hướng phát triển}
-Trong phần này, sinh viên trình bày định hướng công việc trong tương lai để hoàn thiện sản phẩm hoặc nghiên cứu của mình.
+Hệ thống được phát triển theo kiến trúc Microservice với các thành phần được phân tách rõ ràng gồm service xử lý hội thoại, service quản lý người dùng, service xác thực và phân quyền, service thu thập dữ liệu cùng các thành phần lưu trữ. Việc triển khai thông qua Docker Compose giúp hệ thống có khả năng vận hành thống nhất trên môi trường máy chủ VPS.
 
-Trước tiên, sinh viên trình bày các công việc cần thiết để hoàn thiện các chức năng/nhiệm vụ đã làm. Sau đó sinh viên phân tích các hướng đi mới cho phép cải thiện và nâng cấp các chức năng/nhiệm vụ đã làm.
+Bên cạnh chức năng hỏi đáp bằng văn bản, hệ thống còn hỗ trợ các chức năng mở rộng như chuyển đổi giọng nói thành văn bản, chuyển đổi văn bản thành giọng nói, lưu trữ lịch sử hội thoại và quản lý quyền truy cập theo mô hình User -- Role -- Resource. Các chức năng này đã được kiểm thử và cho kết quả đáp ứng đúng với yêu cầu đặt ra.
 
+Kết quả cho thấy hệ thống có khả năng hỗ trợ người dùng tìm kiếm thông tin học phần thông qua ngôn ngữ tự nhiên, giảm thời gian tra cứu thủ công và cải thiện trải nghiệm tương tác so với phương pháp tìm kiếm truyền thống.
 
+Tuy nhiên, hệ thống vẫn còn một số hạn chế như phụ thuộc vào dịch vụ AI bên ngoài, chưa có cơ chế cập nhật dữ liệu theo thời gian thực và chưa được đánh giá chuyên sâu về khả năng chịu tải khi có số lượng lớn người dùng truy cập đồng thời.
 
+\section{Hướng phát triển} 
+
+Trong tương lai, hệ thống có thể được tiếp tục phát triển theo các hướng sau:
+
+\begin{itemize}
+    \item Xây dựng cơ chế cập nhật dữ liệu tự động theo lịch định kỳ, giúp hệ thống luôn duy trì nguồn dữ liệu học phần mới nhất từ website của trường.
+
+    \item Nghiên cứu tích hợp các mô hình ngôn ngữ chạy nội bộ (Local Large Language Model) nhằm giảm sự phụ thuộc vào các service AI bên ngoài và tăng khả năng kiểm soát dữ liệu.
+
+    \item Cải thiện khả năng tìm kiếm bằng cách nghiên cứu các phương pháp tối ưu truy vấn vector, kết hợp thêm các kỹ thuật đánh giá và xếp hạng kết quả truy vấn.
+
+    \item Bổ sung cơ chế giám sát hệ thống, thu thập log tập trung và theo dõi hiệu năng của các service nhằm nâng cao khả năng vận hành trong môi trường thực tế.
+
+    \item Triển khai các giải pháp mở rộng hệ thống như Kubernetes hoặc cơ chế cân bằng tải nhằm đáp ứng số lượng lớn người dùng truy cập đồng thời.
+
+    \item Mở rộng phạm vi dữ liệu hỗ trợ, không chỉ giới hạn ở thông tin học phần mà có thể tích hợp thêm các nguồn dữ liệu khác phục vụ nhu cầu tra cứu của sinh viên.
+\end{itemize}
+
+Các hướng phát triển trên sẽ giúp hệ thống hoàn thiện hơn, nâng cao tính chính xác, khả năng mở rộng và khả năng áp dụng trong môi trường thực tế.
 \end{document}

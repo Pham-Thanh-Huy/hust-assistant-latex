@@ -1,0 +1,387 @@
+\documentclass[../DoAn.tex]{subfiles}
+\begin{document}
+\section{Môi trường thử nghiệm}
+Hệ thống được triển khai và thử nghiệm trên VPS nhằm đánh giá toàn bộ chức năng của hệ thống hỏi đáp trong môi trường thực tế.
+Toàn bộ các service đều được triển khai đồng thời và giao tiếp với nhau thông qua mạng nội bộ của docker
+Các thành phần thử nghiệm bao gồm:
+\begin{itemize}
+    \item \textbf{Máy chủ (VPS):} Sử dụng một máy chủ ảo để triển khai toàn bộ các service của hệ thống giúp bảo đảm khả năng vận hành liên tục.
+    \item \textbf{Docker Compose:} Sử dụng để triển khai các container của hệ thống, bao gồm các service, cơ sở dữ liệu. Một số cấu hình trong tệp \textbf{docker-compose.yml}
+    \item \textbf{OpenAI API:} Được sử dụng để thao tác trong hệ thống như tạo vector embedding, trả lời các câu hỏi (LLM), Chuyển đổi giọng nói thành văn bản (Speech-To-Text), Chuyển đổi văn bản thành giọng nói (Text-To-Speech).
+    \item \textbf{ChromaDB:} Sử dụng làm cơ sở dữ liệu vector lưu trữ các vector embedding.
+    \item \textbf{MYSQL:} Lưu trữ thông tin user phục vụ cho việc phân quyền
+    \item \textbf{MongoDB:} Lưu trữ các phiên hội thoại
+    \item \textbf{Trình duyệt web:} sử dụng các trình duyệt hiện đại như Google Chrome hoặc Microsoft Edge để truy cập hệ thống và kiểm thử các chức năng từ phía người dùng.
+    \item \textbf{Môi trường phát triển:} ác thành phần của hệ thống được phát triển bằng ReactJS, Python và Spring Boot, sau đó đóng gói thành các Docker Image, push lên Docker Hub và triển khai trên VPS thông qua Docker Compose
+\end{itemize}
+
+\section{Kiểm thử chức năng}
+Kiểm thử chức năng được thực hiện nhằm đánh giá khả năng hoạt động của các chức năng chính trong hệ thống chatbot, bao gồm xác thực người dùng, hỏi đáp với chatbot, xử lý giọng nói, quản lý lịch sử hội thoại và phân quyền truy cập.
+
+\subsection{Kiểm thử đăng nhập}
+Chức năng đăng nhập được kiểm thử với các trường hợp liên quan đến xác thực tài khoản và kiểm tra trạng thái phiên đăng nhập, cũng như cấp quyền (token-jwt) cho người dùng để thao tác các chức năng khác.
+\begin{table}[H]
+    \centering
+    \small
+    \renewcommand{\arraystretch}{1.8}
+    \begin{tabular}{|>{\centering\arraybackslash}m{4cm}|>{\centering\arraybackslash}m{8cm}|>{\centering\arraybackslash}m{2.5cm}|}
+        \hline
+        \textbf{Chức năng} & \textbf{Kết quả mong đợi}                                   & \textbf{Kết quả} \\
+        \hline
+        Đăng nhập đúng thông tin tài khoản
+                           & Người dùng đăng nhập thành công và nhận được token xác thực
+                           & Đạt                                                                            \\
+        \hline
+        Sai tài khoản hoặc mật khẩu
+                           & Hệ thống thông báo lỗi đăng nhập
+                           & Đạt                                                                            \\
+        \hline
+    \end{tabular}
+    \caption{Kết quả kiểm thử chức năng đăng nhập}
+    \label{tab:test_login}
+\end{table}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[
+        width=1\textwidth,
+        height=0.9\textheight,
+        keepaspectratio
+    ]{Hinhve/chuong_5/kiem-thu-login-success-post-man.png}
+    \caption{Kiểm thử trạng thái login thành công}
+    \label{fig:hust-test-login-success}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[
+        width=1\textwidth,
+        height=0.9\textheight,
+        keepaspectratio
+    ]{Hinhve/chuong_5/kiem-thu-login-failed-post-man.png}
+    \caption{Kiểm thử trạng thái login thất bại}
+    \label{fig:hust-test-login-success}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[
+        width=1\textwidth,
+        height=0.9\textheight,
+        keepaspectratio
+    ]{Hinhve/chuong_5/trang-login.png}
+    \caption{Trang login của hệ thống hỏi đáp}
+    \label{fig:hust-test-login-success}
+\end{figure}
+
+\subsection{Kiểm thử Chatbot}
+Chức năng chatbot được tiến hành kiểm thử với nhiều trường hợp khác nhau, bao gồm việc gửi câu hỏi từ người dùng, thực hiện truy vấn và khai thác dữ liệu liên quan đến các học phần, đồng thời đánh giá khả năng sinh câu trả lời của mô hình ngôn ngữ. Quá trình kiểm thử tập trung vào việc kiểm tra độ chính xác của kết quả trả về, khả năng hiểu và xử lý yêu cầu của người dùng, cũng như tính phù hợp và đầy đủ của nội dung phản hồi trong từng tình huống cụ thể.
+\begin{table}[H]
+    \centering
+    \small
+    \renewcommand{\arraystretch}{3}
+    \label{tab:test_chatbot}
+    \begin{tabular}{|>{\centering\arraybackslash}m{4cm}|>{\centering\arraybackslash}m{8cm}|>{\centering\arraybackslash}m{2cm}|}
+        \hline
+        \textbf{Chức năng} & \textbf{Kết quả mong đợi}                                                        & \textbf{Kết quả} \\
+        \hline
+        Gửi câu hỏi liên quan đến học phần
+                           & Hệ thống trả về câu trả lời phù hợp với dữ liệu đã thu thập
+                           & Đạt                                                                                                 \\
+        \hline
+        Gửi câu hỏi không có trong dữ liệu
+                           & Hệ thống phản hồi không tìm thấy thông tin phù hợp hoặc đưa ra câu trả lời gợi ý
+                           & Đạt                                                                                                 \\
+        \hline
+        Nhận phản hồi dạng streaming
+                           & Câu trả lời được trả về từng phần
+                           & Đạt                                                                                                 \\
+        \hline
+    \end{tabular}
+    \caption{Kết quả kiểm thử chức năng chatbot}
+\end{table}
+\clearpage
+\begin{figure}[H]
+    \centering
+    \includegraphics[
+        width=1\textwidth,
+        height=0.9\textheight,
+        keepaspectratio
+    ]{Hinhve/chuong_5/kiem-thu-chat.png}
+    \caption{Kiểm thử Chat có liên quan đến học phần và không có trong dữ liệu}
+    \label{fig:hust-test-chat-success}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[
+        width=1\textwidth,
+        height=0.9\textheight,
+        keepaspectratio
+    ]{Hinhve/chuong_5/kiem-thu-chat-stream-text.png}
+    \caption{Kiểm thử Chat Streaming response}
+    \label{fig:hust-test-chat-success}
+\end{figure}
+\clearpage
+
+\subsection{Kiểm thử Speech-to-Text}
+Chức năng chuyển đổi giọng nói thành văn bản được kiểm thử bằng cách thực hiện ghi âm trực tiếp các câu hỏi từ người dùng, sau đó gửi dữ liệu âm thanh thu được đến hệ thống để xử lý. Hệ thống tiến hành nhận dạng nội dung lời nói, chuyển đổi tín hiệu âm thanh thành văn bản và trả về kết quả tương ứng. Quá trình kiểm thử được thực hiện với nhiều câu hỏi có độ dài và cách diễn đạt khác nhau nhằm đánh giá độ chính xác của chức năng nhận dạng giọng nói, khả năng xử lý dữ liệu âm thanh và tốc độ phản hồi của hệ thống. Kết quả kiểm thử được so sánh giữa nội dung lời nói ban đầu và văn bản được chuyển đổi để xác định mức độ chính xác cũng như phát hiện các trường hợp nhận dạng sai hoặc thiếu sót.
+\begin{table}[H]
+    \centering
+    \small
+    \renewcommand{\arraystretch}{1.8}
+    \label{tab:test_stt}
+    \begin{tabular}{|>{\centering\arraybackslash}m{4cm}|>{\centering\arraybackslash}m{8cm}|>{\centering\arraybackslash}m{2cm}|}
+        \hline
+        \textbf{Chức năng} & \textbf{Kết quả mong đợi}                   & \textbf{Kết quả} \\
+        \hline
+        Ghi âm câu hỏi bằng tiếng Việt
+                           & Hệ thống chuyển đổi thành văn bản tương ứng
+                           & Đạt                                                            \\
+        \hline
+        Gửi file âm thanh hợp lệ
+                           & Hệ thống xử lý và trả về nội dung văn bản
+                           & Đạt                                                            \\
+        \hline
+        Gửi dữ liệu âm thanh lỗi
+                           & Hệ thống thông báo lỗi xử lý
+                           & Đạt                                                            \\
+        \hline
+    \end{tabular}
+    \caption{Kết quả kiểm thử chức năng Speech-to-Text}
+\end{table}
+\begin{figure}[H]
+    \centering
+    \includegraphics[
+        width=1\textwidth,
+        height=0.9\textheight,
+        keepaspectratio
+    ]{Hinhve/chuong_5/kiem-thu-bat-dau-thu-am.png}
+    \caption{Kiểm thử trạng thái đang thu âm}
+    \label{fig:hust-test-chat-success}
+\end{figure}
+\clearpage
+\begin{figure}[H]
+    \centering
+    \includegraphics[
+        width=1\textwidth,
+        height=0.9\textheight,
+        keepaspectratio
+    ]{Hinhve/chuong_5/kiem-thu-thu-am.png}
+    \caption{Kiểm thử trạng thái sau khi thu âm thành công}
+    \label{fig:hust-test-chat-success}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[
+        width=1\textwidth,
+        height=0.9\textheight,
+        keepaspectratio
+    ]{Hinhve/chuong_5/kiem-thu-thu-am-api.png}
+    \caption{Kiểm thử API Thu âm trong hệ thống}
+    \label{fig:hust-test-chat-success}
+\end{figure}
+\clearpage
+
+\subsection{Kiểm thử Text-to-Speech}
+Chức năng chuyển đổi câu trả lời của chatbot thành giọng nói (Text-to-Speech) được kiểm thử nhằm đánh giá khả năng chuyển đổi nội dung văn bản thành âm thanh và phát trực tiếp trên giao diện người dùng. Sau khi chatbot sinh câu trả lời dưới dạng văn bản, người dùng thực hiện thao tác nhấn nút phát âm thanh để gửi yêu cầu chuyển đổi đến mô hình Text-to-Speech. Hệ thống tiếp nhận nội dung văn bản, thực hiện chuyển đổi thành dữ liệu âm thanh và trả về để phát trên giao diện.
+
+Quá trình kiểm thử tập trung đánh giá các tiêu chí như tính chính xác của nội dung được đọc, chất lượng giọng nói, thời gian phản hồi và khả năng phát lại nhiều lần. Kết quả kiểm thử cho thấy nội dung âm thanh được tạo ra trùng khớp với câu trả lời của chatbot, giọng đọc rõ ràng, phát âm tự nhiên, tốc độ đọc phù hợp và không xuất hiện hiện tượng mất tiếng, ngắt quãng hoặc sai lệch nội dung. Đồng thời, thời gian xử lý đáp ứng tốt nhu cầu tương tác của người dùng, cho phép phát lại âm thanh nhiều lần mà không ảnh hưởng đến hoạt động của hệ thống. Kết quả này chứng minh chức năng Text-to-Speech được triển khai đúng yêu cầu thiết kế, hoạt động ổn định và góp phần nâng cao trải nghiệm người dùng khi sử dụng chatbot.\vspace{-0.5cm}
+\begin{table}[H]
+    \centering
+    \small
+    \renewcommand{\arraystretch}{1.2}
+    \label{tab:test_tts}
+    \begin{tabular}{|>{\centering\arraybackslash}m{5cm}|>{\centering\arraybackslash}m{7cm}|>{\centering\arraybackslash}m{2cm}|}
+        \hline
+        \textbf{Chức năng} & \textbf{Kết quả mong đợi}                               & \textbf{Kết quả} \\
+        \hline
+        Nhấn nút phát âm thanh của câu trả lời
+                           & Hệ thống tạo và trả về luồng âm thanh tương ứng
+                           & Đạt                                                                        \\
+        \hline
+        Phát nhiều câu trả lời khác nhau
+                           & Mỗi response ID trả về đúng nội dung âm thanh tương ứng
+                           & Đạt                                                                        \\
+        \hline
+        Response ID không tồn tại
+                           & Hệ thống thông báo lỗi yêu cầu không hợp lệ
+                           & Đạt                                                                        \\
+        \hline
+    \end{tabular}
+    \caption{Kết quả kiểm thử chức năng Text-to-Speech}
+\end{table}
+\begin{figure}[H]
+    \centering
+    \includegraphics[
+        width=1\textwidth,
+        height=0.9\textheight,
+        keepaspectratio
+    ]{Hinhve/chuong_5/kiem-thu-text-to-speech-fe.png}
+    \caption{Kiểm thử chuyển văn bản thành giọng nói}
+    \label{fig:hust-test-text-to-speech-fe}
+\end{figure}
+\clearpage
+\begin{figure}[H]
+    \centering
+    \includegraphics[
+        width=1\textwidth,
+        height=0.9\textheight,
+        keepaspectratio
+    ]{Hinhve/chuong_5/kiem-thu-text-to-speech-be.png}
+    \caption{Kiểm thử API chuyển văn bản thành giọng nói streaming}
+    \label{fig:hust-test-text-to-speech-be}
+\end{figure}
+\clearpage
+
+\subsection{Kiểm thử lịch sử hội thoại}
+Chức năng lưu trữ và hiển thị lịch sử trò chuyện được kiểm thử thông qua các thao tác tạo phiên hội thoại mới, lưu trữ nội dung trao đổi giữa người dùng và chatbot, truy vấn dữ liệu lịch sử từ cơ sở dữ liệu và hiển thị danh sách các phiên trò chuyện trên giao diện. Quá trình kiểm thử nhằm đánh giá tính chính xác của việc lưu trữ dữ liệu, khả năng truy xuất lịch sử hội thoại cũng như sự đồng bộ giữa dữ liệu trong cơ sở dữ liệu và giao diện người dùng. Kết quả kiểm thử cho thấy mỗi phiên trò chuyện được tạo với một mã định danh riêng, toàn bộ nội dung trao đổi được lưu trữ đầy đủ theo đúng thứ tự thời gian và có thể truy xuất chính xác khi người dùng lựa chọn xem lại lịch sử. Đồng thời, giao diện hiển thị đầy đủ danh sách các phiên hội thoại, cho phép người dùng chuyển đổi giữa các cuộc trò chuyện một cách nhanh chóng mà không xảy ra hiện tượng mất dữ liệu hoặc hiển thị sai nội dung. Điều này chứng minh chức năng lưu trữ và hiển thị lịch sử trò chuyện hoạt động ổn định.
+\vspace{-0.5cm}
+\begin{table}[H]
+    \centering
+    \small
+    \renewcommand{\arraystretch}{1.8}
+    \label{tab:test_history}
+    \begin{tabular}{|>{\centering\arraybackslash}m{5cm}|>{\centering\arraybackslash}m{7cm}|>{\centering\arraybackslash}m{2cm}|}
+        \hline
+        \textbf{Chức năng} & \textbf{Kết quả mong đợi}                        & \textbf{Kết quả} \\
+        \hline
+        Hoàn thành một phiên chat
+                           & Lịch sử hội thoại được lưu vào hệ thống
+                           & Đạt                                                                 \\
+        \hline
+        Truy cập danh sách lịch sử chat
+                           & Hiển thị đúng các phiên hội thoại của người dùng
+                           & Đạt                                                                 \\
+        \hline
+        Xem lại nội dung phiên chat
+                           & Hiển thị đầy đủ câu hỏi và câu trả lời
+                           & Đạt                                                                 \\
+        \hline
+    \end{tabular}
+    \caption{Kết quả kiểm thử chức năng lịch sử hội thoại}
+\end{table}
+\begin{figure}[H]
+    \centering
+    \includegraphics[
+        width=1\textwidth,
+        height=0.9\textheight,
+        keepaspectratio
+    ]{Hinhve/chuong_5/kiem-thu-lich-su-chat.png}
+    \caption{Kiểm thử lịch sử chat}
+    \label{fig:hust-test-list-chat-history}
+\end{figure}
+\clearpage
+
+\subsection{Kiểm thử phân quyền}
+Chức năng phân quyền được kiểm thử nhằm đảm bảo người dùng chỉ có thể truy cập và thực hiện các thao tác trên những tài nguyên đã được cấp quyền. Quá trình kiểm thử tập trung xác minh rằng mỗi vai trò chỉ được phép sử dụng các chức năng tương ứng, đồng thời ngăn chặn việc truy cập trái phép hoặc thực hiện các thao tác vượt quá quyền hạn được quy định.\begin{table}[H]
+    \centering
+    \small
+    \renewcommand{\arraystretch}{1.8}
+    \label{tab:test_permission}
+    \begin{tabular}{|>{\centering\arraybackslash}m{5cm}|>{\centering\arraybackslash}m{7cm}|>{\centering\arraybackslash}m{2cm}|}
+        \hline
+        \textbf{Chức năng} & \textbf{Kết quả mong đợi}                      & \textbf{Kết quả} \\
+        \hline
+        Token không hợp lệ
+                           & Hệ thống từ chối truy cập
+                           & Đạt                                                               \\
+        \hline
+        User có role phù hợp gọi API
+                           & API được phép truy cập và trả về dữ liệu
+                           & Đạt                                                               \\
+        \hline
+        User không có role gọi API
+                           & Gateway từ chối yêu cầu truy cập
+                           & Đạt                                                               \\
+        \hline
+        Thay đổi role của user
+                           & Quyền truy cập được cập nhật theo cấu hình mới
+                           & Đạt                                                               \\
+        \hline
+        API không tồn tại trong resource
+                           & Hệ thống từ chối truy cập
+                           & Đạt                                                               \\
+        \hline
+    \end{tabular}
+    \caption{Kết quả kiểm thử chức năng phân quyền}
+\end{table}
+\begin{figure}[H]
+    \centering
+    \includegraphics[
+        width=1\textwidth,
+        height=0.9\textheight,
+        keepaspectratio
+    ]{Hinhve/chuong_5/token-khong-hop-le.png}
+    \caption{Kiểm thử trường hợp token không hợp lệ}
+    \label{fig:hust-test-token-failed}
+\end{figure}
+\clearpage
+\begin{figure}[H]
+    \centering
+    \includegraphics[
+        width=1\textwidth,
+        height=0.9\textheight,
+        keepaspectratio
+    ]{Hinhve/chuong_5/token-khong-co-quyen-truy-cap-api-nay.png}
+    \caption{Kiểm thử trường hợp token không không có quyền truy cập tác vụ}
+    \label{fig:hust-test-token-not-permission}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[
+        width=1\textwidth,
+        height=0.9\textheight,
+        keepaspectratio
+    ]{Hinhve/chuong_5/token-hop-le.png}
+    \caption{Kiểm thử trường hợp token hợp lệ và có quyền truy cập}
+    \label{fig:hust-test-token-success}
+\end{figure}
+\clearpage
+
+\section{Đánh giá hệ thống}
+Sau quá trình xây dựng, triển khai và kiểm thử, hệ thống chatbot hỏi đáp học phần đã đáp ứng được các mục tiêu đề ra của đồ án. Các chức năng chính của hệ thống hoạt động đúng theo thiết kế và đảm bảo khả năng phục vụ quá trình tra cứu thông tin học phần.
+
+\subsection{Đánh giá chức năng}
+Kết quả kiểm thử cho thấy các chức năng chính của hệ thống đều hoạt động ổn định, bao gồm:
+\begin{itemize}
+    \item Thu thập dữ liệu học phần từ website của trường thông qua Crawler Service.
+    \item Lưu trữ dữ liệu vector trên ChromaDB.
+    \item Truy vấn dữ liệu theo ngữ nghĩa và sinh câu trả lời bằng mô hình RAG.
+    \item Hỗ trợ phản hồi theo cơ chế streaming thông qua WebSocket.
+    \item Chuyển đổi giọng nói thành văn bản (Speech-to-Text).
+    \item Chuyển đổi văn bản thành giọng nói (Text-to-Speech).
+    \item Lưu trữ và hiển thị lịch sử hội thoại.
+    \item Xác thực và phân quyền người dùng theo mô hình User -- Role -- Resource.
+\end{itemize}
+
+Các chức năng đều đạt kết quả mong đợi trong quá trình kiểm thử và không phát sinh lỗi ảnh hưởng đến quá trình sử dụng hệ thống.
+
+\subsection{Đánh giá hiệu năng}
+Hệ thống được triển khai trên máy chủ VPS thông qua Docker Compose và hoạt động ổn định trong quá trình thử nghiệm.
+
+Quá trình truy vấn dữ liệu từ ChromaDB, sinh câu trả lời bằng mô hình ngôn ngữ và trả kết quả theo cơ chế streaming được thực hiện liên tục, đảm bảo người dùng nhận được phản hồi trong thời gian ngắn. Các service giao tiếp bình thường thông qua mạng nội bộ của Docker và không xảy ra lỗi kết nối trong quá trình kiểm thử.
+
+\subsection{Đánh giá khả năng mở rộng}
+Kiến trúc Microservice giúp các thành phần của hệ thống được triển khai và vận hành độc lập. Việc cập nhật hoặc bảo trì một service không ảnh hưởng đến các service còn lại.
+
+Bên cạnh đó, hệ thống có thể mở rộng bằng cách bổ sung thêm nguồn dữ liệu học phần, thay thế mô hình ngôn ngữ hoặc triển khai thêm các service mới mà không cần thay đổi kiến trúc tổng thể. Việc sử dụng Docker Compose cũng giúp quá trình triển khai và mở rộng hệ thống thuận tiện hơn.
+
+\subsection{Hạn chế}
+Mặc dù hệ thống đã đáp ứng được các yêu cầu của đề tài, vẫn còn một số hạn chế như sau:
+
+\begin{itemize}
+    \item Chất lượng câu trả lời phụ thuộc vào dữ liệu được thu thập từ website của trường.
+    \item Hệ thống sử dụng OpenAI API nên phụ thuộc vào kết nối Internet và dịch vụ của bên thứ ba.
+    \item Chưa hỗ trợ cập nhật dữ liệu tự động khi nguồn dữ liệu thay đổi.
+    \item Chưa đánh giá khả năng chịu tải với số lượng lớn người dùng truy cập đồng thời.
+    \item Chưa triển khai các cơ chế giám sát, ghi log tập trung và cân bằng tải cho môi trường thực tế.
+\end{itemize}
+ 
+\subsection{Đánh giá chung}
+Qua quá trình triển khai và kiểm thử, hệ thống chatbot hỏi đáp học phần đã hoàn thành các mục tiêu chính của đề tài. Hệ thống có khả năng hỗ trợ người dùng tra cứu thông tin học phần thông qua giao tiếp bằng văn bản và giọng nói, đồng thời đảm bảo các yêu cầu về lưu trữ lịch sử hội thoại, xác thực người dùng và kiểm soát quyền truy cập.
+
+Việc áp dụng mô hình RAG kết hợp với cơ sở dữ liệu vector giúp hệ thống có khả năng khai thác thông tin từ nguồn dữ liệu học phần và tạo ra các câu trả lời phù hợp với ngữ cảnh truy vấn. Kiến trúc Microservice cùng phương thức triển khai bằng Docker Compose giúp hệ thống có tính linh hoạt trong quá trình quản lý, bảo trì và mở rộng.
+
+Bên cạnh các kết quả đạt được, hệ thống vẫn còn một số giới hạn liên quan đến khả năng cập nhật dữ liệu, phụ thuộc vào các dịch vụ AI bên ngoài và khả năng đáp ứng khi có số lượng lớn người dùng đồng thời. Các vấn đề này sẽ được tiếp tục xem xét và cải thiện trong các hướng phát triển tiếp theo.
+
+Nhìn chung, hệ thống có thể đáp ứng được các yêu cầu đặt ra trong phạm vi đồ án và có khả năng áp dụng thực tế trong việc hỗ trợ sinh viên tra cứu thông tin học phần một cách thuận tiện và hiệu quả.
+
+\end{document}
