@@ -1,0 +1,50 @@
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {2.1}{\ignorespaces So sánh một số mô hình LLM phổ biến}}{16}{table.caption.14}%
+\contentsline {table}{\numberline {2.2}{\ignorespaces So sánh một số vector database}}{19}{table.caption.16}%
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {3.1}{\ignorespaces Danh sách các Actor trong hệ thống chatbot tra cứu thông tin học phần}}{31}{table.caption.28}%
+\contentsline {table}{\numberline {3.2}{\ignorespaces Actor User trong hệ thống}}{32}{table.caption.29}%
+\contentsline {table}{\numberline {3.3}{\ignorespaces Actor Admin trong hệ thống}}{32}{table.caption.30}%
+\contentsline {table}{\numberline {3.4}{\ignorespaces Actor chức năng của website hust trong hệ thống}}{33}{table.caption.31}%
+\contentsline {table}{\numberline {3.5}{\ignorespaces Các chức năng của OpenAI API trong hệ thống}}{33}{table.caption.32}%
+\contentsline {table}{\numberline {3.6}{\ignorespaces Actor Vector Database trong hệ thống chatbot}}{33}{table.caption.33}%
+\contentsline {table}{\numberline {3.7}{\ignorespaces Đặc tả Use Case UC-01: Đăng nhập}}{35}{table.caption.35}%
+\contentsline {table}{\numberline {3.8}{\ignorespaces Đặc tả Use Case UC-02: Chat với chatbot}}{36}{table.caption.37}%
+\contentsline {table}{\numberline {3.9}{\ignorespaces Đặc tả Use Case UC-03: Voice To Text}}{38}{table.caption.39}%
+\contentsline {table}{\numberline {3.10}{\ignorespaces Đặc tả Use Case UC-04: Text To Speech}}{40}{table.caption.41}%
+\contentsline {table}{\numberline {3.11}{\ignorespaces Đặc tả Use Case UC-05: Xem lịch sử hội thoại}}{42}{table.caption.43}%
+\contentsline {table}{\numberline {3.12}{\ignorespaces Đặc tả Use Case UC-06: Thu thập dữ liệu học phần}}{44}{table.caption.45}%
+\contentsline {table}{\numberline {3.13}{\ignorespaces Cấu trúc bảng user}}{49}{table.caption.48}%
+\contentsline {table}{\numberline {3.14}{\ignorespaces Cấu trúc bảng profile}}{49}{table.caption.49}%
+\contentsline {table}{\numberline {3.15}{\ignorespaces Cấu trúc bảng role}}{49}{table.caption.50}%
+\contentsline {table}{\numberline {3.16}{\ignorespaces Cấu trúc bảng resource}}{50}{table.caption.51}%
+\contentsline {table}{\numberline {3.17}{\ignorespaces Cấu trúc bảng user\_role}}{50}{table.caption.52}%
+\contentsline {table}{\numberline {3.18}{\ignorespaces Cấu trúc bảng role\_resource}}{50}{table.caption.53}%
+\contentsline {table}{\numberline {3.19}{\ignorespaces Cấu trúc bảng course}}{51}{table.caption.55}%
+\contentsline {table}{\numberline {3.20}{\ignorespaces Cấu trúc Collection Course trong ChromaDB}}{52}{table.caption.56}%
+\contentsline {table}{\numberline {3.21}{\ignorespaces Cấu trúc collection ChatSession}}{53}{table.caption.57}%
+\contentsline {table}{\numberline {3.22}{\ignorespaces Cấu trúc collection ChatMessage}}{54}{table.caption.58}%
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {5.1}{\ignorespaces Kết quả kiểm thử chức năng đăng nhập}}{75}{table.caption.61}%
+\contentsline {table}{\numberline {5.2}{\ignorespaces Kết quả kiểm thử chức năng chatbot}}{76}{table.caption.65}%
+\contentsline {table}{\numberline {5.3}{\ignorespaces Kết quả kiểm thử chức năng Speech-to-Text}}{78}{table.caption.68}%
+\contentsline {table}{\numberline {5.4}{\ignorespaces Kết quả kiểm thử chức năng Text-to-Speech}}{80}{table.caption.72}%
+\contentsline {table}{\numberline {5.5}{\ignorespaces Kết quả kiểm thử chức năng lịch sử hội thoại}}{82}{table.caption.75}%
+\contentsline {table}{\numberline {5.6}{\ignorespaces Kết quả kiểm thử chức năng phân quyền}}{83}{table.caption.77}%
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {A.1}{\ignorespaces API đăng nhập người dùng}}{90}{table.caption.82}%
+\contentsline {table}{\numberline {A.2}{\ignorespaces API chuyển đổi văn bản thành giọng nói}}{91}{table.caption.83}%
+\contentsline {table}{\numberline {A.3}{\ignorespaces API Speech-To-Text}}{92}{table.caption.84}%
+\contentsline {table}{\numberline {A.4}{\ignorespaces API khởi tạo phiên hội thoại}}{93}{table.caption.85}%
+\contentsline {table}{\numberline {A.5}{\ignorespaces API lưu tin nhắn hội thoại}}{94}{table.caption.86}%
+\contentsline {table}{\numberline {A.6}{\ignorespaces API lấy lịch sử tin nhắn}}{95}{table.caption.87}%
+\contentsline {table}{\numberline {A.7}{\ignorespaces API lấy danh sách phiên chat}}{97}{table.caption.88}%
+\contentsline {table}{\numberline {A.8}{\ignorespaces Danh sách API tiêu biểu của hệ thống}}{98}{table.caption.89}%
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {C.1}{\ignorespaces Danh sách các service trong Docker Compose}}{104}{table.caption.90}%
+\contentsfinish 
+\contentsfinish 

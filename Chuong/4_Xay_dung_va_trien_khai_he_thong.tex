@@ -174,63 +174,92 @@ Trong đồ án này, toàn bộ hệ thống được triển khai bằng Docke
 \section{Triển khai hệ thống}
 Sau khi hoàn thành quá trình thiết kế kiến trúc hệ thống ở Chương 3 và lựa chọn các công nghệ phù hợp, đồ án tiến hành triển khai các thành phần của hệ thống theo kiến trúc Microservices. Mỗi service đảm nhiệm một chức năng độc lập và giao tiếp với nhau thông qua REST API hoặc WebSocket. Dữ liệu sau khi được thu thập từ website của nhà trường sẽ được xử lý, chuyển đổi thành vector embedding và lưu trữ trong cơ sở dữ liệu vector ChromaDB để phục vụ quá trình truy xuất ngữ nghĩa của chatbot.
 
-Phần này trình bày chi tiết quá trình triển khai từng thành phần của hệ thống, bao gồm Crawler Service, Chat Service, cơ chế Speech-to-Text, Text-to-Speech, phân quyền người dùng và triển khai hệ thống bằng Docker Compose.
-\subsection{Triển khai Crawler Service}
+Phần này trình bày chi tiết quá trình triển khai các thành phần chính của hệ thống, bao gồm quy trình thu thập và xử lý dữ liệu học phần, Chat Service, cơ chế Speech-to-Text, Text-to-Speech, xác thực và phân quyền người dùng, lưu trữ lịch sử hội thoại và triển khai hệ thống bằng Docker Compose.
 
-Crawler Service là thành phần chịu trách nhiệm xây dựng dữ liệu về học phần cho hệ thống chatbot. Service này được phát triển bằng Java kết hợp với Selenium nhằm tự động thu thập dữ liệu từ website chính thức của Trường Đại học Bách khoa Hà Nội. Sau khi dữ liệu được thu thập, hệ thống tiếp tục thực hiện quá trình tiền xử lý, sinh vector embedding và lưu trữ vào cơ sở dữ liệu vector ChromaDB để phục vụ quá trình truy xuất thông tin của mô hình RAG.
+\subsection{Triển khai quy trình thu thập và xử lý dữ liệu học phần}
+
+Quy trình xây dựng cơ sở tri thức về học phần cho hệ thống chatbot được chia thành bốn giai đoạn chính: thu thập dữ liệu, chuẩn hóa dữ liệu, sinh vector embedding và lưu trữ dữ liệu vào ChromaDB. Mặc dù các chức năng này có thể được triển khai trong cùng một service hoặc được gọi liên tiếp trong cùng một tiến trình, mỗi giai đoạn vẫn đảm nhiệm một nhiệm vụ riêng biệt. Kết quả đầu ra của giai đoạn trước được sử dụng làm dữ liệu đầu vào cho giai đoạn tiếp theo.
+
+Đầu tiên, thành phần Crawler được phát triển bằng Java kết hợp với Selenium để thu thập thông tin học phần từ website chính thức của Trường Đại học Bách khoa Hà Nội. Sau khi quá trình thu thập hoàn tất, dữ liệu được lưu trữ dưới dạng có cấu trúc trong cơ sở dữ liệu MySQL. Tiếp theo, hệ thống đọc dữ liệu học phần từ MySQL, thực hiện chuẩn hóa và kết hợp các trường thông tin thành tài liệu văn bản. Tài liệu sau khi chuẩn hóa được gửi tới OpenAI Embedding API để sinh vector embedding. Cuối cùng, vector embedding, nội dung văn bản và metadata tương ứng được lưu vào ChromaDB để phục vụ quá trình truy xuất thông tin theo mô hình RAG.
+
 \subsubsection{Thu thập dữ liệu bằng Selenium}
 
-Website của nhà trường chứa phần lớn thông tin học phần dưới dạng các trang HTML động. Vì vậy, việc sử dụng các thư viện gửi yêu cầu HTTP thông thường như jsoup không thể đảm bảo thu thập đầy đủ dữ liệu do nhiều nội dung chỉ được tải sau khi JavaScript được thực hiện.
+Website của nhà trường chứa thông tin học phần trên các trang HTML động. Một số nội dung chỉ được hiển thị sau khi JavaScript được thực thi trên trình duyệt. Vì vậy, việc sử dụng các thư viện gửi yêu cầu HTTP và phân tích HTML tĩnh như jsoup có thể không thu thập được đầy đủ dữ liệu cần thiết.
 
-Để giải quyết vấn đề này, đồ án sử dụng Selenium WebDriver nhằm mô phỏng quá trình người dùng truy cập website bằng trình duyệt thực. Selenium cho phép tự động mở trình duyệt, điều hướng giữa các trang, thực thi JavaScript và lấy toàn bộ nội dung sau khi trang đã được tải hoàn chỉnh.
+Để giải quyết vấn đề này, thành phần Crawler sử dụng Selenium WebDriver nhằm mô phỏng quá trình người dùng truy cập website bằng trình duyệt thực. Selenium cho phép hệ thống tự động mở trình duyệt, điều hướng giữa các trang, thực thi JavaScript, chờ nội dung được tải hoàn chỉnh và truy cập các phần tử trong cấu trúc DOM của trang web.
 
-Crawler Service được cấu hình để lần lượt truy cập các  mục chứa thông tin học phần, 
-chương trình đào tạo, quy định học tập và các thông báo liên quan. Sau khi tải thành công nội dung của từng trang, 
-hệ thống tiến hành trích xuất các thành phần cần thiết như tiêu đề, nội dung văn bản để phục vụ các bước xử lý tiếp theo.
+Crawler được cấu hình để lần lượt truy cập các trang chứa thông tin học phần. Tại mỗi trang, hệ thống xác định và trích xuất các trường dữ liệu cần thiết như tên học phần, tên tiếng Anh, mã học phần, thời lượng, đơn vị quản lý, số tín chỉ, học phí tín chỉ, danh sách học phần điều kiện và trọng số đánh giá.
 
-Nhờ sử dụng Selenium, dữ liệu thu thập được có tính đầy đủ và chính xác hơn so với phương pháp thu thập HTML tĩnh, đồng thời hạn chế ảnh hưởng từ các thay đổi nhỏ trong cấu trúc giao diện của website.
+Sau khi thu thập xong thông tin của một học phần, dữ liệu được chuyển thành đối tượng có cấu trúc và lưu vào cơ sở dữ liệu MySQL. Mã học phần được sử dụng để kiểm tra sự tồn tại của dữ liệu. Nếu học phần chưa tồn tại, hệ thống thực hiện thêm mới; nếu học phần đã tồn tại nhưng có thông tin thay đổi, bản ghi tương ứng được cập nhật.
 
+Khi toàn bộ quá trình thu thập hoàn tất, dữ liệu học phần trong MySQL được sử dụng làm đầu vào cho giai đoạn chuẩn hóa. Việc tách biệt bước thu thập với các bước xử lý tiếp theo giúp chức năng của từng giai đoạn được xác định rõ ràng, đồng thời thuận tiện cho việc kiểm tra, bảo trì và cập nhật dữ liệu.
 
 \subsubsection{Chuẩn hóa dữ liệu}
 
-Sau khi thu thập dữ liệu từ website, Crawler Service tiến hành tiền xử lý nhằm loại bỏ các thành phần không cần thiết trước khi đưa vào hệ thống RAG.
+Sau khi thành phần Crawler hoàn thành quá trình thu thập, hệ thống đọc danh sách học phần đã được lưu trong MySQL để thực hiện chuẩn hóa dữ liệu. Giai đoạn này không thực hiện thu thập thông tin từ website mà chỉ xử lý dữ liệu đầu ra do Crawler cung cấp.
 
-Các bước chuẩn hóa bao gồm:
+Mục đích của quá trình chuẩn hóa là chuyển dữ liệu học phần từ các trường riêng biệt thành tài liệu văn bản có cấu trúc thống nhất, phù hợp với đầu vào của mô hình Embedding. Các thông tin được sử dụng trong quá trình chuẩn hóa bao gồm:
 
 \begin{itemize}
-    \item Chuẩn hóa khoảng trắng và ký tự đặc biệt.
-    \item Loại bỏ các nội dung trùng lặp hoặc không liên quan.
-    \item Ghép các đoạn văn bản liên tục thành tài liệu hoàn chỉnh.
-    \item Gắn thông tin metadata như tiêu đề, đường dẫn nguồn và thời điểm thu thập dữ liệu.
+    \item Tên học phần.
+    \item Tên tiếng Anh của học phần.
+    \item Mã học phần.
+    \item Thời lượng học tập.
+    \item Đơn vị quản lý học phần.
+    \item Số tín chỉ.
+    \item Học phí tín chỉ.
+    \item Danh sách học phần điều kiện.
+    \item Trọng số của các thành phần đánh giá.
 \end{itemize}
 
-Sau quá trình chuẩn hóa, dữ liệu được chuyển thành các tài liệu văn bản có cấu trúc thống nhất, tạo điều kiện thuận lợi cho việc sinh vector embedding và truy xuất ngữ nghĩa trong các bước tiếp theo.
+Các trường thông tin trên được kết hợp theo một định dạng thống nhất để tạo thành nội dung đại diện cho từng học phần. Ví dụ, một tài liệu sau khi chuẩn hóa có thể được biểu diễn như sau:
+
+\begin{quote}
+\textit{Name: Trí tuệ nhân tạo -- English name: Artificial Intelligence -- Course code: IT3170 -- Credits: 3 -- Institute manage: Trường Công nghệ Thông tin và Truyền thông -- List course condition: ...}
+\end{quote}
+
+Bên cạnh nội dung văn bản, hệ thống đồng thời xây dựng metadata tương ứng với mỗi học phần. Metadata lưu giữ các trường dữ liệu riêng biệt, giúp hệ thống có thể xác định nguồn gốc và cung cấp thông tin chi tiết của tài liệu sau khi thực hiện truy xuất.
+
+Kết quả của giai đoạn chuẩn hóa gồm danh sách tài liệu văn bản và danh sách metadata có thứ tự tương ứng. Dữ liệu này được chuyển sang giai đoạn tiếp theo để sinh vector embedding.
 
 \subsubsection{Sinh Vector Embedding}
 
-Sau khi dữ liệu được chuẩn hóa, Crawler Service sử dụng mô hình Embedding của OpenAI để chuyển đổi từng tài liệu thành vector số có số chiều lớn.
+Sau khi hoàn thành quá trình chuẩn hóa, hệ thống gửi nội dung của các tài liệu học phần tới OpenAI Embedding API. Giai đoạn này có nhiệm vụ chuyển đổi tài liệu văn bản thành vector số và được thực hiện độc lập với chức năng thu thập dữ liệu của Crawler.
 
-Khác với phương pháp lưu trữ văn bản truyền thống, vector embedding biểu diễn ngữ nghĩa của nội dung dưới dạng các điểm trong không gian vector. Các tài liệu có nội dung tương đồng sẽ có khoảng cách gần nhau trong không gian này, tạo điều kiện cho việc tìm kiếm theo ngữ nghĩa thay vì chỉ dựa trên từ khóa.
+Hệ thống sử dụng mô hình \textit{text-embedding-3-large} của OpenAI. Với cấu hình mặc định, mỗi tài liệu được chuyển đổi thành một vector embedding gồm 3.072 chiều. Vector của một tài liệu $d$ có thể được biểu diễn như sau:
 
-Crawler Service lần lượt gửi từng tài liệu tới OpenAI Embedding API để sinh vector embedding. Bên cạnh vector, hệ thống vẫn lưu giữ nội dung gốc cùng các metadata tương ứng nhằm phục vụ quá trình xây dựng ngữ cảnh (Context) khi chatbot thực hiện truy xuất thông tin.
+\begin{equation}
+    \mathbf{v}_{d} = [x_{1}, x_{2}, x_{3}, \ldots, x_{3072}]
+\end{equation}
 
-\subsubsection{Lưu trữ vào ChromaDB}
+Trong đó, mỗi phần tử $x_i$ là một số thực biểu diễn một đặc trưng ngữ nghĩa của tài liệu. Toàn bộ vector đại diện cho nội dung và ý nghĩa của học phần trong không gian vector nhiều chiều.
 
-Sau khi vector embedding được tạo thành công, Crawler Service tiến hành lưu trữ toàn bộ dữ liệu vào cơ sở dữ liệu vector ChromaDB.
+Khác với phương pháp tìm kiếm văn bản truyền thống chủ yếu dựa trên sự trùng khớp từ khóa, vector embedding cho phép biểu diễn mức độ tương đồng về ngữ nghĩa. Những tài liệu có nội dung hoặc ý nghĩa gần nhau sẽ được biểu diễn bởi các vector có vị trí gần nhau trong không gian vector. Nhờ đó, hệ thống vẫn có thể tìm thấy học phần liên quan ngay cả khi câu hỏi của người dùng không sử dụng chính xác các từ xuất hiện trong dữ liệu.
 
-Mỗi bản ghi trong ChromaDB bao gồm các thành phần:
+Để tránh gửi một yêu cầu có kích thước quá lớn và hạn chế vượt quá giới hạn token của OpenAI Embedding API, danh sách tài liệu được chia thành các lô, mỗi lô tối đa 100 tài liệu. Các lô được gửi lần lượt tới API và kết quả trả về là danh sách vector embedding có thứ tự tương ứng với danh sách tài liệu đầu vào.
+
+Sau khi OpenAI Embedding API trả về kết quả, hệ thống kết hợp mỗi vector embedding với mã định danh, nội dung văn bản và metadata của học phần tương ứng. Dữ liệu hoàn chỉnh sau đó được chuyển sang giai đoạn lưu trữ trong ChromaDB.
+
+\subsubsection{Lưu trữ dữ liệu vào ChromaDB}
+
+Sau khi quá trình sinh vector embedding hoàn tất, hệ thống lưu dữ liệu vào cơ sở dữ liệu vector ChromaDB. Đây là giai đoạn cuối cùng trong quy trình xây dựng cơ sở tri thức và không thuộc chức năng thu thập dữ liệu của Crawler.
+
+Mỗi bản ghi được lưu trong ChromaDB bao gồm các thành phần sau:
 
 \begin{itemize}
-    \item ID của tài liệu.
-    \item Vector embedding.
-    \item Nội dung văn bản.
-    \item Metadata gồm tiêu đề, đường dẫn nguồn và các thông tin liên quan.
+    \item Mã định danh của học phần.
+    \item Vector embedding gồm 3.072 chiều.
+    \item Nội dung văn bản đã được chuẩn hóa.
+    \item Metadata gồm tên học phần, tên tiếng Anh, mã học phần, thời lượng, đơn vị quản lý, số tín chỉ, học phí tín chỉ, học phần điều kiện và trọng số đánh giá.
 \end{itemize}
 
-Khi người dùng gửi câu hỏi, Chat Service sẽ sử dụng cùng mô hình Embedding để chuyển đổi câu hỏi thành vector. Sau đó, ChromaDB thực hiện phép tìm kiếm theo độ tương đồng ngữ nghĩa (Semantic Search) nhằm xác định các tài liệu có mức độ liên quan cao nhất. Những tài liệu này sẽ được sử dụng làm ngữ cảnh cho mô hình RAG trước khi gửi tới mô hình ngôn ngữ lớn để sinh câu trả lời.
+Tương tự quá trình sinh embedding, dữ liệu được chia thành các lô, mỗi lô tối đa 100 bản ghi trước khi được thêm vào ChromaDB. Cách xử lý theo lô giúp hạn chế kích thước của mỗi yêu cầu, tránh lỗi khi lưu số lượng lớn vector và giúp quá trình xử lý ổn định hơn.
 
-Việc sử dụng ChromaDB giúp hệ thống không cần đưa toàn bộ cơ sở dữ liệu vào Prompt mà chỉ lựa chọn các tài liệu có liên quan nhất, góp phần giảm chi phí xử lý, tăng tốc độ phản hồi và nâng cao độ chính xác của câu trả lời.
+Khi người dùng gửi câu hỏi, Chat Service sử dụng cùng mô hình \textit{text-embedding-3-large} để chuyển câu hỏi thành một vector có cùng số chiều với vector của tài liệu. Vector câu hỏi sau đó được sử dụng để truy vấn ChromaDB và tìm các tài liệu có mức độ tương đồng ngữ nghĩa cao nhất.
 
+Kết quả truy xuất bao gồm nội dung văn bản và metadata của các học phần có liên quan. Các tài liệu này được sử dụng làm ngữ cảnh (\textit{Context}) để xây dựng Prompt trước khi gửi tới mô hình ngôn ngữ lớn của OpenAI.
+
+Việc sử dụng ChromaDB giúp hệ thống chỉ lựa chọn một số tài liệu có liên quan đến câu hỏi thay vì đưa toàn bộ dữ liệu học phần vào Prompt. Phương pháp này góp phần giảm lượng dữ liệu cần xử lý, tiết kiệm chi phí gọi mô hình, cải thiện thời gian phản hồi và giúp câu trả lời bám sát cơ sở tri thức của hệ thống.
 \subsection{Triển khai Chat Service}
 Chat Service là service chính của hệ thống chatbot, được phát triển bằng Python và FastAPI. Service này chịu trách nhiệm tiếp nhận yêu cầu chat từ user, thực hiện truy xuất dữ liệu, tương tác với mô LLM của OpenAI và trả kết quả về theo cơ chế Streaming.
 

@@ -1,0 +1,45 @@
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {1.1}{\ignorespaces Trang chủ của website tra cứu học phần của trường}}{1}{figure.caption.7}%
+\contentsline {figure}{\numberline {1.2}{\ignorespaces Trang cung cấp thông tin học phần của trường}}{2}{figure.caption.8}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Lịch sử hình thành của chatbot}}{8}{figure.caption.9}%
+\contentsline {figure}{\numberline {2.2}{\ignorespaces WorkFlow của rule based chatbot}}{9}{figure.caption.10}%
+\contentsline {figure}{\numberline {2.3}{\ignorespaces WorkFlow của AI chatbot}}{10}{figure.caption.11}%
+\contentsline {figure}{\numberline {2.4}{\ignorespaces WorkFlow của NLP}}{11}{figure.caption.12}%
+\contentsline {figure}{\numberline {2.5}{\ignorespaces Workflow của Ner Entity}}{13}{figure.caption.13}%
+\contentsline {figure}{\numberline {2.6}{\ignorespaces Workflow của Vector database khi ứng dụng vào chatbot}}{17}{figure.caption.15}%
+\contentsline {figure}{\numberline {2.7}{\ignorespaces Sơ đồ biểu diễn pipeline của RAG}}{22}{figure.caption.17}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Biểu đồ Use Case tổng quan của hệ thống hỏi đáp học phần}}{34}{figure.caption.34}%
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Sequence Diagram UC-01: Đăng nhập}}{35}{figure.caption.36}%
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Sequence Diagram UC-02: Chat với chatbot}}{37}{figure.caption.38}%
+\contentsline {figure}{\numberline {3.4}{\ignorespaces Sequence Diagram UC-01: Đăng nhập}}{39}{figure.caption.40}%
+\contentsline {figure}{\numberline {3.5}{\ignorespaces Sequence Diagram UC-04: Text-to-speech}}{41}{figure.caption.42}%
+\contentsline {figure}{\numberline {3.6}{\ignorespaces Sequence Diagram UC-05: Lịch sử hội thoại}}{43}{figure.caption.44}%
+\contentsline {figure}{\numberline {3.7}{\ignorespaces Sequence Diagram UC-06: Thu thập dữ liệu học phần}}{45}{figure.caption.46}%
+\contentsline {figure}{\numberline {3.8}{\ignorespaces Sơ đồ kiến trúc tổng thể hệ thống}}{47}{figure.caption.47}%
+\contentsline {figure}{\numberline {3.9}{\ignorespaces Mối quan hệ giữa các bảng để thực hiện phân quyền}}{51}{figure.caption.54}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Prompt của chat-service trong hệ thống chat-bot}}{66}{figure.caption.59}%
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Streaming response của chat-service trong hệ thống chat-bot}}{67}{figure.caption.60}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Kiểm thử trạng thái login thành công}}{75}{figure.caption.62}%
+\contentsline {figure}{\numberline {5.2}{\ignorespaces Kiểm thử trạng thái login thất bại}}{75}{figure.caption.63}%
+\contentsline {figure}{\numberline {5.3}{\ignorespaces Trang login của hệ thống hỏi đáp}}{76}{figure.caption.64}%
+\contentsline {figure}{\numberline {5.4}{\ignorespaces Kiểm thử Chat có liên quan đến học phần và không có trong dữ liệu}}{77}{figure.caption.66}%
+\contentsline {figure}{\numberline {5.5}{\ignorespaces Kiểm thử Chat Streaming response}}{77}{figure.caption.67}%
+\contentsline {figure}{\numberline {5.6}{\ignorespaces Kiểm thử trạng thái đang thu âm}}{78}{figure.caption.69}%
+\contentsline {figure}{\numberline {5.7}{\ignorespaces Kiểm thử trạng thái sau khi thu âm thành công}}{79}{figure.caption.70}%
+\contentsline {figure}{\numberline {5.8}{\ignorespaces Kiểm thử API Thu âm trong hệ thống}}{79}{figure.caption.71}%
+\contentsline {figure}{\numberline {5.9}{\ignorespaces Kiểm thử chuyển văn bản thành giọng nói}}{80}{figure.caption.73}%
+\contentsline {figure}{\numberline {5.10}{\ignorespaces Kiểm thử API chuyển văn bản thành giọng nói streaming}}{81}{figure.caption.74}%
+\contentsline {figure}{\numberline {5.11}{\ignorespaces Kiểm thử lịch sử chat}}{82}{figure.caption.76}%
+\contentsline {figure}{\numberline {5.12}{\ignorespaces Kiểm thử trường hợp token không hợp lệ}}{83}{figure.caption.78}%
+\contentsline {figure}{\numberline {5.13}{\ignorespaces Kiểm thử trường hợp token không không có quyền truy cập tác vụ}}{84}{figure.caption.79}%
+\contentsline {figure}{\numberline {5.14}{\ignorespaces Kiểm thử trường hợp token hợp lệ và có quyền truy cập}}{84}{figure.caption.80}%
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsfinish 
+\contentsfinish 
